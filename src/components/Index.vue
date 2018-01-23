@@ -1,0 +1,122 @@
+<!--首页 -->
+<template>
+  <div class="index">
+<!--顶部-->
+    <top-bar ></top-bar>
+<!--顶部 end -->
+    <Form ref="account"  :label-width="0" class="indexStyle" :model="account" :rules="loginAccountRules">
+      <div class="title"></div>
+      <FormItem prop="adminName" >
+        <Input type="text"  v-model="account.adminName" placeholder="手机号"> </Input>
+      </FormItem>
+      <FormItem prop="password">
+        <Input type="password"  v-model="account.password" placeholder="密码" > </Input>
+      </FormItem>
+      <FormItem prop="random">
+         <Row>
+            <Col span="12">
+                <Input type="text"  v-model="account.random"  placeholder="验证码"> </Input>
+            </Col>
+            <Col span="12">
+                  <img :src="validCode" @click="getValidCode()" class="loginAccountValidCode" />
+            </Col>
+         </Row>
+      </FormItem>
+
+      <Button type="primary">
+        <span v-if="!loading" @click="login('account')">登录</span>
+        <span v-else>Loading...</span>
+      </Button>
+    </Form>
+  </div>
+</template>
+<script>
+import TopBar from '@/components/common/TopBar'
+  export default {
+    name: 'Index',
+    components:{
+      TopBar
+    },
+    created(){
+      //获取验证码
+     this.getValidCode();
+    },
+    data () {
+      return {
+        account: {
+          adminName: '',
+          password: '',
+          random: ''
+        },
+        //验证码
+        validCode:'',
+        // 点击登录之后等待登录结果而不是多次点击
+        loading: false,
+        loginAccountRules: {
+          adminName: [
+            { required: true, message: '请输入用户名', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: '请输入密码', trigger: 'blur' }
+          ],
+          random: [
+            { required: true, message: '请输入验证码', trigger: 'blur' }
+          ]
+        }
+      }
+    },
+    methods: {
+      getValidCode(){
+        this.axios({
+          method:"post",
+          url:'/getVerificationCode',
+          withCredentials: true,  
+          responseType:'blob'
+          })
+        .then((res)=>{
+          var blob = new Blob([res.data], {type: "image/png"}); 
+            console.log(blob);  
+          this.validCode=window.URL.createObjectURL(blob);
+
+        }).catch((error)=>{
+            console.log(error);
+            this.$Message.error("错误")
+         });
+      },
+      login (name) {
+        this.$refs[name].validate((valid) => {
+        console.log('123')
+          if (valid) {
+            this.loading = true
+            this.axios({
+               method:"post",
+               url:'/account/login',
+               withCredentials: true,
+               data: this.Qs.stringify(this.account)
+            }).
+            then(res => {
+              console.log(res)
+              this.loading = false
+              if (res.data.code === 200) {
+               // this.$router.push('/main/index')
+                this.$Message.success(res.data.msg)
+              } else {
+                this.$Message.error(res.data.msg)
+                this.loading = false
+              }
+            }).catch(res => {
+              this.loading = false
+              this.$Message.error('系统异常')
+            })
+          } else {
+            this.$Message.error('用户名和密码是必填项')
+          }
+        })
+      }
+    }
+  }
+</script>
+<style lang="less">
+@import "../App.less";
+@import "../components/Index.less";
+</style>
