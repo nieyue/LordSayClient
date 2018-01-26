@@ -1,33 +1,35 @@
 <!--首页 -->
 <template>
-  <div class="index">
-<!--顶部-->
-    <top-bar ></top-bar>
-<!--顶部 end -->
-    <Form ref="account"  :label-width="0" class="indexStyle" :model="account" :rules="loginAccountRules">
-      <div class="title"></div>
-      <FormItem prop="adminName" >
-        <Input type="text"  v-model="account.adminName" placeholder="手机号"> </Input>
-      </FormItem>
-      <FormItem prop="password">
-        <Input type="password"  v-model="account.password" placeholder="密码" > </Input>
-      </FormItem>
-      <FormItem prop="random">
-         <Row>
-            <Col span="12">
-                <Input type="text"  v-model="account.random"  placeholder="验证码"> </Input>
-            </Col>
-            <Col span="12">
-                  <img :src="validCode" @click="getValidCode()" class="loginAccountValidCode" />
-            </Col>
-         </Row>
-      </FormItem>
+  <div>  
+  <!--顶部-->
+      <top-bar ></top-bar>
+  <!--顶部 end -->
+    <div class="login-wrap">
+      <Form ref="account"  :label-width="0" class="login-account" :model="account" :rules="loginAccountRules">
+        <div class="title"></div>
+        <FormItem prop="adminName">
+          <Input type="text"  v-model="account.adminName" placeholder="手机号"> </Input>
+        </FormItem>
+        <FormItem prop="password">
+          <Input type="password"  v-model="account.password" placeholder="密码" > </Input>
+        </FormItem>
+        <FormItem prop="random">
+          <Row>
+              <Col span="12">
+                  <Input type="text"  v-model="account.random"  placeholder="验证码"> </Input>
+              </Col>
+              <Col span="12">
+                    <img :src="validCode" @click="getValidCode()" class="login-account-validCode" />
+              </Col>
+          </Row>
+        </FormItem>
 
-      <Button type="primary">
-        <span v-if="!loading" @click="login('account')">登录</span>
-        <span v-else>Loading...</span>
-      </Button>
-    </Form>
+        <Button type="primary" long  >
+          <span v-if="!loading" style="width:100%;display:inline-block;" @click="login('account')">登录</span>
+          <span v-else>Loading...</span>
+        </Button>
+      </Form>
+    </div>
   </div>
 </template>
 <script>
@@ -98,8 +100,8 @@ import TopBar from '@/components/common/TopBar'
               console.log(res)
               this.loading = false
               if (res.data.code === 200) {
-               // this.$router.push('/main/index')
                 this.$Message.success(res.data.msg)
+                this.$router.push('/main')
               } else {
                 this.$Message.error(res.data.msg)
                 this.loading = false
@@ -117,6 +119,5 @@ import TopBar from '@/components/common/TopBar'
   }
 </script>
 <style lang="less">
-@import "../App.less";
-@import "../components/Index.less";
+@import "Index.less";
 </style>

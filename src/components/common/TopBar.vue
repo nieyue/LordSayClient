@@ -1,34 +1,31 @@
+<!-- 顶部 -->
 <template>
-<div>
-     <Affix >
-        <div class="topBar">
-            <div class="topBarLeft">
-                <img src=""/>
-                <span></span>
-            </div>
-            <div class="topBarRight" :v-if="isLogin">
-                <Button type="error" class="topBarRightLoginOut" @click="loginOut">退出</Button>
-            </div>
+    <div class="topbar">
+        <div class="topbar-left">
+            <img src=""/>
+            <span class="topbar-left-title">老爷说</span>
         </div>
-    </Affix>
-</div>
+        <div class="topbar-right" v-if="islogin">
+            <Button type="ghost" class="topbar-right-loginout" @click="loginout">退出</Button>
+        </div>
+    </div>
 </template>
 <script>
   export default {
     name: 'TopBar',
     data () {
       return {
-        isLogin:false,
+        islogin:false,
         theme1: 'light'
       }
     },
     methods: {
-     loginOut(){
+     loginout(){
          
      }
     }
   }
 </script>
 <style lang="less">
-@import "./../common/TopBar.less";
+@import "TopBar.less";
 </style>

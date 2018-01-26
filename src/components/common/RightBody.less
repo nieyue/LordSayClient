@@ -1,0 +1,26 @@
+ //右侧内容的外层
+ .rightbody-wrap{
+    margin-left: 200px;
+    //右侧内容的头
+    .rightbody-header{
+        background-color: #fff;
+        box-shadow: 0 2px 3px 2px rgba(0,0,0,.1);
+    }
+    //右侧内容
+    .rightbody-content{
+        //高度用百分比，源于父层
+        height: ~'calc(100% - 52px)';
+        //最小高度源于viewport高度，
+        min-height: ~'calc(100vh - 52px)';
+        padding: 0 16px;
+        //右侧内层面包屑
+        .rightbody-content-crumb{
+            margin: 16px 0;
+        }
+        //右侧实体内容
+        .rightbody-content-body{
+            height: 100%;
+            margin-bottom:50px;
+        }
+    }
+}
