@@ -1,15 +1,14 @@
 <!-- 左侧导航-->
 <template>
    <Sider class="leftbar-wrap">
-            <Menu active-name="1-1" theme="dark" width="auto" :open-names="['1']">
-                <Submenu name="1">
+            <Menu active-name="/articleCate"  @on-select="menuSelect" theme="dark" width="auto">
+                <Submenu name="article">
                     <template slot="title">
                         <Icon type="ios-navigate"></Icon>
-                        Item 1
+                        文章管理
                     </template>
-                    <MenuItem name="1-1">Option 1</MenuItem>
-                    <MenuItem name="1-2">Option 2</MenuItem>
-                    <MenuItem name="1-3">Option 3</MenuItem>
+                    <MenuItem name="/main/articleCate">文章类型管理</MenuItem>
+                    <MenuItem name="/main/article">文章管理</MenuItem>
                 </Submenu>
                 <Submenu name="2">
                     <template slot="title">
@@ -40,7 +39,9 @@
       }
     },
     methods: {
-     
+     menuSelect(name){
+         this.$router.push(name);
+     }
     }
   }
 </script>

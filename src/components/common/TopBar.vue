@@ -6,13 +6,29 @@
             <span class="topbar-left-title">老爷说</span>
         </div>
         <div class="topbar-right" v-if="islogin">
-            <Button type="ghost" class="topbar-right-loginout" @click="loginout">退出</Button>
+            <Button  class="topbar-right-loginout" @click="loginout">退出</Button>
         </div>
     </div>
 </template>
 <script>
   export default {
     name: 'TopBar',
+    created(){ 
+      //是否登陆
+      this.getIslogin();
+    },
+    watch: {
+  //   //监听父组件的变量
+  //  'isLogin': function (n, o) {
+  //    console.log(n)
+  //   this.islogin=n;
+  //  },
+  //   //监听自身的变量
+  //  'islogin': function (n, o) {
+  //    console.log(n)
+  //   this.islogin=n;
+  //  }
+  },
     data () {
       return {
         islogin:false,
@@ -20,9 +36,58 @@
       }
     },
     methods: {
+      //退出登陆
      loginout(){
-         
-     }
+      this.$Modal.confirm({
+              title: '退出登陆？',
+              content: '<p>确定退出登陆吗？</p>',
+              onOk: () => {
+                this.axios({
+                method:"post",
+                url:'/account/loginout',
+                async:false,
+                withCredentials: true
+              }).
+              then(res => {
+                console.log(res)
+                if (res.data.code == 200) {
+                  this.islogin=true;
+                  this.$emit("islogin",this.islogin);
+                  this.$Message.success('退出成功！');
+                  this.$router.push('/')
+                } else {
+                  this.$Message.error('失败')
+                }
+              }).catch(res => {
+                this.$Message.error('系统异常')
+              })
+              },
+              onCancel: () => {
+                  this.$Message.success('取消成功！');
+              }
+          });
+     },
+      //验证是否登陆
+      getIslogin(){
+        this.axios({
+               method:"post",
+               url:'/account/islogin',
+               withCredentials: true
+            }).
+            then(res => {
+              console.log(res)
+              if (res.data.code == 200) {
+                this.islogin=true;
+                this.$emit("islogin",this.islogin);
+                //this.$router.push('/main')
+              } else {
+                this.$router.push('/')
+                this.$Message.info('请登录')
+              }
+            }).catch(res => {
+              this.$Message.error('系统异常')
+            })
+      }
     }
   }
 </script>

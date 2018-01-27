@@ -2,7 +2,7 @@
 <template>
   <div>  
   <!--顶部-->
-      <top-bar ></top-bar>
+      <top-bar @islogin="getIslogin"></top-bar>
   <!--顶部 end -->
     <div class="login-wrap">
       <Form ref="account"  :label-width="0" class="login-account" :model="account" :rules="loginAccountRules">
@@ -16,7 +16,7 @@
         <FormItem prop="random">
           <Row>
               <Col span="12">
-                  <Input type="text"  v-model="account.random"  placeholder="验证码"> </Input>
+                  <Input type="text"  v-model="account.random"  placeholder="验证码" @keyup.enter.native="login('account')"> </Input>
               </Col>
               <Col span="12">
                     <img :src="validCode" @click="getValidCode()" class="login-account-validCode" />
@@ -25,7 +25,7 @@
         </FormItem>
 
         <Button type="primary" long  >
-          <span v-if="!loading" style="width:100%;display:inline-block;" @click="login('account')">登录</span>
+          <span v-if="!loading" style="width:100%;display:inline-block;"  @click="login('account')">登录</span>
           <span v-else>Loading...</span>
         </Button>
       </Form>
@@ -45,11 +45,14 @@ import TopBar from '@/components/common/TopBar'
     },
     data () {
       return {
+        //登陆信息
         account: {
           adminName: '',
           password: '',
           random: ''
         },
+        //是否登陆默认false
+        islogin:false,
         //验证码
         validCode:'',
         // 点击登录之后等待登录结果而不是多次点击
@@ -68,6 +71,7 @@ import TopBar from '@/components/common/TopBar'
       }
     },
     methods: {
+      //获取验证码
       getValidCode(){
         this.axios({
           method:"post",
@@ -85,6 +89,7 @@ import TopBar from '@/components/common/TopBar'
             this.$Message.error("错误")
          });
       },
+      //登陆
       login (name) {
         this.$refs[name].validate((valid) => {
         console.log('123')
@@ -114,6 +119,10 @@ import TopBar from '@/components/common/TopBar'
             this.$Message.error('用户名和密码是必填项')
           }
         })
+      },
+      //获取子组件传递上来的值
+      getIslogin(islogin){
+        this.islogin=islogin;
       }
     }
   }

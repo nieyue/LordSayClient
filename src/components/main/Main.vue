@@ -1,7 +1,7 @@
 <template>
 <div>
     <!--顶部 -->
-    <top-bar></top-bar>
+    <top-bar :islogin="getIslogin"></top-bar>
     <!--顶部end -->
     <!--主体 -->
      <div class="main-wrap">
@@ -29,11 +29,14 @@ import RightBody from '@/components/common/RightBody'
     },
     data () {
       return {
+        islogin:false
        
       }
     },
     methods: {
-     
+     getIslogin(islogin){
+       console.log(islogin)
+     }
     }
   }
 </script>
