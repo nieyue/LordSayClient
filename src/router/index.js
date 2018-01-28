@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/components/Index'
 import Main from '@/components/main/Main'
 import ArticleCate from '@/components/main/article/ArticleCate'
+import Article from '@/components/main/article/Article'
 
 Vue.use(Router)
 
@@ -27,6 +28,11 @@ export default new Router({
           path: 'articleCate',
           name: '文章分类',
           component: ArticleCate
+        },
+        {
+          path: 'article',
+          name: '文章',
+          component: Article
         },
       ]
     }

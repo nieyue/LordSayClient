@@ -9,8 +9,10 @@ export default {
      * p.countUrl 数量url
      * p.listUrl 列表url
      * p.list 返回列表
+     * params 请求参数
+     * params.total 总数
      */
-    getList($this,p) {
+    getList($this,p,params) {
         //获取
         $this.axios({
             method:"post",
@@ -18,11 +20,11 @@ export default {
             withCredentials: true
          }).
          then(res => {
-            $this.params.total=res.data;
+            params.total=res.data;
              $this.axios({
                  method:"post",
                  url:p.listUrl,
-                 data:$this.Qs.stringify($this.params),
+                 data:$this.Qs.stringify(params),
                  withCredentials: true
                  }).
                  then(res => {
@@ -40,6 +42,34 @@ export default {
          }).catch(res => {
             $this.$Message.error('系统异常')
          })
+   },
+    /**
+     * 获取单个
+     * $this  vue组件
+     * p.url 列表url
+     * p.list 返回列表
+     * p.success 成功回调
+     */
+    get($this,p) {
+        //获取
+        $this.axios({
+            method:"post",
+            url:p.url,
+            withCredentials: true
+            }).
+            then(res => {
+            console.log(res)
+            if (res.data.code == 200) {
+                console.log(res.data)
+                //变量list代替所有
+                $this[p.list]=res.data.list[0];
+                p.success();
+            } else {
+            $this.$Message.error(res.data.msg)
+            }
+            }).catch(res => {
+            $this.$Message.error('系统异常')
+            })
    },
     /**
      * 增加

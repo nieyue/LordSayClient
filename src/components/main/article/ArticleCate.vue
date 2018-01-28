@@ -3,6 +3,7 @@
     <div class="body-wrap">
     <div class="body-btn-wrap">
       <Button type='primary'  @click='add'>增加文章分类</Button>
+      <!-- <Button type='error'  @click='deleteBatch'>批量删除</Button> -->
     </div>
 		 <!--新增 -->
      <Modal v-model="addArticleCateModel"
@@ -48,7 +49,7 @@
     <!--修改end -->
       <Table border :columns='articleCateColumns' :data='articleCateList' ref='table' size="small"></Table>
         <div style='display: inline-block;float: right; margin-top:10px;'>
-        <Page style='margin-right:10px;' :total='params.total' :pageSize='params.pageSize' ref='page' :show-total='true'   :page-size-opts='[10, 50, 150,200,300]' @on-change='selectPage' show-elevator show-sizer ></Page>
+        <Page style='margin-right:10px;' :total='params.total' :pageSize='params.pageSize' ref='page' :show-total='true'   @on-change='selectPage' show-elevator ></Page>
       </div>
     </div>
 </template>
@@ -91,6 +92,11 @@ export default {
       deleteArticleCate:{},
 	    articleCateList: [],
 	    articleCateColumns: [
+        // {
+        //   type: 'selection',
+        //   width: 60,
+        //   align: 'center' 
+        // },
         {
           title: '序号',
           width:100,
@@ -108,7 +114,7 @@ export default {
         {
         	title:'文章分类名称',
         	key:'name',
-          	align:'center'
+          align:'center'
         },
         {
         	title:'修改时间',
@@ -180,7 +186,7 @@ export default {
        countUrl:'/articleCate/count',
        listUrl:'/articleCate/list',
        list:'articleCateList'
-     })
+     },this.params)
     },
   //增加
 	 add (params) {
@@ -260,6 +266,11 @@ export default {
       url:'/articleCate/delete',
       requestObject:'deleteArticleCate'
     })
+    },
+    //批量删除
+    deleteBatch(){
+      //获取删除对象数组
+     // console.log(this.$refs.table.getSelection())
     }
   },
   created () {
@@ -270,7 +281,3 @@ export default {
   }
 }
 </script>
-
-<style lang="less">
-  @import "ArticleCate.less";
-</style>
