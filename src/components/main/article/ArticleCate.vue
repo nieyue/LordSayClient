@@ -2,7 +2,7 @@
 <template>
     <div class="body-wrap">
     <div class="body-btn-wrap">
-      <Button type='primary'  @click='addArticleCate'>增加文章分类</Button>
+      <Button type='primary'  @click='add'>增加文章分类</Button>
     </div>
 		 <!--新增 -->
      <Modal v-model="addArticleCateModel"
@@ -10,37 +10,37 @@
            :closable="false"
            :mask-closable="false"
     >
-      <Form ref="addArticleCateList" :model="addArticleCateList" :label-width="100" label-position="right"  :rules="addArticleCateRules">
+      <Form ref="addArticleCate" :model="addArticleCate" :label-width="100" label-position="right"  :rules="addArticleCateRules">
         <FormItem prop="name" label="分类名称:">
-          <Input type="text" v-model="addArticleCateList.name" placeholder="分类名称">
+          <Input type="text" v-model="addArticleCate.name" placeholder="分类名称">
           </Input>
         </FormItem>
       </Form>
       <div slot='footer'>
-        <Button type='ghost' @click='quxiao'>取消</Button>
-        <Button type='primary' :loading='loading'>
-          <span v-if="!loading" @click='queding'>确定</span>
+        <Button type='ghost' @click='addCancel'>取消</Button>
+        <Button type='primary' :loading='addLoading'>
+          <span v-if="!addLoading" @click='addSure'>确定</span>
           <span v-else>Loading...</span>
         </Button>
       </div>
     </Modal>
     <!--新增end -->
 		 <!--修改 -->
-     <Modal v-model="editArticleCateModel"
+     <Modal v-model="updateArticleCateModel"
            title="修改文章分类管理"
            :closable="false"
            :mask-closable="false"
     >
-      <Form ref="editArticleCateList" :model="editArticleCateList" :label-width="100" label-position="right"  :rules="editArticleCateRules">
+      <Form ref="updateArticleCate" :model="updateArticleCate" :label-width="100" label-position="right"  :rules="updateArticleCateRules">
         <FormItem prop="name" label="分类名称:">
-          <Input type="text" v-model="editArticleCateList.name" placeholder="分类名称">
+          <Input type="text" v-model="updateArticleCate.name" placeholder="分类名称">
           </Input>
         </FormItem>
       </Form>
       <div slot='footer'>
-        <Button type='ghost' @click='quxiao2'>取消</Button>
-        <Button type='primary' :loading='loading2'>
-          <span v-if="!loading2" @click='queding2'>确定</span>
+        <Button type='ghost' @click='updateCancel'>取消</Button>
+        <Button type='primary' :loading='updateLoading'>
+          <span v-if="!updateLoading" @click='updateSure'>确定</span>
           <span v-else>Loading...</span>
         </Button>
       </div>
@@ -48,7 +48,7 @@
     <!--修改end -->
       <Table border :columns='articleCateColumns' :data='articleCateList' ref='table' size="small"></Table>
         <div style='display: inline-block;float: right; margin-top:10px;'>
-        <Page style='margin-right:10px;' :total='page.total' :pageSize='page.pageSize' ref='page' :show-total='true'   :page-size-opts='[10, 50, 150,200,300]' @on-change='selectPage' ></Page>
+        <Page style='margin-right:10px;' :total='params.total' :pageSize='params.pageSize' ref='page' :show-total='true'   :page-size-opts='[10, 50, 150,200,300]' @on-change='selectPage' show-elevator show-sizer ></Page>
       </div>
     </div>
 </template>
@@ -57,37 +57,49 @@ export default {
   name: 'ArticleCate',
   data () {
     return {
-            page:{
-                startNum:1,//初始化个数
-                pageNum:1,//获取的第几个开始
-                pageSize:10,//每页的个数
-                total:0//总数
-            },
+        params:{
+            startNum:1,//初始化个数
+            currentPage:1,//当前页
+            pageNum:1,//获取的第几个开始
+            pageSize:10,//每页的个数
+            total:0//总数
+        },
 			//增加参数
 			addArticleCateModel:false,
-			loading:false,
+			addLoading:false,
 			addArticleCateRules: {
                 name: [
                     {required: true, message: '分类名称为必填项', trigger: 'blur'}
                     ]
                 },
-			addArticleCateList:{
+			addArticleCate:{
     		   "name":""
 			},
 			//修改参数
-			editArticleCateModel:false,
-			loading2:false,
-			editArticleCateRules: {
+			updateArticleCateModel:false,
+			updateLoading:false,
+			updateArticleCateRules: {
                 name: [
                     {required: true, message: '分类名称为必填项', trigger: 'blur'}
                     ]
                 },
-			editArticleCateList:{
+			updateArticleCate:{
     		 "articleCateId":1,
     		 "name":""
-			},
+      },
+      //删除参数
+      deleteArticleCate:{},
 	    articleCateList: [],
 	    articleCateColumns: [
+        {
+          title: '序号',
+          width:100,
+          align:'center',
+          render: (h, params) => {
+            return h('span', params.index
+            +(this.params.currentPage-1)*this.params.pageSize+this.params.startNum);
+          }
+        },
         {
           title: '文章分类管理id',
           key: 'articleCateId',
@@ -100,8 +112,9 @@ export default {
         },
         {
         	title:'修改时间',
-        	key:'updateDate',
-          	align:'center'
+          key:'updateDate',
+          sortable: true,
+          align:'center'
         },
 				{
           title: '操作',
@@ -118,7 +131,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.editArticleCate(params.row)
+                    this.update(params.row)
                   }
                 }
               }, '编辑');
@@ -132,7 +145,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.delArticleCate(params.row)
+                    this.delete(params.row)
                   }
                 }
               }, '删除');
@@ -148,125 +161,105 @@ export default {
     }
   },
   methods: {
+    //分页点击
     selectPage (currentPage) {
-        console.log(currentPage)
-        console.log(this.page.pageSize)
-      this.page.pageNum = (currentPage-1)*this.page.pageSize+this.page.startNum;
+      this.params.currentPage=currentPage;
+      this.params.pageNum = (this.params.currentPage-1)*this.params.pageSize+this.params.startNum;
       this.getList()
     },
+  //获取列表
    getList () {
-      this.axios({
-               method:"post",
-               url:'/articleCate/count',
-               withCredentials: true
-            }).
-            then(res => {
-                this.page.total=res.data;
-                console.log(this.Qs)
-                 this.axios({
-                    method:"post",
-                    url:'/articleCate/list',
-                    data:this.Qs.stringify(this.page),
-                    withCredentials: true
-                    }).
-                    then(res => {
-                    console.log(res)
-                    if (res.data.code == 200) {
-                        console.log(res.data)
-                        this.articleCateList=res.data.list;
-                    } else {
-                        this.$Message.error(res.data.msg)
-                    }
-                    }).catch(res => {
-                    this.$Message.error('系统异常')
-                    })
-            }).catch(res => {
-              this.$Message.error('系统异常')
-            })
+     /**
+     * 获取列表
+     * $this  vue组件
+     * p.countUrl 数量url
+     * p.listUrl 列表url
+     * p.list 返回列表
+     */
+     this.axiosbusiness.getList(this,{
+       countUrl:'/articleCate/count',
+       listUrl:'/articleCate/list',
+       list:'articleCateList'
+     })
     },
-	 addArticleCate (params) {
+  //增加
+	 add (params) {
       this.addArticleCateModel = true
-      this.addArticleCateList.name = params.name
+      this.addArticleCate.name = params.name
     },
 		//增加取消
-		 quxiao () {
-      if (!this.loading) {
+		 addCancel () {
+      if (!this.addLoading) {
         this.addArticleCateModel = false
-        this.$refs.addArticleCateList.resetFields()
+        this.$refs.addArticleCate.resetFields()
       }
     },
 		//增加确定
-    queding () {
-      this.$refs['addArticleCateList'].validate((valid) => {
-          if (valid) {
-          this.loading = true
-         this.axios('/articleCate/add', this.addArticleCateList).then(res => {
-              if (res.data.code === 200) {
-              this.addArticleCateModel = false
-              this.getList()
-            } else {
-              this.$Message.error(res.data.msg)
-            }
-            this.loading = false
-          }).catch(res => {
-            this.$Message.error(res.data.msg)
-            this.loading = false
-          })
-        } else {
-          this.$Message.error('Fail!')
-        }
-      })
+    addSure () {
+       /**
+     * 增加
+     * $this  vue组件
+     * p.ref 验证
+     * p.url 增加url
+     * p.requestObject 请求参数对象
+     * p.loading loading
+     * p.showModel 界面模型显示隐藏
+     */
+    this.axiosbusiness.add(this,{
+      ref:'addArticleCate',
+      url:'/articleCate/add',
+      requestObject:'addArticleCate',
+      loading:'addLoading',
+      showModel:'addArticleCateModel'
+    })
     },
-	 editArticleCate (params) {
-      this.editArticleCateModel = true
-      this.editArticleCateList.name = params.name
-      this.editArticleCateList.articleCateId = params.articleCateId
+	 update (params) {
+      this.updateArticleCateModel = true
+      this.updateArticleCate.name = params.name
+      this.updateArticleCate.articleCateId = params.articleCateId
     },
 		//修改取消
-		 quxiao2 () {
-      if (!this.loading2) {
-        this.editArticleCateModel = false
-        this.$refs.editArticleCateList.resetFields()
+		 updateCancel () {
+      if (!this.updateLoading) {
+        this.updateArticleCateModel = false
+        this.$refs.updateArticleCate.resetFields()
       }
     },
 		//修改确定
-    queding2 () {
-      this.$refs['editArticleCateList'].validate((valid) => {
-        if (valid) {
-          this.loading2 = true
-          this.axios.post('/articleCate/update', this.editArticleCateList).then(res => {
-            if (res.data.code === 100) {
-              this.editArticleCateModel = false
-              this.getList()
-            }else {
-              this.$Message.error(res.data.msg)
-            }
-            this.loading2 = false
-          }).catch(res => {
-            this.$Message.error(res.data.msg)
-            this.loading2 = false
-          })
-        } else {
-          this.$Message.error('Fail!')
-        }
-      })
+    updateSure () {
+      /**
+     * 修改
+     * $this  vue组件
+     * p.ref 验证
+     * p.url 修改url
+     * p.requestObject 请求参数对象
+     * p.loading loading
+     * p.showModel 界面模型显示隐藏
+     */
+    this.axiosbusiness.update(this,{
+      ref:'updateArticleCate',
+      url:'/articleCate/update',
+      requestObject:'updateArticleCate',
+      loading:'updateLoading',
+      showModel:'updateArticleCateModel'
+    })
+ 
     },
     //删除
-    delArticleCate(params){
-      let delArticleCate={
-          "articleCateId":params.articleCateId
-      };
-this.axios.post('/articleCate/delete', delArticleCate).then(res => {
-            if (res.data.code === 200) {
-        this.$Message.success(res.data.msg)
-              this.getList();
-            }else {
-              this.$Message.error(res.data.msg)
-            }
-          }).catch(res => {
-            this.$Message.error(res.data.msg)
-          })
-
+    delete(params){
+    /**
+     * 删除
+     * $this  vue组件
+     * p.url 修改url
+     * p.requestObject 请求参数对象
+     */
+    this.deleteArticleCate={
+      "articleCateId":params.articleCateId
+    };
+    this.axiosbusiness.delete(this,{
+      url:'/articleCate/delete',
+      requestObject:'deleteArticleCate'
+    })
     }
   },
   created () {

@@ -45,7 +45,6 @@
                 this.axios({
                 method:"post",
                 url:'/account/loginout',
-                async:false,
                 withCredentials: true
               }).
               then(res => {

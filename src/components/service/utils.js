@@ -1,3 +1,6 @@
+/**
+ * 工具类
+ */
 export default {
    getTime(time) {
     let timec = new Date(Number(time))
