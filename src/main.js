@@ -10,6 +10,7 @@ import iView from 'iview'
 import 'iview/dist/styles/iview.css';
 import Qs from 'qs'
 import wangeditor from 'wangeditor'
+import Qiniu from 'qiniu-js/dist/qiniu.min.js'
 import axiosbusiness from "@/components/service/axiosbusiness"
 
 Vue.config.productionTip = false
@@ -22,7 +23,8 @@ Vue.prototype.wangeditor=wangeditor
 Vue.prototype.axiosbusiness=axiosbusiness
 Vue.use(VueAxios, axios)
 Vue.use(iView)
-/* eslint-disable no-new */
+//全局监听事件
+Vue.prototype.Hub = new Vue();
 new Vue({
   el: '#app',
   router,

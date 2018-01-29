@@ -3,7 +3,7 @@
     <div class="topbar">
         <div class="topbar-left">
             <img src=""/>
-            <span class="topbar-left-title">老爷说</span>
+            <span class="topbar-left-title">平台</span>
         </div>
         <div class="topbar-right" v-if="islogin">
             <Button  class="topbar-right-loginout" @click="loginout">退出</Button>
@@ -31,8 +31,7 @@
   },
     data () {
       return {
-        islogin:false,
-        theme1: 'light'
+        islogin:false
       }
     },
     methods: {
@@ -77,9 +76,12 @@
               console.log(res)
               if (res.data.code == 200) {
                 this.islogin=true;
+                //设置本地account
+                sessionStorage.setItem("account",JSON.stringify(res.data.list[0]))
                 this.$emit("islogin",this.islogin);
                 //this.$router.push('/main')
               } else {
+                sessionStorage.clear()
                 this.$router.push('/')
                 this.$Message.info('请登录')
               }

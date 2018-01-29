@@ -174,7 +174,23 @@ export default {
         {
         	title:'评论数',
         	key:'commentNumber',
-          align:'center'
+          align:'center',
+          render: (h, params) => {
+              return  h('div', [
+              h('span', params.row.commentNumber),
+              h('Button', {
+                props: {
+                  type: 'info',
+                  size: 'small'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push('/main/articleComment/'+params.row.articleId);
+                  }
+                }
+              }, '详情')
+            ])
+          }
         },
         {
         	title:'状态',
@@ -381,7 +397,7 @@ export default {
      * p.requestObject 请求参数对象
      */
     this.deleteArticle={
-      "articleId":params.ArticleId
+      "articleId":params.articleId
     };
     this.axiosbusiness.delete(this,{
       url:'/article/delete',
@@ -392,7 +408,6 @@ export default {
   created () {
     this.getArticleCateList();
     this.getList();
-    
   },
   mounted () {
 

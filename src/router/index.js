@@ -4,6 +4,9 @@ import Index from '@/components/Index'
 import Main from '@/components/main/Main'
 import ArticleCate from '@/components/main/article/ArticleCate'
 import Article from '@/components/main/article/Article'
+import ArticleComment from '@/components/main/article/ArticleComment'
+import VideoSetCate from '@/components/main/video/VideoSetCate'
+import VideoSet from '@/components/main/video/VideoSet'
 
 Vue.use(Router)
 
@@ -32,8 +35,23 @@ export default new Router({
         {
           path: 'article',
           name: '文章',
-          component: Article
+          component: Article,
         },
+        {
+          path: 'articleComment/:articleId',
+          name: '文章评论',
+          component: ArticleComment
+        },
+        {
+          path: 'videoSetCate',
+          name: '视频集类型',
+          component: VideoSetCate
+        },
+        {
+          path: 'videoSet',
+          name: '视频集',
+          component: VideoSet
+        }
       ]
     }
   ]

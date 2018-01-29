@@ -34,6 +34,11 @@
     //返回历史路径
      goBack () {
         this.$router.go(-1)
+        console.log(this.$router.history)
+
+       setTimeout(()=>{
+            this.Hub.$emit('routerChange',this.$router.history.current.fullPath); //Hub触发事件
+       },200)
       },
     }
   }

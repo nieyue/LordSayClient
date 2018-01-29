@@ -23,6 +23,11 @@
               </Col>
           </Row>
         </FormItem>
+        <!-- <FormItem prop="player1Logo" label="A队头像" id="aduiBox">
+          <Button type="primary" @click="aduiClick('adui')" >上传头像</Button>
+            <input type="file" style="width:0px;height:0px;" id="adui" ref="adui">
+          <img :src="resource"  style='height:60px;'alt=""  id="aduiImg">
+        </FormItem> -->
 
         <Button type="primary" long  >
           <span v-if="!loading" style="width:100%;display:inline-block;"  @click="login('account')">登录</span>
@@ -42,9 +47,16 @@ import TopBar from '@/components/common/TopBar'
     created(){
       //获取验证码
      this.getValidCode();
+    // this.utils.getQiniuSimpleUploader(this,{
+    //   browseButton:'adui',
+    //   dropElement:'aduiBox',
+    //   resource:'resource'
+    // });
+
     },
     data () {
       return {
+        // resource:'',
         //登陆信息
         account: {
           adminName: '',
@@ -71,6 +83,9 @@ import TopBar from '@/components/common/TopBar'
       }
     },
     methods: {
+      // aduiClick(p){
+      //   this.$refs[p].click();
+      // },
       //获取验证码
       getValidCode(){
         this.axios({

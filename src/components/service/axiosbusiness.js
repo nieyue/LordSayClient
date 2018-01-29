@@ -17,10 +17,15 @@ export default {
         $this.axios({
             method:"post",
             url:p.countUrl,
+            data:$this.Qs.stringify(params),
             withCredentials: true
          }).
          then(res => {
             params.total=res.data;
+            // if(params.total<=0 ){
+            //     $this.$Message.info('暂无更多')
+            //     return ;
+            // }
              $this.axios({
                  method:"post",
                  url:p.listUrl,
@@ -63,7 +68,9 @@ export default {
                 console.log(res.data)
                 //变量list代替所有
                 $this[p.list]=res.data.list[0];
-                p.success();
+                if(typeof p.success=='function'){
+                    p.success();
+                }
             } else {
             $this.$Message.error(res.data.msg)
             }
@@ -92,6 +99,7 @@ export default {
               }).then(res => {
                 if (res.data.code === 200) {
                     $this[p.showModel] = false
+                    $this.$refs[p.ref].resetFields()
                     $this.getList()
               } else {
                 $this.$Message.error(res.data.msg)
