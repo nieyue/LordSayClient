@@ -7,6 +7,7 @@ import Article from '@/components/main/article/Article'
 import ArticleComment from '@/components/main/article/ArticleComment'
 import VideoSetCate from '@/components/main/video/VideoSetCate'
 import VideoSet from '@/components/main/video/VideoSet'
+import Video from '@/components/main/video/Video'
 
 Vue.use(Router)
 
@@ -51,6 +52,11 @@ export default new Router({
           path: 'videoSet',
           name: '视频集',
           component: VideoSet
+        },
+        {
+          path: 'video/:videoSetId',
+          name: '视频',
+          component: Video
         }
       ]
     }

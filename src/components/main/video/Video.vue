@@ -1,46 +1,53 @@
-<!--文章管理 -->
+<!--视频管理 -->
 <template>
     <div class="body-wrap">
     <div class="body-btn-wrap">
-      <Button type='primary'  @click='add'>增加文章</Button>
+      <Button type='primary'  @click='add'>增加视频</Button>
     </div>
-		 <!--新增 -->
-     <Modal v-model="addArticleModel"
-           title="新增文章管理"
+	<!--新增 -->
+     <Modal v-model="addVideoModel"
+           title="新增视频管理"
            :closable="false"
            :mask-closable="false"
            width="1000px"
     >
-      <Form ref="addArticle" :model="addArticle" :label-width="100"  label-position="right"  :rules="addArticleRules">
-        <FormItem prop="articleCateId" label="文章类型:">
-          <Select v-model="addArticle.articleCateId" size="large" style="width:100px">
-              <Option v-for="item in articleCateList" :value="item.articleCateId" :key="item.articleCateId">{{ item.name }}</Option>
-          </Select>
-        </FormItem>
-        <FormItem prop="title" label="标题:">
-          <Input type="text" v-model="addArticle.title" placeholder="标题">
+      <Form ref="addVideo" :model="addVideo" :label-width="100"  label-position="right"  :rules="addVideoRules">
+        <FormItem prop="name" label="视频名称:">
+          <Input type="text" v-model="addVideo.name" placeholder="视频名称">
           </Input>
         </FormItem>
         <FormItem prop="imgAddress" label="封面(上传或者填写):" id="addImgAddressBox">
           <Button type="primary" @click="addImgAddressClick('addImgAddress')" >上传</Button>
           <input type="file" style="width:0px;height:0px;" id="addImgAddress" ref="addImgAddress">
           <div>
-            <Input type="text" v-model="addArticle.imgAddress" placeholder="封面">
-          </Input>
-             <img :src="addArticle.imgAddress"  style='height:200px;width:300px;'alt="">
+            <Input type="text" v-model="addVideo.imgAddress" placeholder="封面">
+            </Input>
+             <img :src="addVideo.imgAddress"  style='height:200px;width:300px;'alt="">
           </div>
         </FormItem>
-        <FormItem prop="redirectUrl" label="跳转url:">
-          <Input type="text" v-model="addArticle.redirectUrl" placeholder="跳转url">
+        <FormItem prop="duration" label="时长:">
+          <Input type="text" v-model="addVideo.duration" placeholder="时长">
           </Input>
         </FormItem>
+        <FormItem prop="size" label="容量，单位byte:">
+          <Input type="text" v-model="addVideo.size" placeholder="时长">
+          </Input>
+        </FormItem>
+        <FormItem prop="url" label="视频链接(上传或者填写):" id="addUrlBox">
+          <Button type="primary" @click="addUrlClick('addUrl')" >上传</Button>
+          <input type="file" style="width:0px;height:0px;" id="addUrl" ref="addUrl">
+          <div>
+             <Input type="text" v-model="addVideo.url" placeholder="视频链接">
+             </Input>
+            <a :href="addVideo.url">
+                {{addVideo.url}}
+            </a>
+          </div>
+        </FormItem>
         <FormItem prop="status" label="状态:">
-          <Select v-model="addArticle.status" size="large" style="width:100px">
+          <Select v-model="addVideo.status" size="large" style="width:100px">
               <Option v-for="item in statusList" :value="item.id" :key="item.id">{{ item.value }}</Option>
           </Select>
-        </FormItem>
-        <FormItem prop="content" label="内容:">
-          <div id="addEditor" style="text-align:left"></div>
         </FormItem>
       </Form>
       <div slot='footer'>
@@ -53,42 +60,49 @@
     </Modal>
     <!--新增end -->
 		 <!--修改 -->
-     <Modal v-model="updateArticleModel"
-           title="修改文章管理"
+     <Modal v-model="updateVideoModel"
+           title="修改视频管理"
            :closable="false"
            :mask-closable="false"
            width="1000px"
     >
-      <Form ref="updateArticle" :model="updateArticle" :label-width="100" label-position="right"  :rules="updateArticleRules">
-        <FormItem prop="articleCateId" label="文章类型:">
-          <Select v-model="updateArticle.articleCateId" size="large" style="width:100px">
-              <Option v-for="item in articleCateList" :value="item.articleCateId" :key="item.articleCateId">{{ item.name }}</Option>
-          </Select>
-        </FormItem>
-        <FormItem prop="title" label="标题:">
-          <Input type="text" v-model="updateArticle.title" placeholder="标题">
+      <Form ref="updateVideo" :model="updateVideo" :label-width="100" label-position="right"  :rules="updateVideoRules">
+             <FormItem prop="name" label="视频名称:">
+          <Input type="text" v-model="updateVideo.name" placeholder="视频名称">
           </Input>
         </FormItem>
         <FormItem prop="imgAddress" label="封面(上传或者填写):" id="updateImgAddressBox">
           <Button type="primary" @click="updateImgAddressClick('updateImgAddress')" >上传</Button>
           <input type="file" style="width:0px;height:0px;" id="updateImgAddress" ref="updateImgAddress">
           <div>
-            <Input type="text" v-model="updateArticle.imgAddress" placeholder="封面">
+            <Input type="text" v-model="updateVideo.imgAddress" placeholder="封面">
           </Input>
-             <img :src="updateArticle.imgAddress"  style='height:200px;width:300px;'alt="">
+             <img :src="updateVideo.imgAddress"  style='height:200px;width:300px;'alt="">
           </div>
         </FormItem>
-        <FormItem prop="redirectUrl" label="跳转url:">
-          <Input type="text" v-model="updateArticle.redirectUrl" placeholder="跳转url">
+        <FormItem prop="duration" label="时长:">
+          <Input type="text" v-model="updateVideo.duration" placeholder="时长">
           </Input>
         </FormItem>
+        <FormItem prop="size" label="容量，单位byte:">
+          <Input type="text" v-model="updateVideo.size" placeholder="时长">
+          </Input>
+        </FormItem>
+        <FormItem prop="url" label="视频链接(上传或者填写):" id="updateUrlBox">
+          <Button type="primary" @click="updateUrlClick('updateUrl')" >上传</Button>
+          <input type="file" style="width:0px;height:0px;" id="updateUrl" ref="updateUrl">
+          <div>
+            <Input type="text" v-model="updateVideo.url" placeholder="视频链接">
+          </Input>
+            <a :href="updateVideo.url">
+                {{updateVideo.url}}
+            </a>
+          </div>
+        </FormItem>
         <FormItem prop="status" label="状态:">
-          <Select v-model="updateArticle.status" size="large" style="width:100px">
+          <Select v-model="updateVideo.status" size="large" style="width:100px">
               <Option v-for="item in statusList" :value="item.id" :key="item.id">{{ item.value }}</Option>
           </Select>
-        </FormItem>
-        <FormItem prop="content" label="内容:">
-          <div id="updateEditor" style="text-align:left"></div>
         </FormItem>
       </Form>
       <div slot='footer'>
@@ -100,7 +114,7 @@
       </div>
     </Modal>
     <!--修改end -->
-      <Table border :columns='articleColumns' :data='articleList' ref='table' size="small"></Table>
+      <Table border :columns='videoColumns' :data='videoList' ref='table' size="small"></Table>
         <div style='display: inline-block;float: right; margin-top:10px;'>
         <Page style='margin-right:10px;' :total='params.total' :pageSize='params.pageSize' ref='page' :show-total='true'  @on-change='selectPage' show-elevator ></Page>
       </div>
@@ -108,7 +122,7 @@
 </template>
 <script>
 export default {
-  name: 'Article',
+  name: 'Video',
   data () {
     return {
         params:{
@@ -124,51 +138,72 @@ export default {
         {id:1,value:'上架'}
         ],
 			//增加参数
-			addArticleModel:false,
+			addVideoModel:false,
 			addLoading:false,
-			addArticleRules: {
-                title: [
+			addVideoRules: {
+                name: [
                     {required: true, message: '名称为必填项', trigger: 'blur'}
+                    ],
+                imgAddress: [
+                    {required: true, message: '封面为必填项', trigger: 'blur'}
+                    ],
+                duration: [
+                    {required: true, message: '时长为必填项', trigger: 'blur'}
+                    ],
+                size: [
+                    {required: true, message: '容量为必填项', trigger: 'blur'}
+                    ],
+                url: [
+                    {required: true, message: '链接为必填项', trigger: 'blur'}
                     ]
                 },
-			addArticle:{
-    		   "title":"",
-    		   "imgAddress":"",
-    		   "redirectUrl":"",
-    		   "status":1,
-    		   "content":"",
-    		   "articleCateId":""
+			addVideo:{
+    		   name:"",
+    		   imgAddress:"",
+    		   duration:'',
+    		   size:'',
+    		   url:'',
+    		   status:1,
+    		   videoCateId:''
 			},
 			//修改参数
-			updateArticleModel:false,
+			updateVideoModel:false,
 			updateLoading:false,
-			updateArticleRules: {
-                title: [
+			updateVideoRules: {
+                 name: [
                     {required: true, message: '名称为必填项', trigger: 'blur'}
+                    ],
+                imgAddress: [
+                    {required: true, message: '封面为必填项', trigger: 'blur'}
+                    ],
+                duration: [
+                    {required: true, message: '时长为必填项', trigger: 'blur'}
+                    ],
+                size: [
+                    {required: true, message: '容量为必填项', trigger: 'blur'}
+                    ],
+                url: [
+                    {required: true, message: '链接为必填项', trigger: 'blur'}
                     ]
                 },
-			updateArticle:{
-           "articleId":'',
-           "title":"",
-           "imgAddress":"",
-    		   "redirectUrl":"",
-    		   "status":1,
-    		   "content":"",
-    		   "articleCateId":""
+			updateVideo:{
+          name:"",
+    		  imgAddress:"",
+    		  duration:'',
+    		  size:'',
+    		  url:'',
+    		  status:1,
+    		  videoCateId:''
       },
       //删除参数
-      deleteArticle:{},
+      deleteVideo:{},
       //列表
-	    articleCateList: [],
-      articleList: [],
-	    articleColumns: [
-        // {
-        //   type: 'selection',
-        //   width: 60,
-        //   align: 'center' 
-        // },
+	    videoCateList: [],
+      videoList: [],
+	    videoColumns: [
         {
           title: '序号',
+          width:100,
           align:'center',
           render: (h, params) => {
             return h('span', params.index
@@ -176,16 +211,16 @@ export default {
           }
         },
         {
-          title: '文章管理id',
-          key: 'articleId',
+          title: '视频管理id',
+          key: 'videoId',
           align:'center'
         },
         {
-        	title:'文章名称',
-        	key:'title',
+        	title:'视频名称',
+        	key:'name',
           align:'center'
         },
-         {
+        {
         	title:'封面',
         	key:'imgAddress',
           align:'center',
@@ -201,30 +236,31 @@ export default {
           }
         },
         {
-        	title:'跳转url',
-        	key:'redirectUrl',
+          title: '时长',
+          key: 'duration',
           align:'center'
         },
         {
-        	title:'评论数',
-        	key:'commentNumber',
+          title: '容量',
+          key: 'size',
+          align:'center'
+        },
+        {
+        	title:'url链接',
+        	key:'url',
           align:'center',
           render: (h, params) => {
-              return  h('div', [
-              h('span', params.row.commentNumber),
-              h('Button', {
-                props: {
-                  type: 'info',
-                  size: 'small'
-                },
-                on: {
-                  click: () => {
-                    this.$router.push('/main/articleComment/'+params.row.articleId);
-                  }
-                }
-              }, '详情')
-            ])
+            return h('a', {
+              attrs: {
+                href: params.row.url
+              }
+            },params.row.url)
           }
+        },
+        {
+          title: '播放次数',
+          key: 'playNumber',
+          align:'center'
         },
         {
         	title:'状态',
@@ -303,32 +339,22 @@ export default {
       this.params.pageNum = (this.params.currentPage-1)*this.params.pageSize+this.params.startNum;
       this.getList()
     },
-     //增加上传图片
+    //增加上传图片
      addImgAddressClick(p){
+         this.$refs[p].click();
+       },
+    //增加上传视频
+     addUrlClick(p){
          this.$refs[p].click();
        },
     //更新上传图片
      updateImgAddressClick(p){
          this.$refs[p].click();
        },
-  //获取列表
-   getArticleCateList () {
-     /**
-     * 获取列表
-     * $this  vue组件
-     * p.countUrl 数量url
-     * p.listUrl 列表url
-     * p.list 返回列表
-     */
-     this.axiosbusiness.getList(this,{
-       countUrl:'/articleCate/count',
-       listUrl:'/articleCate/list',
-       list:'articleCateList'
-     },
-     {  
-       pageNum:1,
-       pageSize:1000})
-    },
+    //更新上传视频
+     updateUrlClick(p){
+         this.$refs[p].click();
+       },
   //获取列表
    getList () {
      /**
@@ -338,30 +364,24 @@ export default {
      * p.listUrl 列表url
      * p.list 返回列表
      */
+     //根据id获取数据
+      this.params.videoSetId=this.$route.params.videoSetId
      this.axiosbusiness.getList(this,{
-       countUrl:'/article/count',
-       listUrl:'/article/list',
-       list:'articleList'
+       countUrl:'/video/count',
+       listUrl:'/video/list',
+       list:'videoList'
      },this.params)
     },
   //增加
 	 add (params) {
-      this.addArticleModel = true
-  let Editor=this.wangeditor;
-  let editor=new Editor("#addEditor")
-  editor.customConfig.zIndex = 100
-  editor.customConfig.onchange = (html) =>{
-    this.addArticle.content=html;
-    }
-  editor.create();
-  editor.txt.html('<p>输入内容...😆</p>')
-      
+      this.addVideoModel = true
+      this.addVideo.videoSetId = this.$route.params.videoSetId
     },
 		//增加取消
 		 addCancel () {
       if (!this.addLoading) {
-        this.addArticleModel = false
-        this.$refs.addArticle.resetFields()
+        this.addVideoModel = false
+        this.$refs.addVideo.resetFields()
       }
     },
 		//增加确定
@@ -376,38 +396,29 @@ export default {
      * p.showModel 界面模型显示隐藏
      */
     this.axiosbusiness.add(this,{
-      ref:'addArticle',
-      url:'/article/add',
-      requestObject:'addArticle',
+      ref:'addVideo',
+      url:'/video/add',
+      requestObject:'addVideo',
       loading:'addLoading',
-      showModel:'addArticleModel'
+      showModel:'addVideoModel'
     })
     },
 	 update (params) {
-      this.updateArticleModel = true
-      this.updateArticle.articleId = params.articleId
+      this.updateVideoModel = true
+      this.updateVideo.videoId = params.videoId
      //获取修改实体
       this.axiosbusiness.get(this,{
-         url:'/article/'+params.articleId,
-         list:'updateArticle',
+         url:'/video/'+params.videoId,
+         list:'updateVideo',
          success:()=>{
-           let Editor=this.wangeditor;
-           let editor=new Editor("#updateEditor")
-           editor.customConfig.zIndex = 100
-           editor.customConfig.onchange = (html)=> {
-             this.updateArticle.content=html;
-             }
-           editor.create();
-           console.log(this.updateArticle)
-           editor.txt.html(this.updateArticle.content)
          }
        })
     },
 		//修改取消
 		 updateCancel () {
       if (!this.updateLoading) {
-        this.updateArticleModel = false
-        this.$refs.updateArticle.resetFields()
+        this.updateVideoModel = false
+        this.$refs.updateVideo.resetFields()
       }
     },
 		//修改确定
@@ -422,11 +433,11 @@ export default {
      * p.showModel 界面模型显示隐藏
      */
     this.axiosbusiness.update(this,{
-      ref:'updateArticle',
-      url:'/article/update',
-      requestObject:'updateArticle',
+      ref:'updateVideo',
+      url:'/video/update',
+      requestObject:'updateVideo',
       loading:'updateLoading',
-      showModel:'updateArticleModel'
+      showModel:'updateVideoModel'
     })
  
     },
@@ -438,29 +449,40 @@ export default {
      * p.url 修改url
      * p.requestObject 请求参数对象
      */
-    this.deleteArticle={
-      "articleId":params.articleId
+    this.deleteVideo={
+      "videoId":params.videoId
     };
     this.axiosbusiness.delete(this,{
-      url:'/article/delete',
-      requestObject:'deleteArticle'
+      url:'/video/delete',
+      requestObject:'deleteVideo'
     })
     }
   },
   created () {
-    this.getArticleCateList();
     this.getList();
     //增加上传图片预加载
     this.utils.getQiniuSimpleUploader(this,{
       browseButton:'addImgAddress',
       dropElement:'addImgAddressBox',
-      resource:'addArticle.imgAddress'
+      resource:'addVideo.imgAddress'
+    });
+    //增加上传视频预加载
+    this.utils.getQiniuSimpleUploader(this,{
+      browseButton:'addUrl',
+      dropElement:'addUrlBox',
+      resource:'addVideo.url'
     });
     //修改上传图片预加载
     this.utils.getQiniuSimpleUploader(this,{
       browseButton:'updateImgAddress',
       dropElement:'updateImgAddressBox',
-      resource:'updateArticle.imgAddress'
+      resource:'updateVideo.imgAddress'
+    });
+    //修改上传视频预加载
+    this.utils.getQiniuSimpleUploader(this,{
+      browseButton:'updateUrl',
+      dropElement:'updateUrlBox',
+      resource:'updateVideo.Url'
     });
   },
   mounted () {

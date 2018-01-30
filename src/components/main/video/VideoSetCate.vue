@@ -51,6 +51,7 @@
         <Page style='margin-right:10px;' :total='params.total' :pageSize='params.pageSize' ref='page' :show-total='true'   @on-change='selectPage' show-elevator ></Page>
       </div>
     </div>
+    
 </template>
 <script>
 export default {
@@ -93,7 +94,6 @@ export default {
 	    videoSetCateColumns: [
         {
           title: '序号',
-          width:100,
           align:'center',
           render: (h, params) => {
             return h('span', params.index

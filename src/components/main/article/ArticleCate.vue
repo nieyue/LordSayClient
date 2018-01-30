@@ -99,7 +99,6 @@ export default {
         // },
         {
           title: '序号',
-          width:100,
           align:'center',
           render: (h, params) => {
             return h('span', params.index

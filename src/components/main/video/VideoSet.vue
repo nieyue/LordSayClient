@@ -21,10 +21,14 @@
           <Input type="text" v-model="addVideoSet.name" placeholder="视频集名称">
           </Input>
         </FormItem>
-        <FormItem prop="imgAddress" label="封面:" id="addImgAddressBox">
-          <Button type="primary" @click="addImgAddressClick('addImgAddress')" >上传头像</Button>
-            <input type="file" style="width:0px;height:0px;" id="addImgAddress" ref="addImgAddress">
-          <img :src="addVideoSet.imgAddress"  style='height:60px;'alt="">
+        <FormItem prop="imgAddress" label="封面(上传或者填写):" id="addImgAddressBox">
+          <Button type="primary" @click="addImgAddressClick('addImgAddress')" >上传</Button>
+          <input type="file" style="width:0px;height:0px;" id="addImgAddress" ref="addImgAddress">
+          <div>
+            <Input type="text" v-model="addVideoSet.imgAddress" placeholder="封面">
+          </Input>
+             <img :src="addVideoSet.imgAddress"  style='height:200px;width:300px;'alt="">
+          </div>
         </FormItem>
 
         <FormItem prop="author" label="作者:">
@@ -80,10 +84,14 @@
           <Input type="text" v-model="updateVideoSet.name" placeholder="视频集名称">
           </Input>
         </FormItem>
-        <FormItem prop="imgAddress" label="封面:" id="updateImgAddressBox">
-          <Button type="primary" @click="updateImgAddressClick('updateImgAddress')" >上传头像</Button>
-            <input type="file" style="width:0px;height:0px;" id="updateImgAddress" ref="updateImgAddress">
-          <img :src="updateVideoSet.imgAddress"  style='height:60px;'alt="">
+        <FormItem prop="imgAddress" label="封面(上传或者填写):" id="updateImgAddressBox">
+          <Button type="primary" @click="updateImgAddressClick('updateImgAddress')" >上传</Button>
+          <input type="file" style="width:0px;height:0px;" id="updateImgAddress" ref="updateImgAddress">
+          <div>
+            <Input type="text" v-model="updateVideoSet.imgAddress" placeholder="封面">
+          </Input>
+          <img :src="updateVideoSet.imgAddress"  style='height:200px;width:300px;'alt="">
+          </div>
         </FormItem>
 
         <FormItem prop="author" label="作者:">
@@ -162,6 +170,9 @@ export default {
 			addVideoSetModel:false,
 			addLoading:false,
 			addVideoSetRules: {
+                videoSetCateId: [
+                    {required: true, message: '类型为必填项', trigger: 'blur'}
+                    ],
                 name: [
                     {required: true, message: '名称为必填项', trigger: 'blur'}
                     ],
@@ -190,6 +201,9 @@ export default {
 			updateVideoSetModel:false,
 			updateLoading:false,
 			updateVideoSetRules: {
+                videoSetCateId: [
+                    {required: true, message: '类型为必填项', trigger: 'blur'}
+                    ],
                 name: [
                     {required: true, message: '名称为必填项', trigger: 'blur'}
                     ],
@@ -222,7 +236,6 @@ export default {
 	    videoSetColumns: [
         {
           title: '序号',
-          width:100,
           align:'center',
           render: (h, params) => {
             return h('span', params.index
@@ -249,8 +262,7 @@ export default {
                 src: params.row.imgAddress
               },
               style: {
-                height: '45px',
-                marginTop: '10px'
+                width: '45px'
               }
             })
           }
@@ -263,12 +275,22 @@ export default {
         {
           title: '简介',
           key: 'summary',
-          align:'center'
+          align:'center',
+          render: (h, params) => {
+             return   h('span', {
+                style: {
+                  overflow:'hidden',
+                  textOverflow:'ellipsis',
+                  display:'-webkit-box', 
+                  webkitBoxOrient:'vertical',
+                  webkitLineClamp:2
+                }
+              },params.row.summary);
+          }
         },
         {
           title: '推荐',
           key: 'recommend',
-          width: 160,
           render: (h, params) => {
           let value="";
             this.recommendList.forEach(element => {
@@ -282,7 +304,6 @@ export default {
         {
           title: '是否收费',
           key: 'cost',
-          width: 160,
           render: (h, params) => {
           let value="";
             this.costList.forEach(element => {
@@ -301,7 +322,23 @@ export default {
         {
           title: '视频集数',
           key: 'number',
-          align:'center'
+          align:'center',
+          render: (h, params) => {
+              return  h('div', [
+              h('span', params.row.number),
+              h('Button', {
+                props: {
+                  type: 'info',
+                  size: 'small'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push('/main/video/'+params.row.videoSetId);
+                  }
+                }
+              }, '详情')
+            ])
+          }
         },
         {
           title: '播放总次数',
