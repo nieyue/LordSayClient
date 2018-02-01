@@ -21,6 +21,10 @@
           <Input type="text" v-model="addArticle.title" placeholder="标题">
           </Input>
         </FormItem>
+        <FormItem prop="subtitle" label="子标题:">
+          <Input type="text" v-model="addArticle.subtitle" placeholder="子标题">
+          </Input>
+        </FormItem>
         <FormItem prop="imgAddress" label="封面(上传或者填写):" id="addImgAddressBox">
           <Button type="primary" @click="addImgAddressClick('addImgAddress')" >上传</Button>
           <input type="file" style="width:0px;height:0px;" id="addImgAddress" ref="addImgAddress">
@@ -67,6 +71,10 @@
         </FormItem>
         <FormItem prop="title" label="标题:">
           <Input type="text" v-model="updateArticle.title" placeholder="标题">
+          </Input>
+        </FormItem>
+          <FormItem prop="subtitle" label="子标题:">
+          <Input type="text" v-model="updateArticle.subtitle" placeholder="子标题">
           </Input>
         </FormItem>
         <FormItem prop="imgAddress" label="封面(上传或者填写):" id="updateImgAddressBox">
@@ -133,6 +141,7 @@ export default {
                 },
 			addArticle:{
     		   "title":"",
+    		   "subtitle":"",
     		   "imgAddress":"",
     		   "redirectUrl":"",
     		   "status":1,
@@ -150,6 +159,7 @@ export default {
 			updateArticle:{
            "articleId":'',
            "title":"",
+           "subtitle":"",
            "imgAddress":"",
     		   "redirectUrl":"",
     		   "status":1,
@@ -183,6 +193,11 @@ export default {
         {
         	title:'文章名称',
         	key:'title',
+          align:'center'
+        },
+        {
+        	title:'文章子标题',
+        	key:'subtitle',
           align:'center'
         },
          {
@@ -386,6 +401,7 @@ export default {
 	 update (params) {
       this.updateArticleModel = true
       this.updateArticle.articleId = params.articleId
+      this.updateArticle.articleCateId = params.articleCateId
      //获取修改实体
       this.axiosbusiness.get(this,{
          url:'/article/'+params.articleId,

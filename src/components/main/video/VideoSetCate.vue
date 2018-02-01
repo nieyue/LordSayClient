@@ -15,8 +15,17 @@
           <Input type="text" v-model="addVideoSetCate.name" placeholder="分类名称">
           </Input>
         </FormItem>
+        <FormItem prop="icon" label="图标(上传或者填写):" id="addImgAddressBox">
+          <Button type="primary" @click="addImgAddressClick('addImgAddress')" >上传</Button>
+          <input type="file" style="width:0px;height:0px;" id="addImgAddress" ref="addImgAddress">
+          <div>
+            <Input type="text" v-model="addVideoSetCate.icon" placeholder="封面">
+          </Input>
+             <img :src="addVideoSetCate.icon "  style='height:200px;width:300px;'alt="">
+          </div>
+        </FormItem>
       </Form>
-      <div slot='footer'>
+      <div slot='footer '>
         <Button type='ghost' @click='addCancel'>取消</Button>
         <Button type='primary' :loading='addLoading'>
           <span v-if="!addLoading" @click='addSure'>确定</span>
@@ -36,8 +45,17 @@
           <Input type="text" v-model="updateVideoSetCate.name" placeholder="分类名称">
           </Input>
         </FormItem>
+        <FormItem prop="icon" label="图标(上传或者填写):" id="updateImgAddressBox">
+          <Button type="primary" @click="updateImgAddressClick('updateImgAddress')" >上传</Button>
+          <input type="file" style="width:0px;height:0px;" id="updateImgAddress" ref="updateImgAddress">
+          <div>
+            <Input type="text" v-model="updateVideoSetCate.icon" placeholder="封面">
+          </Input>
+             <img :src="updateVideoSetCate.icon"  style='height:200px;width:300px;'alt="">
+          </div>
+        </FormItem>
       </Form>
-      <div slot='footer'>
+      <div slot='footer '>
         <Button type='ghost' @click='updateCancel'>取消</Button>
         <Button type='primary' :loading='updateLoading'>
           <span v-if="!updateLoading" @click='updateSure'>确定</span>
@@ -74,7 +92,8 @@ export default {
                     ]
                 },
 			addVideoSetCate:{
-    		   "name":""
+    		   "name":"",
+    		   "icon":""
 			},
 			//修改参数
 			updateVideoSetCateModel:false,
@@ -86,7 +105,8 @@ export default {
                 },
 			updateVideoSetCate:{
     		 "videoSetCateId":1,
-    		 "name":""
+    		 "name":"",
+    		 "icon":""
       },
       //删除参数
       deleteVideoSetCate:{},
@@ -109,6 +129,21 @@ export default {
         	title:'视频集类型名称',
         	key:'name',
             align:'center'
+        },
+        {
+        	title:'封面',
+        	key:'icon',
+          align:'center',
+          render: (h, params) => {
+            return h('img', {
+              attrs: {
+                src: params.row.icon
+              },
+              style: {
+                width: '45px'
+              }
+            })
+          }
         },
         {
           title:'修改时间',
@@ -161,6 +196,14 @@ export default {
     }
   },
   methods: {
+     //增加上传图片
+     addImgAddressClick(p){
+         this.$refs[p].click();
+       },
+    //更新上传图片
+     updateImgAddressClick(p){
+         this.$refs[p].click();
+       },
     //分页点击
     selectPage (currentPage) {
       this.params.currentPage=currentPage;
@@ -186,6 +229,7 @@ export default {
 	 add (params) {
       this.addVideoSetCateModel = true
       this.addVideoSetCate.name = params.name
+      this.addVideoSetCate.icon = params.icon
     },
 		//增加取消
 		 addCancel () {
@@ -216,7 +260,9 @@ export default {
 	 update (params) {
       this.updateVideoSetCateModel = true
       this.updateVideoSetCate.name = params.name
+      this.updateVideoSetCate.icon = params.icon
       this.updateVideoSetCate.videoSetCateId = params.videoSetCateId
+
     },
 		//修改取消
 		 updateCancel () {
@@ -264,6 +310,18 @@ export default {
   },
   created () {
     this.getList();
+    //增加上传图片预加载
+    this.utils.getQiniuSimpleUploader(this,{
+      browseButton:'addImgAddress',
+      dropElement:'addImgAddressBox',
+      resource:'addVideoSetCate.icon'
+    });
+    //修改上传图片预加载
+    this.utils.getQiniuSimpleUploader(this,{
+      browseButton:'updateImgAddress',
+      dropElement:'updateImgAddressBox',
+      resource:'updateVideoSetCate.icon'
+    });
   },
   mounted () {
 

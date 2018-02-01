@@ -171,7 +171,7 @@ export default {
 			addLoading:false,
 			addVideoSetRules: {
                 videoSetCateId: [
-                    {required: true, message: '类型为必填项', trigger: 'blur'}
+                    {type:'number',required: true, message: '类型为必填项', trigger: 'change'}
                     ],
                 name: [
                     {required: true, message: '名称为必填项', trigger: 'blur'}
@@ -202,7 +202,7 @@ export default {
 			updateLoading:false,
 			updateVideoSetRules: {
                 videoSetCateId: [
-                    {required: true, message: '类型为必填项', trigger: 'blur'}
+                    {type:'number',required: true, message: '类型为必填项', trigger: 'blur'}
                     ],
                 name: [
                     {required: true, message: '名称为必填项', trigger: 'blur'}

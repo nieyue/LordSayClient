@@ -29,7 +29,7 @@
           <Input type="text" v-model="addVideo.duration" placeholder="时长">
           </Input>
         </FormItem>
-        <FormItem prop="size" label="容量，单位byte:">
+        <FormItem prop="size" label="容量，单位MB:">
           <Input type="text" v-model="addVideo.size" placeholder="时长">
           </Input>
         </FormItem>
@@ -84,7 +84,7 @@
           <Input type="text" v-model="updateVideo.duration" placeholder="时长">
           </Input>
         </FormItem>
-        <FormItem prop="size" label="容量，单位byte:">
+        <FormItem prop="size" label="容量，单位MB:">
           <Input type="text" v-model="updateVideo.size" placeholder="时长">
           </Input>
         </FormItem>
@@ -241,7 +241,7 @@ export default {
           align:'center'
         },
         {
-          title: '容量',
+          title: '容量,MB',
           key: 'size',
           align:'center'
         },
