@@ -1,28 +1,23 @@
-<!--视频集类型管理 -->
+<!--视频集搜索管理 -->
 <template>
     <div class="body-wrap">
     <div class="body-btn-wrap">
-      <Button type='primary'  @click='add'>增加视频集类型</Button>
+      <Button type='primary'  @click='add'>增加视频集搜索</Button>
     </div>
 		 <!--新增 -->
-     <Modal v-model="addVideoSetCateModel"
-           title="新增视频集类型管理"
+     <Modal v-model="addVideoSetSearchModel"
+           title="新增视频集搜索管理"
            :closable="false"
            :mask-closable="false"
     >
-      <Form ref="addVideoSetCate" :model="addVideoSetCate" :label-width="100" label-position="right"  :rules="addVideoSetCateRules">
-        <FormItem prop="name" label="分类名称:">
-          <Input type="text" v-model="addVideoSetCate.name" placeholder="分类名称">
+      <Form ref="addVideoSetSearch" :model="addVideoSetSearch" :label-width="100" label-position="right"  :rules="addVideoSetSearchRules">
+        <FormItem prop="name" label="名称:">
+          <Input type="text" v-model="addVideoSetSearch.name" placeholder="名称">
           </Input>
         </FormItem>
-        <FormItem prop="icon" label="图标(上传或者填写):" id="addImgAddressBox">
-          <Button type="primary" @click="addImgAddressClick('addImgAddress')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="addImgAddress" ref="addImgAddress">
-          <div>
-            <Input type="text" v-model="addVideoSetCate.icon" placeholder="封面">
+        <FormItem prop="number" label="次数:">
+         <InputNumber :max="100000000" :min="1" :step="1" :precision='0' v-model="addVideoSetSearch.number"></InputNumber>
           </Input>
-             <img :src="addVideoSetCate.icon "  style='height:200px;width:300px;'alt="">
-          </div>
         </FormItem>
       </Form>
       <div slot='footer'>
@@ -35,24 +30,19 @@
     </Modal>
     <!--新增end -->
 		 <!--修改 -->
-     <Modal v-model="updateVideoSetCateModel"
-           title="修改视频集类型管理"
+     <Modal v-model="updateVideoSetSearchModel"
+           title="修改视频集搜索管理"
            :closable="false"
            :mask-closable="false"
     >
-      <Form ref="updateVideoSetCate" :model="updateVideoSetCate" :label-width="100" label-position="right"  :rules="updateVideoSetCateRules">
-        <FormItem prop="name" label="分类名称:">
-          <Input type="text" v-model="updateVideoSetCate.name" placeholder="分类名称">
+      <Form ref="updateVideoSetSearch" :model="updateVideoSetSearch" :label-width="100" label-position="right"  :rules="updateVideoSetSearchRules">
+        <FormItem prop="name" label="名称:">
+          <Input type="text" v-model="updateVideoSetSearch.name" placeholder="名称">
           </Input>
         </FormItem>
-        <FormItem prop="icon" label="图标(上传或者填写):" id="updateImgAddressBox">
-          <Button type="primary" @click="updateImgAddressClick('updateImgAddress')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="updateImgAddress" ref="updateImgAddress">
-          <div>
-            <Input type="text" v-model="updateVideoSetCate.icon" placeholder="封面">
+        <FormItem prop="number" label="次数:">
+         <InputNumber :max="100000000" :min="1" :step="1" :precision='0' v-model="updateVideoSetSearch.number"></InputNumber>
           </Input>
-             <img :src="updateVideoSetCate.icon"  style='height:200px;width:300px;'alt="">
-          </div>
         </FormItem>
       </Form>
       <div slot='footer'>
@@ -64,7 +54,7 @@
       </div>
     </Modal>
     <!--修改end -->
-      <Table border :columns='videoSetCateColumns' :data='videoSetCateList' ref='table' size="small"></Table>
+      <Table border :columns='videoSetSearchColumns' :data='videoSetSearchList' ref='table' size="small"></Table>
         <div style='display: inline-block;float: right; margin-top:10px;'>
         <Page style='margin-right:10px;' :total='params.total' :pageSize='params.pageSize' ref='page' :show-total='true'   @on-change='selectPage' show-elevator ></Page>
       </div>
@@ -73,7 +63,7 @@
 </template>
 <script>
 export default {
-  name: 'VideoSetCate',
+  name: 'VideoSetSearch',
   data () {
     return {
         params:{
@@ -84,34 +74,40 @@ export default {
             total:0//总数
         },
 			//增加参数
-			addVideoSetCateModel:false,
+			addVideoSetSearchModel:false,
 			addLoading:false,
-			addVideoSetCateRules: {
+			addVideoSetSearchRules: {
                 name: [
-                    {required: true, message: '分类名称为必填项', trigger: 'blur'}
+                    {required: true, message: '名称为必填项', trigger: 'blur'}
+                    ],
+                number: [
+                    {type:'number',required: true, message: '次数为必填项', trigger: 'blur'}
                     ]
                 },
-			addVideoSetCate:{
+			addVideoSetSearch:{
     		   name:"",
-    		   icon:""
+    		   number:1
 			},
 			//修改参数
-			updateVideoSetCateModel:false,
+			updateVideoSetSearchModel:false,
 			updateLoading:false,
-			updateVideoSetCateRules: {
+			updateVideoSetSearchRules: {
                 name: [
-                    {required: true, message: '分类名称为必填项', trigger: 'blur'}
+                    {required: true, message: '名称为必填项', trigger: 'blur'}
+                    ],
+                number: [
+                    {type:'number',required: true, message: '次数为必填项', trigger: 'blur'}
                     ]
                 },
-			updateVideoSetCate:{
-    		 videoSetCateId:1,
+			updateVideoSetSearch:{
+    		 videoSetSearchId:1,
     		 name:"",
-    		 icon:""
+    		 number:1
       },
       //删除参数
-      deleteVideoSetCate:{},
-	    videoSetCateList: [],
-	    videoSetCateColumns: [
+      deleteVideoSetSearch:{},
+	    videoSetSearchList: [],
+	    videoSetSearchColumns: [
         {
           title: '序号',
           align:'center',
@@ -121,29 +117,19 @@ export default {
           }
         },
         {
-          title: '视频集类型管理id',
-          key: 'videoSetCateId',
+          title: '视频集搜索管理id',
+          key: 'videoSetSearchId',
           align:'center'
         },
         {
-        	title:'视频集类型名称',
+        	title:'视频集搜索名称',
         	key:'name',
             align:'center'
         },
         {
-        	title:'封面',
-        	key:'icon',
-          align:'center',
-          render: (h, params) => {
-            return h('img', {
-              attrs: {
-                src: params.row.icon
-              },
-              style: {
-                width: '45px'
-              }
-            })
-          }
+        	title:'视频集搜索次数',
+        	key:'number',
+            align:'center'
         },
         {
           title:'修改时间',
@@ -196,14 +182,6 @@ export default {
     }
   },
   methods: {
-     //增加上传图片
-     addImgAddressClick(p){
-         this.$refs[p].click();
-       },
-    //更新上传图片
-     updateImgAddressClick(p){
-         this.$refs[p].click();
-       },
     //分页点击
     selectPage (currentPage) {
       this.params.currentPage=currentPage;
@@ -220,22 +198,22 @@ export default {
      * p.list 返回列表
      */
      this.axiosbusiness.getList(this,{
-       countUrl:'/videoSetCate/count',
-       listUrl:'/videoSetCate/list',
-       list:'videoSetCateList'
+       countUrl:'/videoSetSearch/count',
+       listUrl:'/videoSetSearch/list',
+       list:'videoSetSearchList'
      },this.params)
     },
   //增加
 	 add (params) {
-      this.addVideoSetCateModel = true
-      this.addVideoSetCate.name = params.name
-      this.addVideoSetCate.icon = params.icon
+      this.addVideoSetSearchModel = true
+      this.addVideoSetSearch.name = params.name
+      //this.addVideoSetSearch.number = params.number
     },
 		//增加取消
 		 addCancel () {
       if (!this.addLoading) {
-        this.addVideoSetCateModel = false
-        this.$refs.addVideoSetCate.resetFields()
+        this.addVideoSetSearchModel = false
+        this.$refs.addVideoSetSearch.resetFields()
       }
     },
 		//增加确定
@@ -250,26 +228,24 @@ export default {
      * p.showModel 界面模型显示隐藏
      */
     this.axiosbusiness.add(this,{
-      ref:'addVideoSetCate',
-      url:'/videoSetCate/add',
-      requestObject:'addVideoSetCate',
+      ref:'addVideoSetSearch',
+      url:'/videoSetSearch/add',
+      requestObject:'addVideoSetSearch',
       loading:'addLoading',
-      showModel:'addVideoSetCateModel'
+      showModel:'addVideoSetSearchModel'
     })
     },
 	 update (params) {
-      this.updateVideoSetCateModel = true
-      this.updateVideoSetCate.name = params.name
-      this.updateVideoSetCate.icon = params.icon
-      this.updateVideoSetCate.videoSetCateId = params.videoSetCateId
-console.log(this.updateVideoSetCate)
+      this.updateVideoSetSearchModel = true
+      this.updateVideoSetSearch.name = params.name
+      this.updateVideoSetSearch.number = params.number
+      this.updateVideoSetSearch.videoSetSearchId = params.videoSetSearchId
     },
 		//修改取消
 		 updateCancel () {
-       console.log(222)
       if (!this.updateLoading) {
-        this.updateVideoSetCateModel = false
-        this.$refs.updateVideoSetCate.resetFields()
+        this.updateVideoSetSearchModel = false
+        this.$refs.updateVideoSetSearch.resetFields()
       }
     },
 		//修改确定
@@ -283,13 +259,12 @@ console.log(this.updateVideoSetCate)
      * p.loading loading
      * p.showModel 界面模型显示隐藏
      */
-    console.log(3333)
     this.axiosbusiness.update(this,{
-      ref:'updateVideoSetCate',
-      url:'/videoSetCate/update',
-      requestObject:'updateVideoSetCate',
+      ref:'updateVideoSetSearch',
+      url:'/videoSetSearch/update',
+      requestObject:'updateVideoSetSearch',
       loading:'updateLoading',
-      showModel:'updateVideoSetCateModel'
+      showModel:'updateVideoSetSearchModel'
     })
  
     },
@@ -301,29 +276,17 @@ console.log(this.updateVideoSetCate)
      * p.url 修改url
      * p.requestObject 请求参数对象
      */
-    this.deleteVideoSetCate={
-      "videoSetCateId":params.videoSetCateId
+    this.deleteVideoSetSearch={
+      "videoSetSearchId":params.videoSetSearchId
     };
     this.axiosbusiness.delete(this,{
-      url:'/videoSetCate/delete',
-      requestObject:'deleteVideoSetCate'
+      url:'/videoSetSearch/delete',
+      requestObject:'deleteVideoSetSearch'
     })
     }
   },
   created () {
     this.getList();
-    //增加上传图片预加载
-    this.utils.getQiniuSimpleUploader(this,{
-      browseButton:'addImgAddress',
-      dropElement:'addImgAddressBox',
-      resource:'addVideoSetCate.icon'
-    });
-    //修改上传图片预加载
-    this.utils.getQiniuSimpleUploader(this,{
-      browseButton:'updateImgAddress',
-      dropElement:'updateImgAddressBox',
-      resource:'updateVideoSetCate.icon'
-    });
   },
   mounted () {
 

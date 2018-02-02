@@ -15,9 +15,9 @@
                         <Icon type="social-youtube-outline"></Icon>
                         视频管理
                     </template>
+                    <MenuItem name="/main/videoSetSearch">视频集搜索</MenuItem>
                     <MenuItem name="/main/videoSetCate">视频集类型</MenuItem>
                     <MenuItem name="/main/videoSet">视频集</MenuItem>
-                    <MenuItem name="2-2">Option 2</MenuItem>
                 </Submenu>
                 <Submenu name="3">
                     <template slot="title">

@@ -370,6 +370,15 @@ export default {
     }
   editor.create();
   editor.txt.html('<p>输入内容...😆</p>')
+  //wangeditor七牛云上传图片预加载
+  this.utils.getQiniuSimpleUploader(this,{
+    browseButton:editor.imgMenuId,
+    container:editor.toolbarElemId,
+    dropElement:editor.textElemId,
+    success:(sourceLink)=>{
+      editor.cmd.do('insertHtml', '<img src="' + sourceLink + '" style="max-width:100%;"/>')
+    }
+  });
       
     },
 		//增加取消
@@ -413,9 +422,20 @@ export default {
            editor.customConfig.onchange = (html)=> {
              this.updateArticle.content=html;
              }
+             editor.customConfig.qiniu = true//允许上传七牛
            editor.create();
            console.log(this.updateArticle)
            editor.txt.html(this.updateArticle.content)
+           //wangeditor七牛云上传图片预加载
+          this.utils.getQiniuSimpleUploader(this,{
+            browseButton:editor.imgMenuId,
+            container:editor.toolbarElemId,
+            dropElement:editor.textElemId,
+            success:(sourceLink)=>{
+              editor.cmd.do('insertHtml', '<img src="' + sourceLink + '" style="max-width:100%;"/>')
+            }
+          });
+
          }
        })
     },

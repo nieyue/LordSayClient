@@ -6,7 +6,9 @@ import ArticleCate from '@/components/main/article/ArticleCate'
 import Article from '@/components/main/article/Article'
 import ArticleComment from '@/components/main/article/ArticleComment'
 import VideoSetCate from '@/components/main/video/VideoSetCate'
+import VideoSetSearch from '@/components/main/video/VideoSetSearch'
 import VideoSet from '@/components/main/video/VideoSet'
+import VideoSetTag from '@/components/main/video/VideoSetTag'
 import Video from '@/components/main/video/Video'
 
 Vue.use(Router)
@@ -49,9 +51,19 @@ export default new Router({
           component: VideoSetCate
         },
         {
+          path: 'videoSetSearch',
+          name: '视频集搜索',
+          component: VideoSetSearch
+        },
+        {
           path: 'videoSet',
           name: '视频集',
           component: VideoSet
+        },
+        {
+          path: 'videoSetTag/:videoSetId',
+          name: '视频集标签',
+          component: VideoSetTag
         },
         {
           path: 'video/:videoSetId',

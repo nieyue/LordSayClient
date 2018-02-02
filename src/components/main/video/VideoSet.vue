@@ -376,13 +376,27 @@ export default {
           key: 'action',
           align:'center',
           render: (h, params) => {
+            var varhh0=  h('Button', {
+                props: {
+                  type: 'info',
+                  size: 'small'
+                },
+                style: {
+                  margin: '10px'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push('/main/videoSetTag/'+params.row.videoSetId);
+                  }
+                }
+              }, '标签');
             var varhh1=  h('Button', {
                 props: {
                   type: 'primary',
                   size: 'small'
                 },
                 style: {
-                  marginLeft: '10px'
+                  margin: '10px'
                 },
                 on: {
                   click: () => {
@@ -396,7 +410,7 @@ export default {
                   size: 'small'
                 },
                 style: {
-                  marginLeft: '10px'
+                  margin: '10px'
                 },
                 on: {
                   click: () => {
@@ -406,6 +420,7 @@ export default {
               }, '删除');
             	var s=h("div","");
 			s=h("div",[
+              varhh0,
               varhh1,
               varhh2
             ]);
@@ -502,6 +517,9 @@ export default {
          url:'/videoSet/'+params.videoSetId,
          list:'updateVideoSet',
          success:()=>{
+           //删除子后缀
+           this.$delete(this.updateVideoSet,'videoList');
+           console.log(this.updateVideoSet)
          }
        })
     },

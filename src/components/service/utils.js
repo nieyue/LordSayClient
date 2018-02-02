@@ -16,6 +16,25 @@ export default {
     let timer = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
     return timer
   },
+  /*
+  *递归 把array数组递归成属性挂载在$this对象上
+  *array=['a','b','c'] 数组
+  *$this={}; 对象
+  *
+  */
+   recursion($this,array){
+     let tempthis=$this;
+     function temp(){
+       if(array.length>0){
+         let oldArrayElement=array[0];
+         $this[array[0]]={}
+         array.shift()
+         temp($this[oldArrayElement],array); //递归遍历
+        }
+      }
+      temp();
+      return tempthis;
+  },
   /**
    * 获取七牛云  token
    *p.url 获取token url 
@@ -38,6 +57,7 @@ export default {
    *p.url 获取token url  (可选，自定义)
    *p.qiniuToken 变量qiniuToken
    *p.browseButton 上传按钮
+   *p.container  box包裹层(可选)
    *p.dropElement 删除按钮
    *p.maxFileSize 最大上传文件限制 (可选，默认100mb)
    *p.chunkSize 分块大小 (可选，默认4mb)
@@ -59,7 +79,7 @@ export default {
       runtimes: 'html5,flash,html4',
       browse_button: p.browseButton, // 上传按钮的ID
       /* eslint-disable no-undef */
-      container: p.browseButton + 'Box', // 上传按钮的上级元素ID
+      container:p.container|| (p.browseButton + 'Box'), // 上传按钮的上级元素ID
       drop_element: p.dropElement,
       max_file_size: p.maxFileSize||'100mb', // 最大文件限制
       dragdrop: true,
@@ -126,8 +146,9 @@ export default {
    *p.url 后台请求qiniuToken链接地址（可选） 
    *p.qiniuToken qiniuToken名称 （可选）
    *p.browseButton 点击按钮 
+   *p.container  box包裹层(可选)
    *p.dropElement 拖拽框
-   *p.resource 返回接收地址变量
+   *p.resource 返回接收地址变量 (可选,一般在 编辑器里面用不需要)
    *p.success 回调
    */
   getQiniuSimpleUploader($this,p) {
@@ -138,22 +159,35 @@ export default {
       this.getQiniuUploader($this,{
         qiniuToken:$this[p.qiniuToken]||$this.qiniuToken,
         browseButton:p.browseButton,
+        container:p.container||null,
         dropElement:p.dropElement,
         fileUploaded:(up, file, info)=>{
             let domain = up.getOption('domain')
             let res = JSON.parse(info.response)
-            if(p.resource.indexOf(".")>-1){
-              $this[p.resource.substr(0,p.resource.indexOf("."))][p.resource.substr(p.resource.indexOf(".")+1)]=domain +"/"+  res.key;
-            }else{
-              $this[p.resource] = domain +"/"+  res.key
+            let url=domain +"/"+  res.key;
+            // if(nr.length>0){
+              //   nr.forEach(element => {
+                //       console.log($this)
+                //       temp+='['+element+']'
+                //       //Vue.set(temp, element)
+                //   });
+                // }else{
+                  //   $this[p.resource] = url
+                  // }
+            if(p.resource){
+              if(p.resource.indexOf(".")>-1){
+                let nr=p.resource.split('.')//分割
+                $this[p.resource.substr(0,p.resource.indexOf("."))][p.resource.substr(p.resource.indexOf(".")+1)]=url;
+              }else{
+                $this[p.resource] = url
+              }
             }
-            console.log($this)
-            console.log($this.qiniuToken)
             if(typeof p.success=='function'){
-              p.success();
-              } 
-        }
-
+              p.success(url);
+            } 
+            }
+           //let temp= this.recursion($this,nr)
+              
       })
        }
      });
