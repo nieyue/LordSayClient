@@ -9,6 +9,9 @@ import VideoSetCate from '@/components/main/video/VideoSetCate'
 import VideoSetSearch from '@/components/main/video/VideoSetSearch'
 import VideoSet from '@/components/main/video/VideoSet'
 import VideoSetTag from '@/components/main/video/VideoSetTag'
+import VideoCache from '@/components/main/video/VideoCache'
+import VideoPlayRecord from '@/components/main/video/VideoPlayRecord'
+import VideoSetCollect from '@/components/main/video/VideoSetCollect'
 import Video from '@/components/main/video/Video'
 
 Vue.use(Router)
@@ -69,6 +72,21 @@ export default new Router({
           path: 'video/:videoSetId',
           name: '视频',
           component: Video
+        },
+        {
+          path: 'videoCache',
+          name: '视频缓存',
+          component: VideoCache
+        },
+        {
+          path: 'videoPlayRecord',
+          name: '视频播放记录',
+          component: VideoPlayRecord
+        },
+        {
+          path: 'videoSetCollect',
+          name: '视频集收藏',
+          component: VideoSetCollect
         }
       ]
     }

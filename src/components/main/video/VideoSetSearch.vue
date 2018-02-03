@@ -117,7 +117,7 @@ export default {
           }
         },
         {
-          title: '视频集搜索管理id',
+          title: '视频集搜索id',
           key: 'videoSetSearchId',
           align:'center'
         },

@@ -106,7 +106,7 @@ export default {
           }
         },
         {
-          title: '文章分类管理id',
+          title: '文章分类id',
           key: 'articleCateId',
           align:'center'
         },

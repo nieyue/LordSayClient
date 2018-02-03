@@ -103,7 +103,7 @@ export default {
           }
         },
         {
-          title: '文章评论管理id',
+          title: '文章评论id',
           key: 'articleCommentId',
           align:'center'
         },

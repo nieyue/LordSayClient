@@ -18,6 +18,9 @@
                     <MenuItem name="/main/videoSetSearch">视频集搜索</MenuItem>
                     <MenuItem name="/main/videoSetCate">视频集类型</MenuItem>
                     <MenuItem name="/main/videoSet">视频集</MenuItem>
+                    <MenuItem name="/main/videoCache">视频缓存</MenuItem>
+                    <MenuItem name="/main/videoPlayRecord">视频播发记录</MenuItem>
+                    <MenuItem name="/main/videoSetCollect">视频集收藏</MenuItem>
                 </Submenu>
                 <Submenu name="3">
                     <template slot="title">

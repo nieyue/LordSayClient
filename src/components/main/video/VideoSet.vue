@@ -243,7 +243,7 @@ export default {
           }
         },
         {
-          title: '视频集管理id',
+          title: '视频集id',
           key: 'videoSetId',
           align:'center'
         },

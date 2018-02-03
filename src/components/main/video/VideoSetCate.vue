@@ -121,7 +121,7 @@ export default {
           }
         },
         {
-          title: '视频集类型管理id',
+          title: '视频集类型id',
           key: 'videoSetCateId',
           align:'center'
         },

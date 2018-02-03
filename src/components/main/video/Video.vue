@@ -211,7 +211,7 @@ export default {
           }
         },
         {
-          title: '视频管理id',
+          title: '视频id',
           key: 'videoId',
           align:'center'
         },

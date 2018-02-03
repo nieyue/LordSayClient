@@ -186,7 +186,7 @@ export default {
           }
         },
         {
-          title: '文章管理id',
+          title: '文章id',
           key: 'articleId',
           align:'center'
         },

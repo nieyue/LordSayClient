@@ -101,7 +101,7 @@ export default {
           }
         },
         {
-          title: '视频集标签管理id',
+          title: '视频集标签id',
           key: 'videoSetTagId',
           align:'center'
         },
