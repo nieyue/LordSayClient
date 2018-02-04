@@ -22,12 +22,12 @@
                     <MenuItem name="/main/videoPlayRecord">视频播发记录</MenuItem>
                     <MenuItem name="/main/videoSetCollect">视频集收藏</MenuItem>
                 </Submenu>
-                <Submenu name="3">
+                <Submenu name="account">
                     <template slot="title">
-                        <Icon type="ios-analytics"></Icon>
-                        Item 3
+                        <Icon type="person"></Icon>
+                        账户管理
                     </template>
-                    <MenuItem name="3-1">Option 1</MenuItem>
+                    <MenuItem name="/main/accountLevel">账户等级</MenuItem>
                     <MenuItem name="3-2">Option 2</MenuItem>
                 </Submenu>
                 

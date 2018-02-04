@@ -16,25 +16,27 @@ export default {
     let timer = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
     return timer
   },
-  /*
+/*
   *递归 把array数组递归成属性挂载在$this对象上
-  *array=['a','b','c'] 数组
-  *$this={}; 对象
-  *
+  *p.str='b.c.d.ee.cc.22' 字符串
+  *p.resource  该对象需要接受的值
+  *$this 输入对象
+  * 结果：$this.b.c.d.ee.cc.22=p.resource
   */
-   recursion($this,array){
-     let tempthis=$this;
-     function temp(){
-       if(array.length>0){
+  recursion($this,p){
+    let array=p.str.split('.');
+      function temp(obj){
          let oldArrayElement=array[0];
-         $this[array[0]]={}
-         array.shift()
-         temp($this[oldArrayElement],array); //递归遍历
-        }
-      }
-      temp();
-      return tempthis;
-  },
+        if(array.length!=1){
+          obj[oldArrayElement]=obj[oldArrayElement]||{};
+          array.shift()
+          temp(obj[oldArrayElement]); //递归遍历
+         }else{
+           obj[oldArrayElement]=p.resource;
+         }
+       }
+       temp($this);//初始化
+   },
   /**
    * 获取七牛云  token
    *p.url 获取token url 
@@ -165,22 +167,18 @@ export default {
             let domain = up.getOption('domain')
             let res = JSON.parse(info.response)
             let url=domain +"/"+  res.key;
-            // if(nr.length>0){
-              //   nr.forEach(element => {
-                //       console.log($this)
-                //       temp+='['+element+']'
-                //       //Vue.set(temp, element)
-                //   });
-                // }else{
-                  //   $this[p.resource] = url
-                  // }
             if(p.resource){
-              if(p.resource.indexOf(".")>-1){
-                let nr=p.resource.split('.')//分割
-                $this[p.resource.substr(0,p.resource.indexOf("."))][p.resource.substr(p.resource.indexOf(".")+1)]=url;
-              }else{
-                $this[p.resource] = url
-              }
+              // if(p.resource.indexOf(".")>-1){
+              //   let nr=p.resource.split('.')//分割
+              //   $this[p.resource.substr(0,p.resource.indexOf("."))][p.resource.substr(p.resource.indexOf(".")+1)]=url;
+              // }else{
+              //   $this[p.resource] = url
+              // }
+              //递归调用
+              this.recursion($this,{
+                str:p.resource,
+                resource:url
+              });
             }
             if(typeof p.success=='function'){
               p.success(url);

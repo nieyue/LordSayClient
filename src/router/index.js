@@ -13,6 +13,7 @@ import VideoCache from '@/components/main/video/VideoCache'
 import VideoPlayRecord from '@/components/main/video/VideoPlayRecord'
 import VideoSetCollect from '@/components/main/video/VideoSetCollect'
 import Video from '@/components/main/video/Video'
+import AccountLevel from '@/components/main/account/AccountLevel'
 
 Vue.use(Router)
 
@@ -87,6 +88,11 @@ export default new Router({
           path: 'videoSetCollect',
           name: '视频集收藏',
           component: VideoSetCollect
+        },
+        {
+          path: 'accountLevel',
+          name: '账户等级',
+          component: AccountLevel
         }
       ]
     }

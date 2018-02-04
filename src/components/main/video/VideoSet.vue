@@ -519,6 +519,7 @@ export default {
          success:()=>{
            //删除子后缀
            this.$delete(this.updateVideoSet,'videoList');
+           this.$delete(this.updateVideoSet,'videoSetTagList');
            console.log(this.updateVideoSet)
          }
        })

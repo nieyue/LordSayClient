@@ -17,7 +17,6 @@
         </FormItem>
         <FormItem prop="number" label="次数:">
          <InputNumber :max="100000000" :min="1" :step="1" :precision='0' v-model="addVideoSetSearch.number"></InputNumber>
-          </Input>
         </FormItem>
       </Form>
       <div slot='footer'>
@@ -42,7 +41,6 @@
         </FormItem>
         <FormItem prop="number" label="次数:">
          <InputNumber :max="100000000" :min="1" :step="1" :precision='0' v-model="updateVideoSetSearch.number"></InputNumber>
-          </Input>
         </FormItem>
       </Form>
       <div slot='footer'>
