@@ -39,7 +39,7 @@
           </Input>
         </FormItem>
         <FormItem prop="status" label="状态:">
-          <Select v-model="addArticle.status" size="large" style="width:100px">
+          <Select v-model="addArticle.status" transfer size="large" style="width:100px">
               <Option v-for="item in statusList" :value="item.id" :key="item.id">{{ item.value }}</Option>
           </Select>
         </FormItem>
@@ -91,7 +91,7 @@
           </Input>
         </FormItem>
         <FormItem prop="status" label="状态:">
-          <Select v-model="updateArticle.status" size="large" style="width:100px">
+          <Select v-model="updateArticle.status" transfer size="large" style="width:100px">
               <Option v-for="item in statusList" :value="item.id" :key="item.id">{{ item.value }}</Option>
           </Select>
         </FormItem>

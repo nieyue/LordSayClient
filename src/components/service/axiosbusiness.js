@@ -22,10 +22,11 @@ export default {
          }).
          then(res => {
             params.total=res.data;
-            // if(params.total<=0 ){
-            //     $this.$Message.info('暂无更多')
-            //     return ;
-            // }
+            if(params.total<=0 ){
+                $this.$Message.info('暂无更多')
+                $this[p.list]=[]
+                return ;
+            }
              $this.axios({
                  method:"post",
                  url:p.listUrl,

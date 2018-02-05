@@ -1,18 +1,19 @@
-<!--文章评论管理 -->
+<!--公共配置管理 -->
 <template>
     <div class="body-wrap">
     <div class="body-btn-wrap">
-      <Button type='primary'  @click='add'>增加文章评论</Button>
+      <!-- <Button type='primary'  @click='add'>增加公共配置</Button> -->
     </div>
 		 <!--新增 -->
-     <Modal v-model="addArticleCommentModel"
-           title="新增文章评论管理"
+     <Modal v-model="addConfigModel"
+           title="新增公共配置管理"
            :closable="false"
            :mask-closable="false"
     >
-      <Form ref="addArticleComment" :model="addArticleComment" :label-width="100" label-position="right"  :rules="addArticleCommentRules">
-        <FormItem label="内容:" prop="content">
-            <Input v-model="addArticleComment.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="输入评论。。"></Input>
+      <Form ref="addConfig" :model="addConfig" :label-width="100" label-position="right"  :rules="addConfigRules">
+        <FormItem prop="customerServicePhone" label="客服电话:">
+          <Input type="text" v-model="addConfig.customerServicePhone" placeholder="客服电话">
+          </Input>
         </FormItem>
       </Form>
       <div slot='footer'>
@@ -25,14 +26,15 @@
     </Modal>
     <!--新增end -->
 		 <!--修改 -->
-     <Modal v-model="updateArticleCommentModel"
-           title="修改文章评论管理"
+     <Modal v-model="updateConfigModel"
+           title="修改公共配置管理"
            :closable="false"
            :mask-closable="false"
     >
-      <Form ref="updateArticleComment" :model="updateArticleComment" :label-width="100" label-position="right"  :rules="updateArticleCommentRules">
-        <FormItem label="内容:" prop="content">
-            <Input v-model="updateArticleComment.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="输入评论。。"></Input>
+      <Form ref="updateConfig" :model="updateConfig" :label-width="100" label-position="right"  :rules="updateConfigRules">
+        <FormItem prop="customerServicePhone" label="客服电话:">
+          <Input type="text" v-model="updateConfig.customerServicePhone" placeholder="客服电话">
+          </Input>
         </FormItem>
       </Form>
       <div slot='footer'>
@@ -44,7 +46,7 @@
       </div>
     </Modal>
     <!--修改end -->
-      <Table border :columns='articleCommentColumns' :data='articleCommentList' ref='table' size="small"></Table>
+      <Table border :columns='configColumns' :data='configList' ref='table' size="small"></Table>
         <div style='display: inline-block;float: right; margin-top:10px;'>
         <Page style='margin-right:10px;' :total='params.total' :pageSize='params.pageSize' ref='page' :show-total='true'   @on-change='selectPage' show-elevator ></Page>
       </div>
@@ -52,7 +54,7 @@
 </template>
 <script>
 export default {
-  name: 'ArticleComment',
+  name: 'Config',
   data () {
     return {
         params:{
@@ -63,39 +65,30 @@ export default {
             total:0//总数
         },
 			//增加参数
-			addArticleCommentModel:false,
+			addConfigModel:false,
 			addLoading:false,
-			addArticleCommentRules: {
-                content: [
-                    {required: true, message: '内容为必填项', trigger: 'blur'}
+			addConfigRules: {
+                customerServicePhone: [
+                    {required: true, message: '客服电话为必填项', trigger: 'blur'}
                     ]
                 },
-			addArticleComment:{
-    		   "nickname":'',
-    		   "icon":'',
-    		   "accountId":'',
-    		   "articleId":'',
-    		   "content":""
+			addConfig:{
 			},
 			//修改参数
-			updateArticleCommentModel:false,
+			updateConfigModel:false,
 			updateLoading:false,
-			updateArticleCommentRules: {
-                content: [
-                    {required: true, message: '内容为必填项', trigger: 'blur'}
+			updateConfigRules: {
+                customerServicePhone: [
+                    {required: true, message: '客服电话为必填项', trigger: 'blur'}
                     ]
                 },
-			updateArticleComment:{
-    		 "articleCommentId":1,
-    		 "content":""
-      },
+			updateConfig:{ },
       //删除参数
-      deleteArticleComment:{},
-	    articleCommentList: [],
-	    articleCommentColumns: [
+      deleteConfig:{},
+	    configList: [],
+	    configColumns: [
         {
           title: '序号',
-          width:100,
           align:'center',
           render: (h, params) => {
             return h('span', params.index
@@ -103,43 +96,24 @@ export default {
           }
         },
         {
-          title: '文章评论id',
-          key: 'articleCommentId',
+          title: '公共配置id',
+          key: 'configId',
           align:'center'
         },
         {
-        	title:'昵称',
-        	key:'nickname',
-          align:'center'
-        },
-        {
-        	title:'图像',
-        	key:'icon',
-          align:'center',
-          render: (h, params) => {
-            return h('img', {
-              attrs: {
-                src: params.row.icon
-              },
-              style: {
-                width: '45px'
-              }
-            })
-          }
-        },
-        {
-        	title:'点赞数',
-        	key:'pointNumber',
-          align:'center'
-        },
-        {
-        	title:'内容',
-        	key:'content',
-          align:'center'
+        	title:'客服电话',
+        	key:'customerServicePhone',
+             align:'center'
         },
         {
         	title:'创建时间',
           key:'createDate',
+          sortable: true,
+          align:'center'
+        },
+        {
+        	title:'修改时间',
+          key:'updateDate',
           sortable: true,
           align:'center'
         },
@@ -157,7 +131,8 @@ export default {
                   marginLeft: '10px'
                 },
                 on: {
-                  click: () => {
+                    click: () => {
+                  
                     this.update(params.row)
                   }
                 }
@@ -178,8 +153,8 @@ export default {
               }, '删除');
             	var s=h("div","");
 			s=h("div",[
-              varhh1,
-              varhh2
+              varhh1
+              //,varhh2
             ]);
             return s;
           }
@@ -203,31 +178,22 @@ export default {
      * p.listUrl 列表url
      * p.list 返回列表
      */
-        //根据文章id获取数据
-      this.params.articleId=this.$route.params.articleId
      this.axiosbusiness.getList(this,{
-       countUrl:'/articleComment/count',
-       listUrl:'/articleComment/list',
-       list:'articleCommentList'
+       countUrl:'/config/count',
+       listUrl:'/config/list',
+       list:'configList'
      },this.params)
     },
   //增加
 	 add (params) {
-      this.addArticleCommentModel = true
-      this.addArticleComment.content = params.content
-      this.addArticleComment={
-    		   "nickname":JSON.parse(sessionStorage.getItem("account")).nickname,
-    		   "icon":JSON.parse(sessionStorage.getItem("account")).icon,
-    		   "accountId":JSON.parse(sessionStorage.getItem("account")).accountId,
-    		   "articleId":this.$route.params.articleId,
-    		   "content":params.content
-			}
+      this.addConfigModel = true
+      this.addConfig.name = params.name
     },
 		//增加取消
 		 addCancel () {
       if (!this.addLoading) {
-        this.addArticleCommentModel = false
-        this.$refs.addArticleComment.resetFields()
+        this.addConfigModel = false
+        this.$refs.addConfig.resetFields()
       }
     },
 		//增加确定
@@ -242,23 +208,25 @@ export default {
      * p.showModel 界面模型显示隐藏
      */
     this.axiosbusiness.add(this,{
-      ref:'addArticleComment',
-      url:'/articleComment/add',
-      requestObject:'addArticleComment',
+      ref:'addConfig',
+      url:'/config/add',
+      requestObject:'addConfig',
       loading:'addLoading',
-      showModel:'addArticleCommentModel'
+      showModel:'addConfigModel'
     })
     },
 	 update (params) {
-      this.updateArticleCommentModel = true
-      this.updateArticleComment.content = params.content
-      this.updateArticleComment.articleCommentId = params.articleCommentId
+      this.updateConfigModel = true
+      this.updateConfig = params
+
+    //   this.updateConfig.name = params.name
+    //   this.updateConfig.configId = params.configId
     },
 		//修改取消
 		 updateCancel () {
       if (!this.updateLoading) {
-        this.updateArticleCommentModel = false
-        this.$refs.updateArticleComment.resetFields()
+        this.updateConfigModel = false
+        this.$refs.updateConfig.resetFields()
       }
     },
 		//修改确定
@@ -273,11 +241,11 @@ export default {
      * p.showModel 界面模型显示隐藏
      */
     this.axiosbusiness.update(this,{
-      ref:'updateArticleComment',
-      url:'/articleComment/update',
-      requestObject:'updateArticleComment',
+      ref:'updateConfig',
+      url:'/config/update',
+      requestObject:'updateConfig',
       loading:'updateLoading',
-      showModel:'updateArticleCommentModel'
+      showModel:'updateConfigModel'
     })
  
     },
@@ -289,18 +257,17 @@ export default {
      * p.url 修改url
      * p.requestObject 请求参数对象
      */
-    this.deleteArticleComment={
-      "articleCommentId":params.articleCommentId
+    this.deleteConfig={
+      "configId":params.configId
     };
     this.axiosbusiness.delete(this,{
-      url:'/articleComment/delete',
-      requestObject:'deleteArticleComment'
+      url:'/config/delete',
+      requestObject:'deleteConfig'
     })
     }
   },
   created () {
     this.getList();
-    
   },
   mounted () {
 

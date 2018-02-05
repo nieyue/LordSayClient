@@ -14,6 +14,11 @@ import VideoPlayRecord from '@/components/main/video/VideoPlayRecord'
 import VideoSetCollect from '@/components/main/video/VideoSetCollect'
 import Video from '@/components/main/video/Video'
 import AccountLevel from '@/components/main/account/AccountLevel'
+import Config from '@/components/main/config/Config'
+import Feedback from '@/components/main/config/Feedback'
+import Notice from '@/components/main/config/Notice'
+import AppVersion from '@/components/main/config/AppVersion'
+
 
 Vue.use(Router)
 
@@ -93,6 +98,30 @@ export default new Router({
           path: 'accountLevel',
           name: '账户等级',
           component: AccountLevel
+        }
+        ,
+        {
+          path: 'config',
+          name: '公共配置',
+          component: Config
+        }
+        ,
+        {
+          path: 'feedback',
+          name: '意见反馈',
+          component: Feedback
+        }
+        ,
+        {
+          path: 'notice',
+          name: '通知',
+          component: Notice
+        }
+        ,
+        {
+          path: 'appVersion',
+          name: 'app版本',
+          component: AppVersion
         }
       ]
     }

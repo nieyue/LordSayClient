@@ -1,18 +1,19 @@
-<!--文章评论管理 -->
+<!--意见反馈管理 -->
 <template>
     <div class="body-wrap">
     <div class="body-btn-wrap">
-      <Button type='primary'  @click='add'>增加文章评论</Button>
+      <Button type='primary'  @click='add'>增加意见反馈</Button>
     </div>
 		 <!--新增 -->
-     <Modal v-model="addArticleCommentModel"
-           title="新增文章评论管理"
+     <Modal v-model="addFeedbackModel"
+           title="新增意见反馈管理"
            :closable="false"
            :mask-closable="false"
     >
-      <Form ref="addArticleComment" :model="addArticleComment" :label-width="100" label-position="right"  :rules="addArticleCommentRules">
-        <FormItem label="内容:" prop="content">
-            <Input v-model="addArticleComment.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="输入评论。。"></Input>
+      <Form ref="addFeedback" :model="addFeedback" :label-width="100" label-position="right"  :rules="addFeedbackRules">
+        <FormItem prop="content" label="内容:">
+          <Input type="textarea" v-model="addFeedback.content" :autosize="{minRows: 2,maxRows: 5}"  placeholder="内容">
+          </Input>
         </FormItem>
       </Form>
       <div slot='footer'>
@@ -25,14 +26,15 @@
     </Modal>
     <!--新增end -->
 		 <!--修改 -->
-     <Modal v-model="updateArticleCommentModel"
-           title="修改文章评论管理"
+     <Modal v-model="updateFeedbackModel"
+           title="修改意见反馈管理"
            :closable="false"
            :mask-closable="false"
     >
-      <Form ref="updateArticleComment" :model="updateArticleComment" :label-width="100" label-position="right"  :rules="updateArticleCommentRules">
-        <FormItem label="内容:" prop="content">
-            <Input v-model="updateArticleComment.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="输入评论。。"></Input>
+      <Form ref="updateFeedback" :model="updateFeedback" :label-width="100" label-position="right"  :rules="updateFeedbackRules">
+        <FormItem prop="content" label="内容:">
+          <Input type="textarea" v-model="updateFeedback.content" :autosize="{minRows: 2,maxRows: 5}"  placeholder="内容">
+          </Input>
         </FormItem>
       </Form>
       <div slot='footer'>
@@ -44,7 +46,7 @@
       </div>
     </Modal>
     <!--修改end -->
-      <Table border :columns='articleCommentColumns' :data='articleCommentList' ref='table' size="small"></Table>
+      <Table border :columns='feedbackColumns' :data='feedbackList' ref='table' size="small"></Table>
         <div style='display: inline-block;float: right; margin-top:10px;'>
         <Page style='margin-right:10px;' :total='params.total' :pageSize='params.pageSize' ref='page' :show-total='true'   @on-change='selectPage' show-elevator ></Page>
       </div>
@@ -52,7 +54,7 @@
 </template>
 <script>
 export default {
-  name: 'ArticleComment',
+  name: 'Feedback',
   data () {
     return {
         params:{
@@ -63,39 +65,31 @@ export default {
             total:0//总数
         },
 			//增加参数
-			addArticleCommentModel:false,
+			addFeedbackModel:false,
 			addLoading:false,
-			addArticleCommentRules: {
+			addFeedbackRules: {
                 content: [
                     {required: true, message: '内容为必填项', trigger: 'blur'}
                     ]
                 },
-			addArticleComment:{
-    		   "nickname":'',
-    		   "icon":'',
-    		   "accountId":'',
-    		   "articleId":'',
-    		   "content":""
+			addFeedback:{
 			},
 			//修改参数
-			updateArticleCommentModel:false,
+			updateFeedbackModel:false,
 			updateLoading:false,
-			updateArticleCommentRules: {
+			updateFeedbackRules: {
                 content: [
                     {required: true, message: '内容为必填项', trigger: 'blur'}
                     ]
                 },
-			updateArticleComment:{
-    		 "articleCommentId":1,
-    		 "content":""
+			updateFeedback:{
       },
       //删除参数
-      deleteArticleComment:{},
-	    articleCommentList: [],
-	    articleCommentColumns: [
+      deleteFeedback:{},
+	    feedbackList: [],
+	    feedbackColumns: [
         {
           title: '序号',
-          width:100,
           align:'center',
           render: (h, params) => {
             return h('span', params.index
@@ -103,33 +97,8 @@ export default {
           }
         },
         {
-          title: '文章评论id',
-          key: 'articleCommentId',
-          align:'center'
-        },
-        {
-        	title:'昵称',
-        	key:'nickname',
-          align:'center'
-        },
-        {
-        	title:'图像',
-        	key:'icon',
-          align:'center',
-          render: (h, params) => {
-            return h('img', {
-              attrs: {
-                src: params.row.icon
-              },
-              style: {
-                width: '45px'
-              }
-            })
-          }
-        },
-        {
-        	title:'点赞数',
-        	key:'pointNumber',
+          title: '意见反馈id',
+          key: 'feedbackId',
           align:'center'
         },
         {
@@ -203,31 +172,24 @@ export default {
      * p.listUrl 列表url
      * p.list 返回列表
      */
-        //根据文章id获取数据
-      this.params.articleId=this.$route.params.articleId
      this.axiosbusiness.getList(this,{
-       countUrl:'/articleComment/count',
-       listUrl:'/articleComment/list',
-       list:'articleCommentList'
+       countUrl:'/feedback/count',
+       listUrl:'/feedback/list',
+       list:'feedbackList'
      },this.params)
     },
   //增加
 	 add (params) {
-      this.addArticleCommentModel = true
-      this.addArticleComment.content = params.content
-      this.addArticleComment={
-    		   "nickname":JSON.parse(sessionStorage.getItem("account")).nickname,
-    		   "icon":JSON.parse(sessionStorage.getItem("account")).icon,
-    		   "accountId":JSON.parse(sessionStorage.getItem("account")).accountId,
-    		   "articleId":this.$route.params.articleId,
-    		   "content":params.content
-			}
+      this.addFeedbackModel = true
+      this.addFeedback.content = params.content
+      this.addFeedback.accountId = JSON.parse(sessionStorage.getItem("account")).accountId
+      this.addFeedback.phone = JSON.parse(sessionStorage.getItem("account")).phone
     },
 		//增加取消
 		 addCancel () {
       if (!this.addLoading) {
-        this.addArticleCommentModel = false
-        this.$refs.addArticleComment.resetFields()
+        this.addFeedbackModel = false
+        this.$refs.addFeedback.resetFields()
       }
     },
 		//增加确定
@@ -242,23 +204,22 @@ export default {
      * p.showModel 界面模型显示隐藏
      */
     this.axiosbusiness.add(this,{
-      ref:'addArticleComment',
-      url:'/articleComment/add',
-      requestObject:'addArticleComment',
+      ref:'addFeedback',
+      url:'/feedback/add',
+      requestObject:'addFeedback',
       loading:'addLoading',
-      showModel:'addArticleCommentModel'
+      showModel:'addFeedbackModel'
     })
     },
 	 update (params) {
-      this.updateArticleCommentModel = true
-      this.updateArticleComment.content = params.content
-      this.updateArticleComment.articleCommentId = params.articleCommentId
+      this.updateFeedbackModel = true
+      this.updateFeedback= params
     },
 		//修改取消
 		 updateCancel () {
       if (!this.updateLoading) {
-        this.updateArticleCommentModel = false
-        this.$refs.updateArticleComment.resetFields()
+        this.updateFeedbackModel = false
+        this.$refs.updateFeedback.resetFields()
       }
     },
 		//修改确定
@@ -273,11 +234,11 @@ export default {
      * p.showModel 界面模型显示隐藏
      */
     this.axiosbusiness.update(this,{
-      ref:'updateArticleComment',
-      url:'/articleComment/update',
-      requestObject:'updateArticleComment',
+      ref:'updateFeedback',
+      url:'/feedback/update',
+      requestObject:'updateFeedback',
       loading:'updateLoading',
-      showModel:'updateArticleCommentModel'
+      showModel:'updateFeedbackModel'
     })
  
     },
@@ -289,18 +250,17 @@ export default {
      * p.url 修改url
      * p.requestObject 请求参数对象
      */
-    this.deleteArticleComment={
-      "articleCommentId":params.articleCommentId
+    this.deleteFeedback={
+      "feedbackId":params.feedbackId
     };
     this.axiosbusiness.delete(this,{
-      url:'/articleComment/delete',
-      requestObject:'deleteArticleComment'
+      url:'/feedback/delete',
+      requestObject:'deleteFeedback'
     })
     }
   },
   created () {
     this.getList();
-    
   },
   mounted () {
 

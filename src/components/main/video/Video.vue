@@ -45,7 +45,7 @@
           </div>
         </FormItem>
         <FormItem prop="status" label="状态:">
-          <Select v-model="addVideo.status" size="large" style="width:100px">
+          <Select v-model="addVideo.status" transfer size="large" style="width:100px">
               <Option v-for="item in statusList" :value="item.id" :key="item.id">{{ item.value }}</Option>
           </Select>
         </FormItem>
@@ -64,7 +64,7 @@
            title="修改视频管理"
            :closable="false"
            :mask-closable="false"
-           width="1000px"
+          
     >
       <Form ref="updateVideo" :model="updateVideo" :label-width="100" label-position="right"  :rules="updateVideoRules">
              <FormItem prop="name" label="视频名称:">
@@ -100,7 +100,7 @@
           </div>
         </FormItem>
         <FormItem prop="status" label="状态:">
-          <Select v-model="updateVideo.status" size="large" style="width:100px">
+          <Select v-model="updateVideo.status" transfer size="large" style="width:100px">
               <Option v-for="item in statusList" :value="item.id" :key="item.id">{{ item.value }}</Option>
           </Select>
         </FormItem>

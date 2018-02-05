@@ -13,7 +13,7 @@
     >
       <Form ref="addVideoSet" :model="addVideoSet" :label-width="100"  label-position="right"  :rules="addVideoSetRules">
         <FormItem prop="videoSetCateId" label="视频集类型:">
-          <Select v-model="addVideoSet.videoSetCateId" size="large" style="width:100px">
+          <Select v-model="addVideoSet.videoSetCateId" transfer size="large" style="width:100px">
               <Option v-for="item in videoSetCateList" :value="item.videoSetCateId" :key="item.videoSetCateId">{{ item.name }}</Option>
           </Select>
         </FormItem>
@@ -27,7 +27,7 @@
           <div>
             <Input type="text" v-model="addVideoSet.imgAddress" placeholder="封面">
           </Input>
-             <img :src="addVideoSet.imgAddress"  style='height:200px;width:300px;'alt="">
+             <img :src="addVideoSet.imgAddress"  style='width:300px;'alt="">
           </div>
         </FormItem>
 
@@ -39,7 +39,7 @@
             <Input v-model="addVideoSet.summary" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="输入简介。。"></Input>
         </FormItem>
         <FormItem prop="recommend" label="推荐:">
-          <Select v-model="addVideoSet.recommend" size="large" style="width:100px">
+          <Select v-model="addVideoSet.recommend" transfer size="large" style="width:100px">
               <Option v-for="item in recommendList" :value="item.id" :key="item.id">{{ item.value }}</Option>
           </Select>
         </FormItem>
@@ -48,12 +48,12 @@
             </Input>
         </FormItem>
         <FormItem prop="cost" label="是否收费:">
-          <Select v-model="addVideoSet.cost" size="large" style="width:100px">
+          <Select v-model="addVideoSet.cost" transfer size="large" style="width:100px">
               <Option v-for="item in costList" :value="item.id" :key="item.id">{{ item.value }}</Option>
           </Select>
         </FormItem>
         <FormItem prop="status" label="状态:">
-          <Select v-model="addVideoSet.status" size="large" style="width:100px">
+          <Select v-model="addVideoSet.status" transfer size="large" style="width:100px">
               <Option v-for="item in statusList" :value="item.id" :key="item.id">{{ item.value }}</Option>
           </Select>
         </FormItem>
@@ -76,7 +76,7 @@
     >
       <Form ref="updateVideoSet" :model="updateVideoSet" :label-width="100" label-position="right"  :rules="updateVideoSetRules">
         <FormItem prop="videoSetCateId" label="视频集类型:">
-          <Select v-model="updateVideoSet.videoSetCateId" size="large" style="width:100px">
+          <Select v-model="updateVideoSet.videoSetCateId" transfer size="large" style="width:100px">
               <Option v-for="item in videoSetCateList" :value="item.videoSetCateId" :key="item.videoSetCateId">{{ item.name }}</Option>
           </Select>
         </FormItem>
@@ -90,7 +90,7 @@
           <div>
             <Input type="text" v-model="updateVideoSet.imgAddress" placeholder="封面">
           </Input>
-          <img :src="updateVideoSet.imgAddress"  style='height:200px;width:300px;'alt="">
+          <img :src="updateVideoSet.imgAddress"  style='width:300px;'alt="">
           </div>
         </FormItem>
 
@@ -102,7 +102,7 @@
             <Input v-model="updateVideoSet.summary" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="输入简介。。"></Input>
         </FormItem>
         <FormItem prop="recommend" label="推荐:">
-          <Select v-model="updateVideoSet.recommend" size="large" style="width:100px">
+          <Select v-model="updateVideoSet.recommend" transfer size="large" style="width:100px">
               <Option v-for="item in recommendList" :value="item.id" :key="item.id">{{ item.value }}</Option>
           </Select>
         </FormItem>
@@ -111,12 +111,12 @@
             </Input>
         </FormItem>
         <FormItem prop="cost" label="是否收费:">
-          <Select v-model="updateVideoSet.cost" size="large" style="width:100px">
+          <Select v-model="updateVideoSet.cost" transfer size="large" style="width:100px">
               <Option v-for="item in costList" :value="item.id" :key="item.id">{{ item.value }}</Option>
           </Select>
         </FormItem>
         <FormItem prop="status" label="状态:">
-          <Select v-model="updateVideoSet.status" size="large" style="width:100px">
+          <Select v-model="updateVideoSet.status" transfer size="large" style="width:100px">
               <Option v-for="item in statusList" :value="item.id" :key="item.id">{{ item.value }}</Option>
           </Select>
         </FormItem>
@@ -237,6 +237,7 @@ export default {
         {
           title: '序号',
           align:'center',
+           width:100,
           render: (h, params) => {
             return h('span', params.index
             +(this.params.currentPage-1)*this.params.pageSize+this.params.startNum);
@@ -245,16 +246,19 @@ export default {
         {
           title: '视频集id',
           key: 'videoSetId',
+           width:100,
           align:'center'
         },
         {
         	title:'视频集名称',
-        	key:'name',
+          key:'name',
+           width:100,
           align:'center'
         },
         {
         	title:'封面',
-        	key:'imgAddress',
+          key:'imgAddress',
+           width:100,
           align:'center',
           render: (h, params) => {
             return h('img', {
@@ -270,11 +274,13 @@ export default {
         {
           title: '作者',
           key: 'author',
+           width:100,
           align:'center'
         },
         {
           title: '简介',
           key: 'summary',
+           width:200,
           align:'center',
           render: (h, params) => {
              return   h('span', {
@@ -291,6 +297,7 @@ export default {
         {
           title: '推荐',
           key: 'recommend',
+           width:100,
           render: (h, params) => {
           let value="";
             this.recommendList.forEach(element => {
@@ -303,6 +310,7 @@ export default {
         },
         {
           title: '是否收费',
+           width:100,
           key: 'cost',
           render: (h, params) => {
           let value="";
@@ -317,11 +325,13 @@ export default {
         {
           title: '总价',
           key: 'totalPrice',
+           width:100,
           align:'center'
         },
         {
           title: '视频集数',
           key: 'number',
+           width:100,
           align:'center',
           render: (h, params) => {
               return  h('div', [
@@ -343,11 +353,13 @@ export default {
         {
           title: '播放总次数',
           key: 'playNumber',
+           width:100,
           align:'center'
         },
         {
         	title:'状态',
-        	key:'status',
+          key:'status',
+           width:100,
           align:'center',
           render: (h, params) => {
             let statusvalue="";
@@ -362,27 +374,27 @@ export default {
         {
         	title:'创建时间',
           key:'createDate',
+           width:100,
           sortable: true,
           align:'center'
         },
         {
         	title:'修改时间',
           key:'updateDate',
+           width:100,
           sortable: true,
           align:'center'
         },
 				{
           title: '操作',
-          key: 'action',
+          key: 'action1',
+          width:200,
           align:'center',
           render: (h, params) => {
             var varhh0=  h('Button', {
                 props: {
                   type: 'info',
                   size: 'small'
-                },
-                style: {
-                  margin: '10px'
                 },
                 on: {
                   click: () => {
@@ -395,9 +407,6 @@ export default {
                   type: 'primary',
                   size: 'small'
                 },
-                style: {
-                  margin: '10px'
-                },
                 on: {
                   click: () => {
                     this.update(params.row)
@@ -408,9 +417,6 @@ export default {
                 props: {
                   type: 'error',
                   size: 'small'
-                },
-                style: {
-                  margin: '10px'
                 },
                 on: {
                   click: () => {

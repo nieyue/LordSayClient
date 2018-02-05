@@ -1,28 +1,32 @@
-<!--视频集类型管理 -->
+<!--通知管理 -->
 <template>
     <div class="body-wrap">
     <div class="body-btn-wrap">
-      <Button type='primary'  @click='add'>增加视频集类型</Button>
+      <Button type='error'  @click='add'>增加系统通知</Button>
     </div>
-		 <!--新增 -->
-     <Modal v-model="addVideoSetCateModel"
-           title="新增视频集类型管理"
+	<!--新增 -->
+     <Modal v-model="addNoticeModel"
+           title="新增通知管理"
            :closable="false"
            :mask-closable="false"
     >
-      <Form ref="addVideoSetCate" :model="addVideoSetCate" :label-width="100" label-position="right"  :rules="addVideoSetCateRules">
-        <FormItem prop="name" label="分类名称:">
-          <Input type="text" v-model="addVideoSetCate.name" placeholder="分类名称">
+      <Form ref="addNotice" :model="addNotice" :label-width="100"  label-position="right"  :rules="addNoticeRules">
+        <!-- <FormItem prop="title" label="标题:">
+          <Input type="text" v-model="addNotice.title" placeholder="标题">
           </Input>
-        </FormItem>
-        <FormItem prop="icon" label="图标(上传或者填写):" id="addImgAddressBox">
+        </FormItem> -->
+        <FormItem prop="imgAddress" label="封面(上传或者填写):" id="addImgAddressBox">
           <Button type="primary" @click="addImgAddressClick('addImgAddress')" >上传</Button>
           <input type="file" style="width:0px;height:0px;" id="addImgAddress" ref="addImgAddress">
           <div>
-            <Input type="text" v-model="addVideoSetCate.icon" placeholder="封面">
+            <Input type="text" v-model="addNotice.imgAddress" placeholder="封面">
           </Input>
-             <img :src="addVideoSetCate.icon "  style='width:300px;'alt="">
+             <img :src="addNotice.imgAddress"  style='height:200px;width:200px;'alt="">
           </div>
+        </FormItem>
+        <FormItem prop="content" label="内容:">
+         <Input type="textarea" v-model="addNotice.content" :autosize="{minRows: 2,maxRows: 5}"  placeholder="内容">
+          </Input>
         </FormItem>
       </Form>
       <div slot='footer'>
@@ -35,24 +39,29 @@
     </Modal>
     <!--新增end -->
 		 <!--修改 -->
-     <Modal v-model="updateVideoSetCateModel"
-           title="修改视频集类型管理"
+     <Modal v-model="updateNoticeModel"
+           title="修改通知管理"
            :closable="false"
            :mask-closable="false"
     >
-      <Form ref="updateVideoSetCate" :model="updateVideoSetCate" :label-width="100" label-position="right"  :rules="updateVideoSetCateRules">
-        <FormItem prop="name" label="分类名称:">
-          <Input type="text" v-model="updateVideoSetCate.name" placeholder="分类名称">
+      <Form ref="updateNotice" :model="updateNotice" :label-width="100" label-position="right"  :rules="updateNoticeRules">
+        <!-- <FormItem prop="title" label="标题:">
+          <Input type="text" v-model="updateNotice.title" placeholder="标题">
           </Input>
-        </FormItem>
-        <FormItem prop="icon" label="图标(上传或者填写):" id="updateImgAddressBox">
+        </FormItem> -->
+        <FormItem prop="imgAddress" label="封面(上传或者填写):" id="updateImgAddressBox">
           <Button type="primary" @click="updateImgAddressClick('updateImgAddress')" >上传</Button>
           <input type="file" style="width:0px;height:0px;" id="updateImgAddress" ref="updateImgAddress">
           <div>
-            <Input type="text" v-model="updateVideoSetCate.icon" placeholder="封面">
+            <Input type="text" v-model="updateNotice.imgAddress" placeholder="封面">
           </Input>
-             <img :src="updateVideoSetCate.icon"  style='width:300px;'alt="">
+          <img :src="updateNotice.imgAddress"  style='height:200px;width:200px;'alt="">
           </div>
+        </FormItem>
+
+        <FormItem prop="content" label="内容:">
+         <Input type="textarea" v-model="updateNotice.content" :autosize="{minRows: 2,maxRows: 5}"  placeholder="内容">
+          </Input>
         </FormItem>
       </Form>
       <div slot='footer'>
@@ -64,16 +73,15 @@
       </div>
     </Modal>
     <!--修改end -->
-      <Table border :columns='videoSetCateColumns' :data='videoSetCateList' ref='table' size="small"></Table>
+      <Table border :columns='noticeColumns' :data='noticeList' ref='table' size="small"></Table>
         <div style='display: inline-block;float: right; margin-top:10px;'>
-        <Page style='margin-right:10px;' :total='params.total' :pageSize='params.pageSize' ref='page' :show-total='true'   @on-change='selectPage' show-elevator ></Page>
+        <Page style='margin-right:10px;' :total='params.total' :pageSize='params.pageSize' ref='page' :show-total='true'  @on-change='selectPage' show-elevator ></Page>
       </div>
     </div>
-    
 </template>
 <script>
 export default {
-  name: 'VideoSetCate',
+  name: 'Notice',
   data () {
     return {
         params:{
@@ -83,35 +91,52 @@ export default {
             pageSize:10,//每页的个数
             total:0//总数
         },
+      //状态
+      statusList:[
+        {id:0,value:'未读'},
+        {id:1,value:'已读'}
+        ],
 			//增加参数
-			addVideoSetCateModel:false,
+			addNoticeModel:false,
 			addLoading:false,
-			addVideoSetCateRules: {
-                name: [
-                    {required: true, message: '分类名称为必填项', trigger: 'blur'}
+			addNoticeRules: {
+                title: [
+                    {required: true, message: '标题为必填项', trigger: 'blur'}
+                    ],
+                content: [
+                    {required: true, message: '内容为必填项', trigger: 'blur'}
+                    ],
+                imgAddress: [
+                    {required: true, message: '封面为必填项', trigger: 'blur'}
                     ]
                 },
-			addVideoSetCate:{
-    		   name:"",
-    		   icon:""
+			addNotice:{
+                title:'系统通知',
+                imgAddress:'http://p2bhwwngu.bkt.clouddn.com/o_1c5gaqqst68db2j16nno61q3cp.jpg',//默认系统通知图片
+                status:0//默认未读
 			},
 			//修改参数
-			updateVideoSetCateModel:false,
+			updateNoticeModel:false,
 			updateLoading:false,
-			updateVideoSetCateRules: {
-                name: [
-                    {required: true, message: '分类名称为必填项', trigger: 'blur'}
+			updateNoticeRules: {
+                title: [
+                    {required: true, message: '标题为必填项', trigger: 'blur'}
+                    ],
+                content: [
+                    {required: true, message: '内容为必填项', trigger: 'blur'}
+                    ],
+                imgAddress: [
+                    {required: true, message: '封面为必填项', trigger: 'blur'}
                     ]
                 },
-			updateVideoSetCate:{
-    		 videoSetCateId:1,
-    		 name:"",
-    		 icon:""
+			updateNotice:{
       },
       //删除参数
-      deleteVideoSetCate:{},
-	    videoSetCateList: [],
-	    videoSetCateColumns: [
+      deleteNotice:{},
+      //列表
+	    noticeCateList: [],
+        noticeList: [],
+	    noticeColumns: [
         {
           title: '序号',
           align:'center',
@@ -121,23 +146,23 @@ export default {
           }
         },
         {
-          title: '视频集类型id',
-          key: 'videoSetCateId',
+          title: '通知id',
+          key: 'noticeId',
           align:'center'
         },
         {
-        	title:'视频集类型名称',
-        	key:'name',
-            align:'center'
+        	title:'标题',
+        	key:'title',
+          align:'center'
         },
         {
         	title:'封面',
-        	key:'icon',
+        	key:'imgAddress',
           align:'center',
           render: (h, params) => {
             return h('img', {
               attrs: {
-                src: params.row.icon
+                src: params.row.imgAddress
               },
               style: {
                 width: '45px'
@@ -146,7 +171,33 @@ export default {
           }
         },
         {
-          title:'修改时间',
+        	title:'状态',
+        	key:'status',
+          align:'center',
+          render: (h, params) => {
+            let statusvalue="";
+            this.statusList.forEach(element => {
+              if(element.id==params.row.status){
+                statusvalue=element.value;
+              }
+            });
+             return  h('span',statusvalue);
+          }
+        },
+        {
+        	title:'内容',
+          key:'content',
+          width:200,
+          align:'center'
+        },
+        {
+        	title:'创建时间',
+          key:'createDate',
+          sortable: true,
+          align:'center'
+        },
+        {
+        	title:'修改时间',
           key:'updateDate',
           sortable: true,
           align:'center'
@@ -162,7 +213,7 @@ export default {
                   size: 'small'
                 },
                 style: {
-                  marginLeft: '10px'
+                  margin: '10px'
                 },
                 on: {
                   click: () => {
@@ -176,7 +227,7 @@ export default {
                   size: 'small'
                 },
                 style: {
-                  marginLeft: '10px'
+                  margin: '10px'
                 },
                 on: {
                   click: () => {
@@ -196,7 +247,13 @@ export default {
     }
   },
   methods: {
-     //增加上传图片
+    //分页点击
+    selectPage (currentPage) {
+      this.params.currentPage=currentPage;
+      this.params.pageNum = (this.params.currentPage-1)*this.params.pageSize+this.params.startNum;
+      this.getList()
+    },
+    //增加上传图片
      addImgAddressClick(p){
          this.$refs[p].click();
        },
@@ -204,12 +261,6 @@ export default {
      updateImgAddressClick(p){
          this.$refs[p].click();
        },
-    //分页点击
-    selectPage (currentPage) {
-      this.params.currentPage=currentPage;
-      this.params.pageNum = (this.params.currentPage-1)*this.params.pageSize+this.params.startNum;
-      this.getList()
-    },
   //获取列表
    getList () {
      /**
@@ -220,22 +271,23 @@ export default {
      * p.list 返回列表
      */
      this.axiosbusiness.getList(this,{
-       countUrl:'/videoSetCate/count',
-       listUrl:'/videoSetCate/list',
-       list:'videoSetCateList'
+       countUrl:'/notice/count',
+       listUrl:'/notice/list',
+       list:'noticeList'
      },this.params)
     },
   //增加
 	 add (params) {
-      this.addVideoSetCateModel = true
-      this.addVideoSetCate.name = params.name
-      this.addVideoSetCate.icon = params.icon
+      this.addNoticeModel = true
+      //this.addNoticeModel.title='系统通知';//默认系统通知
+      //this.addNoticeModel.status=0;//默认未读
+      
     },
 		//增加取消
 		 addCancel () {
       if (!this.addLoading) {
-        this.addVideoSetCateModel = false
-        this.$refs.addVideoSetCate.resetFields()
+        this.addNoticeModel = false
+        this.$refs.addNotice.resetFields()
       }
     },
 		//增加确定
@@ -250,26 +302,22 @@ export default {
      * p.showModel 界面模型显示隐藏
      */
     this.axiosbusiness.add(this,{
-      ref:'addVideoSetCate',
-      url:'/videoSetCate/add',
-      requestObject:'addVideoSetCate',
+      ref:'addNotice',
+      url:'/notice/add',
+      requestObject:'addNotice',
       loading:'addLoading',
-      showModel:'addVideoSetCateModel'
+      showModel:'addNoticeModel'
     })
     },
 	 update (params) {
-      this.updateVideoSetCateModel = true
-      this.updateVideoSetCate.name = params.name
-      this.updateVideoSetCate.icon = params.icon
-      this.updateVideoSetCate.videoSetCateId = params.videoSetCateId
-console.log(this.updateVideoSetCate)
+      this.updateNoticeModel = true
+      this.updateNotice = params
     },
 		//修改取消
 		 updateCancel () {
-       console.log(222)
       if (!this.updateLoading) {
-        this.updateVideoSetCateModel = false
-        this.$refs.updateVideoSetCate.resetFields()
+        this.updateNoticeModel = false
+        this.$refs.updateNotice.resetFields()
       }
     },
 		//修改确定
@@ -283,13 +331,12 @@ console.log(this.updateVideoSetCate)
      * p.loading loading
      * p.showModel 界面模型显示隐藏
      */
-    console.log(3333)
     this.axiosbusiness.update(this,{
-      ref:'updateVideoSetCate',
-      url:'/videoSetCate/update',
-      requestObject:'updateVideoSetCate',
+      ref:'updateNotice',
+      url:'/notice/update',
+      requestObject:'updateNotice',
       loading:'updateLoading',
-      showModel:'updateVideoSetCateModel'
+      showModel:'updateNoticeModel'
     })
  
     },
@@ -301,12 +348,12 @@ console.log(this.updateVideoSetCate)
      * p.url 修改url
      * p.requestObject 请求参数对象
      */
-    this.deleteVideoSetCate={
-      "videoSetCateId":params.videoSetCateId
+    this.deleteNotice={
+      "noticeId":params.noticeId
     };
     this.axiosbusiness.delete(this,{
-      url:'/videoSetCate/delete',
-      requestObject:'deleteVideoSetCate'
+      url:'/notice/delete',
+      requestObject:'deleteNotice'
     })
     }
   },
@@ -316,13 +363,13 @@ console.log(this.updateVideoSetCate)
     this.utils.getQiniuSimpleUploader(this,{
       browseButton:'addImgAddress',
       dropElement:'addImgAddressBox',
-      resource:'addVideoSetCate.icon'
+      resource:'addNotice.imgAddress'
     });
     //修改上传图片预加载
     this.utils.getQiniuSimpleUploader(this,{
       browseButton:'updateImgAddress',
       dropElement:'updateImgAddressBox',
-      resource:'updateVideoSetCate.icon'
+      resource:'updateNotice.imgAddress'
     });
   },
   mounted () {

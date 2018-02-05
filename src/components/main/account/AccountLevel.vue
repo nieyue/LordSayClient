@@ -24,7 +24,7 @@
           <div>
             <Input type="text" v-model="addAccountLevel.imgAddress" placeholder="封面">
           </Input>
-             <img :src="addAccountLevel.imgAddress "  style='height:200px;width:300px;'alt="">
+             <img :src="addAccountLevel.imgAddress "  style='width:30px;'alt="">
           </div>
         </FormItem>
          <FormItem prop="teamPurchasePrice" label="团购金额:">
@@ -84,7 +84,7 @@
           <div>
             <Input type="text" v-model="updateAccountLevel.imgAddress" placeholder="封面">
           </Input>
-             <img :src="updateAccountLevel.imgAddress"  style='height:200px;width:300px;'alt="">
+             <img :src="updateAccountLevel.imgAddress"  style='width:30px;'alt="">
           </div>
         </FormItem>
          <FormItem prop="teamPurchasePrice" label="团购金额:">
@@ -287,6 +287,8 @@ export default {
                 },
                 on: {
                   click: () => {
+                  
+                    console.log( params.row)
                     this.update(params.row)
                   }
                 }
@@ -438,13 +440,13 @@ export default {
     this.utils.getQiniuSimpleUploader(this,{
       browseButton:'addImgAddress',
       dropElement:'addImgAddressBox',
-      resource:'addAccountLevel.icon'
+      resource:'addAccountLevel.imgAddress'
     });
     //修改上传图片预加载
     this.utils.getQiniuSimpleUploader(this,{
       browseButton:'updateImgAddress',
       dropElement:'updateImgAddressBox',
-      resource:'updateAccountLevel.icon'
+      resource:'updateAccountLevel.imgAddress'
     });
   },
   mounted () {

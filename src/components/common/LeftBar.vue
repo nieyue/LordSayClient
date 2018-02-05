@@ -2,6 +2,16 @@
 <template>
    <Sider class="leftbar-wrap">
             <Menu :active-name="menuActiveName"  @on-select="menuSelect" theme="dark" width="auto">
+                <Submenu name="config">
+                    <template slot="title">
+                        <Icon type="gear-a"></Icon>
+                        配置管理
+                    </template>
+                    <MenuItem name="/main/config">公共配置</MenuItem>
+                    <MenuItem name="/main/feedback">意见反馈</MenuItem>
+                    <MenuItem name="/main/notice">通知</MenuItem>
+                    <MenuItem name="/main/appVersion">app版本</MenuItem>
+                </Submenu>
                 <Submenu name="article">
                     <template slot="title">
                         <Icon type="ios-paper-outline"></Icon>
