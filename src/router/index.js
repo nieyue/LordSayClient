@@ -14,6 +14,7 @@ import VideoPlayRecord from '@/components/main/video/VideoPlayRecord'
 import VideoSetCollect from '@/components/main/video/VideoSetCollect'
 import Video from '@/components/main/video/Video'
 import AccountLevel from '@/components/main/account/AccountLevel'
+import Account from '@/components/main/account/Account'
 import Config from '@/components/main/config/Config'
 import Feedback from '@/components/main/config/Feedback'
 import Notice from '@/components/main/config/Notice'
@@ -98,8 +99,12 @@ export default new Router({
           path: 'accountLevel',
           name: '账户等级',
           component: AccountLevel
-        }
-        ,
+        },
+        {
+          path: 'account',
+          name: '账户',
+          component: Account
+        },
         {
           path: 'config',
           name: '公共配置',

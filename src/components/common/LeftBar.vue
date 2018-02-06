@@ -38,7 +38,7 @@
                         账户管理
                     </template>
                     <MenuItem name="/main/accountLevel">账户等级</MenuItem>
-                    <MenuItem name="3-2">Option 2</MenuItem>
+                    <MenuItem name="/main/account">账户</MenuItem>
                 </Submenu>
                 
             </Menu>

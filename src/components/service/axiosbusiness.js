@@ -11,6 +11,7 @@ export default {
      * p.list 返回列表
      * params 请求参数
      * params.total 总数
+     * p.success 成功回调
      */
     getList($this,p,params) {
         //获取
@@ -39,6 +40,9 @@ export default {
                      console.log(res.data)
                      //变量list代替所有
                      $this[p.list]=res.data.list;
+                     if(typeof p.success=='function'){
+                        p.success();
+                    }
                  } else {
                     $this.$Message.error(res.data.msg)
                  }

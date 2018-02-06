@@ -1,11 +1,11 @@
 /**
- * 城市列表
+ * 三级联动
  */
 export default {
   /**
    * 获取城市三级联动
    */
-  getTreeCity(){
+  getThreeCity(){
     let cityData = [{
         value: '110000',
         label: '北京市',
