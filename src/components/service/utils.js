@@ -111,6 +111,7 @@ export default {
           if(typeof p.beforeUpload=='function'){
           p.beforeUpload(up, file);
           }
+          $this.$Spin.show();
         },
         'UploadProgress': function (up, file) {
           // 可以在这里控制上传进度的显示
@@ -120,17 +121,20 @@ export default {
             }
         },
         'UploadComplete': function () {
+         
           if(typeof p.uploadComplete=='function'){
             p.uploadComplete();
             }
         },
         'FileUploaded': function (up, file, info) {
+          $this.$Spin.hide();
           // 每个文件上传成功后,处理相关的事情
           if(typeof p.fileUploaded=='function'){
             p.fileUploaded(up, file, info);
-            } 
+          } 
         },
         'Error': function (up, err, errTip) {
+          $this.$Spin.hide();
           if(typeof p.error=='function'){
             p.error(up, err, errTip);
             } 

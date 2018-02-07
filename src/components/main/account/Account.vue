@@ -105,7 +105,7 @@
           </Select>
         </FormItem>
         <FormItem prop="masterId" label="直接上级ID:">
-         <InputNumber :max="100000000" :min="1"  :precision='0' v-model="addAccount.masterId"></InputNumber>
+         <InputNumber  :min="1"  :precision='0' v-model="addAccount.masterId"></InputNumber>
         </FormItem>
         <FormItem prop="roleId" label="角色:">
           <Select v-model="addAccount.roleId" @on-change="addRoleChange" transfer size="large" style="width:100px">
@@ -223,7 +223,7 @@
           </Select>
         </FormItem>
         <FormItem prop="masterId" label="直接上级ID:">
-          <InputNumber :max="100000000" :min="1"  :precision='0' v-model="updateAccount.masterId"></InputNumber>
+          <InputNumber  :min="1"  :precision='0' v-model="updateAccount.masterId"></InputNumber>
         </FormItem>
         <FormItem prop="roleId" label="角色:">
           <Select v-model="updateAccount.roleId" @on-change="updateRoleChange" transfer size="large" style="width:100px">

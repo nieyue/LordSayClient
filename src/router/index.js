@@ -14,7 +14,9 @@ import VideoPlayRecord from '@/components/main/video/VideoPlayRecord'
 import VideoSetCollect from '@/components/main/video/VideoSetCollect'
 import Video from '@/components/main/video/Video'
 import AccountLevel from '@/components/main/account/AccountLevel'
+import AccountParent from '@/components/main/account/AccountParent'
 import Account from '@/components/main/account/Account'
+import Finance from '@/components/main/finance/Finance'
 import Config from '@/components/main/config/Config'
 import Feedback from '@/components/main/config/Feedback'
 import Notice from '@/components/main/config/Notice'
@@ -101,9 +103,19 @@ export default new Router({
           component: AccountLevel
         },
         {
+          path: 'accountParent',
+          name: '账户上级',
+          component: AccountParent
+        },
+        {
           path: 'account',
           name: '账户',
           component: Account
+        },
+        {
+          path: 'finance',
+          name: '财务',
+          component: Finance
         },
         {
           path: 'config',

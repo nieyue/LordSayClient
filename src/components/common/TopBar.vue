@@ -3,9 +3,10 @@
     <div class="topbar">
         <div class="topbar-left">
             <img src=""/>
-            <span class="topbar-left-title">平台</span>
+            <span class="topbar-left-title">老爷说</span>
         </div>
         <div class="topbar-right" v-if="islogin">
+            <span  class="topbar-right-logintext" v-text="account.realname||account.nickname||account.phone" ></span>
             <Button  class="topbar-right-loginout" @click="loginout">退出</Button>
         </div>
     </div>
@@ -31,7 +32,8 @@
   },
     data () {
       return {
-        islogin:false
+        islogin:false,
+        account:{},
       }
     },
     methods: {
@@ -77,7 +79,8 @@
               if (res.data.code == 200) {
                 this.islogin=true;
                 //设置本地account
-                sessionStorage.setItem("account",JSON.stringify(res.data.list[0]))
+                this.account=res.data.list[0];
+                sessionStorage.setItem("account",JSON.stringify(this.account))
                 this.$emit("islogin",this.islogin);
                 //this.$router.push('/main')
               } else {

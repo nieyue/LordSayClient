@@ -482,7 +482,7 @@ export default {
     this.utils.getQiniuSimpleUploader(this,{
       browseButton:'updateUrl',
       dropElement:'updateUrlBox',
-      resource:'updateVideo.Url'
+      resource:'updateVideo.url'
     });
   },
   mounted () {
