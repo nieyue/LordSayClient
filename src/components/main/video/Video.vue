@@ -25,12 +25,8 @@
              <img :src="addVideo.imgAddress"  style='height:200px;width:300px;'alt="">
           </div>
         </FormItem>
-        <FormItem prop="duration" label="时长:">
+        <FormItem prop="duration" label="时长(自填，格式:00:00:12):">
           <Input type="text" v-model="addVideo.duration" placeholder="时长">
-          </Input>
-        </FormItem>
-        <FormItem prop="size" label="容量，单位MB:">
-          <Input type="text" v-model="addVideo.size" placeholder="时长">
           </Input>
         </FormItem>
         <FormItem prop="url" label="视频链接(上传或者填写):" id="addUrlBox">
@@ -43,6 +39,10 @@
                 {{addVideo.url}}
             </a>
           </div>
+        </FormItem>
+        <FormItem prop="size" label="容量，单位MB（上传自动计算，也可自调）:">
+          <Input type="text" v-model="addVideo.size" placeholder="时长">
+          </Input>
         </FormItem>
         <FormItem prop="status" label="状态:">
           <Select v-model="addVideo.status" transfer size="large" style="width:100px">
@@ -80,12 +80,8 @@
              <img :src="updateVideo.imgAddress"  style='height:200px;width:300px;'alt="">
           </div>
         </FormItem>
-        <FormItem prop="duration" label="时长:">
+        <FormItem prop="duration" label="时长(自填，格式:00:00:12):">
           <Input type="text" v-model="updateVideo.duration" placeholder="时长">
-          </Input>
-        </FormItem>
-        <FormItem prop="size" label="容量，单位MB:">
-          <Input type="text" v-model="updateVideo.size" placeholder="时长">
           </Input>
         </FormItem>
         <FormItem prop="url" label="视频链接(上传或者填写):" id="updateUrlBox">
@@ -98,6 +94,10 @@
                 {{updateVideo.url}}
             </a>
           </div>
+        </FormItem>
+        <FormItem prop="size" label="容量，单位MB（上传自动计算，也可自调）:">
+          <Input type="text" v-model="updateVideo.size" placeholder="时长">
+          </Input>
         </FormItem>
         <FormItem prop="status" label="状态:">
           <Select v-model="updateVideo.status" transfer size="large" style="width:100px">
@@ -470,7 +470,13 @@ export default {
     this.utils.getQiniuSimpleUploader(this,{
       browseButton:'addUrl',
       dropElement:'addUrlBox',
-      resource:'addVideo.url'
+      resource:'addVideo.url',
+       fileUploaded:(up, file, info)=>{
+         console.log(up)
+         console.log(file)
+         console.log(info)
+         this.addVideo.size=(file.size/1024/1024).toFixed(2);
+       }
     });
     //修改上传图片预加载
     this.utils.getQiniuSimpleUploader(this,{
@@ -482,7 +488,10 @@ export default {
     this.utils.getQiniuSimpleUploader(this,{
       browseButton:'updateUrl',
       dropElement:'updateUrlBox',
-      resource:'updateVideo.url'
+      resource:'updateVideo.url',
+       fileUploaded:(up, file, info)=>{
+         this.addVideo.size=(file.size/1024/1024).toFixed(2);
+       }
     });
   },
   mounted () {

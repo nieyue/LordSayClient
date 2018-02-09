@@ -109,7 +109,7 @@ export default {
         },
         'BeforeUpload': function (up, file) {
           if(typeof p.beforeUpload=='function'){
-          p.beforeUpload(up, file);
+            p.beforeUpload(up, file);
           }
           $this.$Spin.show();
         },
@@ -118,13 +118,13 @@ export default {
           // 可参考七牛的例子
           if(typeof p.uploadProgress=='function'){
             p.uploadProgress(up, file);
-            }
+          }
         },
         'UploadComplete': function () {
-         
+          
           if(typeof p.uploadComplete=='function'){
             p.uploadComplete();
-            }
+          }
         },
         'FileUploaded': function (up, file, info) {
           $this.$Spin.hide();
@@ -156,6 +156,7 @@ export default {
    *p.dropElement 拖拽框
    *p.resource 返回接收地址变量 (可选,一般在 编辑器里面用不需要)
    *p.success 回调
+   *p.fileUploaded(up, file, info) 每个文件上传成功后，处理相关的事情 
    */
   getQiniuSimpleUploader($this,p) {
       this.getQiniuToken($this,{
@@ -186,6 +187,9 @@ export default {
             }
             if(typeof p.success=='function'){
               p.success(url);
+            } 
+            if(typeof p.fileUploaded=='function'){
+              p.fileUploaded(up, file, info);
             } 
             }
            //let temp= this.recursion($this,nr)

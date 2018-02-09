@@ -15,13 +15,26 @@
           <Input type="text" v-model="addVideoSetCate.name" placeholder="分类名称">
           </Input>
         </FormItem>
-        <FormItem prop="icon" label="图标(上传或者填写):" id="addImgAddressBox">
-          <Button type="primary" @click="addImgAddressClick('addImgAddress')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="addImgAddress" ref="addImgAddress">
+         <FormItem prop="summary" label="简介:">
+          <Input type="textarea" v-model="addVideoSetCate.summary" :autosize="{minRows: 2,maxRows: 5}"  placeholder="简介">
+          </Input>
+        </FormItem>
+        <FormItem prop="icon" label="图标(上传或者填写):" id="addIconBox">
+          <Button type="primary" @click="addIconClick('addIcon')" >上传</Button>
+          <input type="file" style="width:0px;height:0px;" id="addIcon" ref="addIcon">
           <div>
             <Input type="text" v-model="addVideoSetCate.icon" placeholder="封面">
           </Input>
              <img :src="addVideoSetCate.icon "  style='width:300px;'alt="">
+          </div>
+        </FormItem>
+         <FormItem prop="imgAddress" label="封面(上传或者填写):" id="addImgAddressBox">
+          <Button type="primary" @click="addImgAddressClick('addImgAddress')" >上传</Button>
+          <input type="file" style="width:0px;height:0px;" id="addImgAddress" ref="addImgAddress">
+          <div>
+            <Input type="text" v-model="addVideoSetCate.imgAddress" placeholder="封面">
+          </Input>
+             <img :src="addVideoSetCate.imgAddress"  style='width:300px;'alt="">
           </div>
         </FormItem>
       </Form>
@@ -45,13 +58,26 @@
           <Input type="text" v-model="updateVideoSetCate.name" placeholder="分类名称">
           </Input>
         </FormItem>
-        <FormItem prop="icon" label="图标(上传或者填写):" id="updateImgAddressBox">
+         <FormItem prop="summary" label="简介:">
+          <Input type="textarea" v-model="updateVideoSetCate.summary" :autosize="{minRows: 2,maxRows: 5}"  placeholder="简介">
+          </Input>
+        </FormItem>
+        <FormItem prop="icon" label="图标(上传或者填写):" id="updateIconBox">
+          <Button type="primary" @click="updateIconClick('updateImgAddress')" >上传</Button>
+          <input type="file" style="width:0px;height:0px;" id="updateIcon" ref="updateIcon">
+          <div>
+            <Input type="text" v-model="updateVideoSetCate.icon" placeholder="图标">
+          </Input>
+             <img :src="updateVideoSetCate.icon"  style='width:300px;'alt="">
+          </div>
+        </FormItem>
+        <FormItem prop="imgAddress" label="封面(上传或者填写):" id="updateImgAddressBox">
           <Button type="primary" @click="updateImgAddressClick('updateImgAddress')" >上传</Button>
           <input type="file" style="width:0px;height:0px;" id="updateImgAddress" ref="updateImgAddress">
           <div>
-            <Input type="text" v-model="updateVideoSetCate.icon" placeholder="封面">
+            <Input type="text" v-model="updateVideoSetCate.imgAddress" placeholder="封面">
           </Input>
-             <img :src="updateVideoSetCate.icon"  style='width:300px;'alt="">
+             <img :src="updateVideoSetCate.imgAddress"  style='width:300px;'alt="">
           </div>
         </FormItem>
       </Form>
@@ -131,13 +157,39 @@ export default {
             align:'center'
         },
         {
-        	title:'封面',
+        	title:'简介',
+        	key:'summary',
+          width:200,
+            align:'center'
+        },
+        {
+        	title:'总播放数',
+        	key:'playNumber',
+            align:'center'
+        },
+        {
+        	title:'图标',
         	key:'icon',
           align:'center',
           render: (h, params) => {
             return h('img', {
               attrs: {
                 src: params.row.icon
+              },
+              style: {
+                width: '45px'
+              }
+            })
+          }
+        },
+        {
+        	title:'封面',
+        	key:'imgAddress',
+          align:'center',
+          render: (h, params) => {
+            return h('img', {
+              attrs: {
+                src: params.row.imgAddress
               },
               style: {
                 width: '45px'
@@ -197,10 +249,16 @@ export default {
   },
   methods: {
      //增加上传图片
+     addIconClick(p){
+         this.$refs[p].click();
+       },
      addImgAddressClick(p){
          this.$refs[p].click();
        },
     //更新上传图片
+     updateIconClick(p){
+         this.$refs[p].click();
+       },
      updateImgAddressClick(p){
          this.$refs[p].click();
        },
@@ -228,8 +286,7 @@ export default {
   //增加
 	 add (params) {
       this.addVideoSetCateModel = true
-      this.addVideoSetCate.name = params.name
-      this.addVideoSetCate.icon = params.icon
+      this.updateVideoSetCate.playNumber = 0
     },
 		//增加取消
 		 addCancel () {
@@ -259,14 +316,16 @@ export default {
     },
 	 update (params) {
       this.updateVideoSetCateModel = true
-      this.updateVideoSetCate.name = params.name
-      this.updateVideoSetCate.icon = params.icon
-      this.updateVideoSetCate.videoSetCateId = params.videoSetCateId
-console.log(this.updateVideoSetCate)
+       //获取修改实体
+      this.axiosbusiness.get(this,{
+         url:'/videoSetCate/'+params.videoSetCateId,
+         list:'updateVideoSetCate',
+         success:()=>{
+         }
+       })
     },
 		//修改取消
 		 updateCancel () {
-       console.log(222)
       if (!this.updateLoading) {
         this.updateVideoSetCateModel = false
         this.$refs.updateVideoSetCate.resetFields()
@@ -314,15 +373,25 @@ console.log(this.updateVideoSetCate)
     this.getList();
     //增加上传图片预加载
     this.utils.getQiniuSimpleUploader(this,{
+      browseButton:'addIcon',
+      dropElement:'addIconBox',
+      resource:'addVideoSetCate.icon'
+    });
+    this.utils.getQiniuSimpleUploader(this,{
       browseButton:'addImgAddress',
       dropElement:'addImgAddressBox',
-      resource:'addVideoSetCate.icon'
+      resource:'addVideoSetCate.imgAddress'
     });
     //修改上传图片预加载
     this.utils.getQiniuSimpleUploader(this,{
+      browseButton:'updateIcon',
+      dropElement:'updateIconBox',
+      resource:'updateVideoSetCate.icon'
+    });
+    this.utils.getQiniuSimpleUploader(this,{
       browseButton:'updateImgAddress',
       dropElement:'updateImgAddressBox',
-      resource:'updateVideoSetCate.icon'
+      resource:'updateVideoSetCate.imgAddress'
     });
   },
   mounted () {

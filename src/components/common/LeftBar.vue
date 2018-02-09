@@ -41,13 +41,13 @@
                     <MenuItem name="/main/accountParent">账户上级</MenuItem>
                     <MenuItem name="/main/account">账户</MenuItem>
                 </Submenu>
-                <Submenu name="finance">
+                <!-- <Submenu name="finance">
                     <template slot="title">
                         <Icon type="social-yen"></Icon>
                         财务管理
                     </template>
                     <MenuItem name="/main/finance">账户等级</MenuItem>
-                </Submenu>
+                </Submenu> -->
                 
             </Menu>
         </Sider>
