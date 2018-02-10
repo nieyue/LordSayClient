@@ -1,30 +1,7 @@
 <!--财务管理 -->
 <template>
     <div class="body-wrap">
-    <div class="body-btn-wrap">
-      <!-- <Button type='primary'  @click='add'>增加财务</Button> -->
-    </div>
-		 <!--新增 -->
-     <Modal v-model="addFinanceModel"
-           title="新增财务管理"
-           :closable="false"
-           :mask-closable="false"
-    >
-      <Form ref="addFinance" :model="addFinance" :label-width="100" label-position="right"  :rules="addFinanceRules">
-        <FormItem prop="password" label="支付密码:">
-          <Input type="text" v-model="addFinance.password" placeholder="支付密码">
-          </Input>
-        </FormItem>
-      </Form>
-      <div slot='footer'>
-        <Button type='ghost' @click='addCancel'>取消</Button>
-        <Button type='primary' :loading='addLoading'>
-          <span v-if="!addLoading" @click='addSure'>确定</span>
-          <span v-else>Loading...</span>
-        </Button>
-      </div>
-    </Modal>
-    <!--新增end -->
+
 		 <!--修改 -->
      <Modal v-model="updateFinanceModel"
            title="修改财务管理"
@@ -65,21 +42,12 @@ export default {
             pageSize:10,//每页的个数
             total:0//总数
         },
-			//增加参数
-			addFinanceModel:false,
-			addLoading:false,
-			addFinanceRules: {
-                },
-			addFinance:{
-			},
 			//修改参数
 			updateFinanceModel:false,
 			updateLoading:false,
 			updateFinanceRules: {
                 },
 			updateFinance:{},
-      //删除参数
-      deleteFinance:{},
 	    financeList: [],
 	    financeColumns: [
         {
@@ -101,7 +69,10 @@ export default {
         	title:'支付密码',
             key:'password',
              width:100,
-            align:'center'
+            align:'center',
+          render: (h, params) => {
+            return h('span','*******')
+          }
         },
         {
         	title:'余额',
@@ -142,12 +113,6 @@ export default {
         {
         	title:'团购账单',
             key:'teamPurchasePrice',
-            width:100,
-            align:'center'
-        },
-        {
-        	title:'优惠价格',
-            key:'discountPrice',
             width:100,
             align:'center'
         },
@@ -201,29 +166,12 @@ export default {
                 on: {
                   click: () => {
                   
-                    console.log( params.row)
                     this.update(params.row)
                   }
                 }
-              }, '编辑');
-            var varhh2=  h('Button', {
-                props: {
-                  type: 'error',
-                  size: 'small'
-                },
-                style: {
-                  marginLeft: '10px'
-                },
-                on: {
-                  click: () => {
-                    this.delete(params.row)
-                  }
-                }
-              }, '删除');
-            	var s=h("div","");
-			s=h("div",[
+              }, '修改支付密码');
+			let s=h("div",[
               varhh1
-              //,varhh2
             ]);
             return s;
           }
@@ -247,41 +195,12 @@ export default {
      * p.listUrl 列表url
      * p.list 返回列表
      */
+    this.params.accountId=this.$route.params.accountId
      this.axiosbusiness.getList(this,{
        countUrl:'/finance/count',
        listUrl:'/finance/list',
        list:'financeList'
      },this.params)
-    },
-  //增加
-	 add (params) {
-      this.addFinanceModel = true
-    },
-		//增加取消
-		 addCancel () {
-      if (!this.addLoading) {
-        this.addFinanceModel = false
-        this.$refs.addFinance.resetFields()
-      }
-    },
-		//增加确定
-    addSure () {
-       /**
-     * 增加
-     * $this  vue组件
-     * p.ref 验证
-     * p.url 增加url
-     * p.requestObject 请求参数对象
-     * p.loading loading
-     * p.showModel 界面模型显示隐藏
-     */
-    this.axiosbusiness.add(this,{
-      ref:'addFinance',
-      url:'/finance/add',
-      requestObject:'addFinance',
-      loading:'addLoading',
-      showModel:'addFinanceModel'
-    })
     },
 	 update (params) {
       this.updateFinanceModel = true
@@ -308,30 +227,15 @@ export default {
      * p.loading loading
      * p.showModel 界面模型显示隐藏
      */
+
     this.axiosbusiness.update(this,{
       ref:'updateFinance',
-      url:'/finance/update',
+      url:'/finance/updatePasswordByFinanceId',
       requestObject:'updateFinance',
       loading:'updateLoading',
       showModel:'updateFinanceModel'
     })
  
-    },
-    //删除
-    delete(params){
-    /**
-     * 删除
-     * $this  vue组件
-     * p.url 修改url
-     * p.requestObject 请求参数对象
-     */
-    this.deleteFinance={
-      "financeId":params.financeId
-    };
-    this.axiosbusiness.delete(this,{
-      url:'/finance/delete',
-      requestObject:'deleteFinance'
-    })
     }
   },
   created () {

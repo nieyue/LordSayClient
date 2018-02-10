@@ -217,10 +217,11 @@ export default {
     },
 	 update (params) {
       this.updateConfigModel = true
-      this.updateConfig = params
-
-    //   this.updateConfig.name = params.name
-    //   this.updateConfig.configId = params.configId
+     //获取修改实体
+      this.axiosbusiness.get(this,{
+         url:'/config/'+params.configId,
+         list:'updateConfig'
+         })
     },
 		//修改取消
 		 updateCancel () {

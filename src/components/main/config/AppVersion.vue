@@ -344,7 +344,11 @@ export default {
     },
 	 update (params) {
       this.updateAppVersionModel = true
-      this.updateAppVersion = params
+       //获取修改实体
+      this.axiosbusiness.get(this,{
+         url:'/appVersion/'+params.appVersionId,
+         list:'updateAppVersion'
+         })
     },
 		//修改取消
 		 updateCancel () {

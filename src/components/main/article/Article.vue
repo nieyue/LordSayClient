@@ -365,11 +365,12 @@ export default {
   let Editor=this.wangeditor;
   let editor=new Editor("#addEditor")
   editor.customConfig.zIndex = 100
+console.log(editor)
   editor.customConfig.onchange = (html) =>{
     this.addArticle.content=html;
     }
-  editor.create();
-  editor.txt.html('<p>输入内容...😆</p>')
+    editor.create();
+    editor.txt.html('<p>输入内容...😆</p>')
   //wangeditor七牛云上传图片预加载
   this.utils.getQiniuSimpleUploader(this,{
     browseButton:editor.imgMenuId,
@@ -377,7 +378,8 @@ export default {
     dropElement:editor.textElemId,
     success:(sourceLink)=>{
       editor.cmd.do('insertHtml', '<img src="' + sourceLink + '" style="max-width:100%;"/>')
-    }
+   
+   }
   });
       
     },

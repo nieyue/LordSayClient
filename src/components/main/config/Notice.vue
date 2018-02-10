@@ -311,7 +311,11 @@ export default {
     },
 	 update (params) {
       this.updateNoticeModel = true
-      this.updateNotice = params
+        //获取修改实体
+      this.axiosbusiness.get(this,{
+         url:'/notice/'+params.noticeId,
+         list:'updateNotice'
+         })
     },
 		//修改取消
 		 updateCancel () {

@@ -502,17 +502,102 @@ export default {
 				{
           title: '操作',
           key: 'action',
-           width:150,
+           width:200,
            fixed:'right',
           align:'center',
           render: (h, params) => {
+            var marginstyle="2px"
+            var varhh=  h('Button', {
+                props: {
+                  type: 'ghost',
+                  size: 'small'
+                },
+                style: {
+                  margin: marginstyle
+                },
+                on: {
+                  click: () => {
+                     this.$router.push('/main/vip/'+params.row.accountId);
+                  }
+                }
+              }, 'vip');
             var varhh1=  h('Button', {
+                props: {
+                  type: 'ghost',
+                  size: 'small'
+                },
+                style: {
+                  margin: marginstyle
+                },
+                on: {
+                  click: () => {
+                     this.$router.push('/main/vipGrowthRecord/'+params.row.accountId);
+                  }
+                }
+              }, 'vip成长');
+            var varhh00=  h('Button', {
+                props: {
+                  type: 'info',
+                  size: 'small'
+                },
+                style: {
+                  margin: marginstyle
+                },
+                on: {
+                  click: () => {
+                     this.$router.push('/main/finance/'+params.row.accountId);
+                  }
+                }
+              }, '财务');
+            var varhh01=  h('Button', {
+                props: {
+                  type: 'info',
+                  size: 'small'
+                },
+                style: {
+                  margin: marginstyle
+                },
+                on: {
+                  click: () => {
+                     this.$router.push('/main/financeRecord/'+params.row.accountId);
+                  }
+                }
+              }, '财务记录');
+            var varhh10=  h('Button', {
+                props: {
+                  type: 'dashed',
+                  size: 'small'
+                },
+                style: {
+                  margin: marginstyle
+                },
+                on: {
+                  click: () => {
+                     this.$router.push('/main/integral/'+params.row.accountId);
+                  }
+                }
+              }, '积分');
+            var varhh11=  h('Button', {
+                props: {
+                  type: 'dashed',
+                  size: 'small'
+                },
+                style: {
+                  margin: marginstyle
+                },
+                on: {
+                  click: () => {
+                     this.$router.push('/main/integralDetail/'+params.row.accountId);
+                  }
+                }
+              }, '积分详情');
+            var varhh20=  h('Button', {
                 props: {
                   type: 'primary',
                   size: 'small'
                 },
                 style: {
-                  marginLeft: '10px'
+                  margin: marginstyle
                 },
                 on: {
                   click: () => {
@@ -520,13 +605,13 @@ export default {
                   }
                 }
               }, '编辑');
-            var varhh2=  h('Button', {
+            var varhh21=  h('Button', {
                 props: {
                   type: 'error',
                   size: 'small'
                 },
                 style: {
-                  marginLeft: '10px'
+                  margin: marginstyle
                 },
                 on: {
                   click: () => {
@@ -536,8 +621,22 @@ export default {
               }, '删除');
             	var s=h("div","");
 			s=h("div",[
-              varhh1,
-              varhh2
+        h("div",[
+           varhh10,
+          varhh11
+        ]),
+        h("div",[
+           varhh,
+          varhh1
+        ]),
+        h("div",[
+           varhh00,
+          varhh01
+        ]),
+        h("div",[
+           varhh20
+           //,varhh21
+        ])
             ]);
             return s;
           }

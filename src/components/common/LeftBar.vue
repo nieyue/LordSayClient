@@ -41,6 +41,13 @@
                     <MenuItem name="/main/accountParent">账户上级</MenuItem>
                     <MenuItem name="/main/account">账户</MenuItem>
                 </Submenu>
+                <Submenu name="account">
+                    <template slot="title">
+                        <Icon type="earth"></Icon>
+                        积分管理
+                    </template>
+                    <MenuItem name="/main/integralBoard">积分排行榜</MenuItem>
+                </Submenu>
                 <!-- <Submenu name="finance">
                     <template slot="title">
                         <Icon type="social-yen"></Icon>

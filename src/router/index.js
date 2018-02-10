@@ -17,6 +17,12 @@ import AccountLevel from '@/components/main/account/AccountLevel'
 import AccountParent from '@/components/main/account/AccountParent'
 import Account from '@/components/main/account/Account'
 import Finance from '@/components/main/finance/Finance'
+import FinanceRecord from '@/components/main/finance/FinanceRecord'
+import Integral from '@/components/main/integral/Integral'
+import IntegralDetail from '@/components/main/integral/IntegralDetail'
+import IntegralBoard from '@/components/main/integral/IntegralBoard'
+import Vip from '@/components/main/vip/Vip'
+import VipGrowthRecord from '@/components/main/vip/VipGrowthRecord'
 import Config from '@/components/main/config/Config'
 import Feedback from '@/components/main/config/Feedback'
 import Notice from '@/components/main/config/Notice'
@@ -113,9 +119,39 @@ export default new Router({
           component: Account
         },
         {
-          path: 'finance',
+          path: 'finance/:accountId',
           name: '财务',
           component: Finance
+        },
+        {
+          path: 'financeRecord/:accountId',
+          name: '财务记录',
+          component: FinanceRecord
+        },
+        {
+          path: 'integral/:accountId',
+          name: '积分',
+          component: Integral
+        },
+        {
+          path: 'integralDetail/:accountId',
+          name: '积分详情',
+          component: IntegralDetail
+        },
+        {
+          path: 'integralBoard',
+          name: '积分排行榜',
+          component: IntegralBoard
+        },
+        {
+          path: 'vip/:accountId',
+          name: 'vip',
+          component: Vip
+        },
+        {
+          path: 'vipGrowthRecord/:accountId',
+          name: 'vip',
+          component: VipGrowthRecord
         },
         {
           path: 'config',

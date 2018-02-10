@@ -346,7 +346,7 @@ export default {
                     this.$router.push('/main/video/'+params.row.videoSetId);
                   }
                 }
-              }, '详情')
+              }, '视频')
             ])
           }
         },
@@ -387,7 +387,7 @@ export default {
         },
 				{
           title: '操作',
-          key: 'action1',
+          key: 'action',
           width:200,
           align:'center',
           render: (h, params) => {

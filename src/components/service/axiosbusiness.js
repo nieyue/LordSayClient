@@ -41,7 +41,7 @@ export default {
                      //变量list代替所有
                      $this[p.list]=res.data.list;
                      if(typeof p.success=='function'){
-                        p.success();
+                        p.success( $this[p.list]);
                     }
                  } else {
                     $this.$Message.error(res.data.msg)

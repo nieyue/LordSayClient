@@ -213,7 +213,11 @@ export default {
     },
 	 update (params) {
       this.updateFeedbackModel = true
-      this.updateFeedback= params
+      //获取修改实体
+      this.axiosbusiness.get(this,{
+         url:'/feedback/'+params.feedbackId,
+         list:'updateFeedback'
+         })
     },
 		//修改取消
 		 updateCancel () {
