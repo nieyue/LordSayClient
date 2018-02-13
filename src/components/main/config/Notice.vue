@@ -3,6 +3,16 @@
     <div class="body-wrap">
     <div class="body-btn-wrap">
       <Button type='error'  @click='add'>增加系统通知</Button>
+      <div class="search-wrap">
+        <Select v-model="params.title" transfer class="search-wrap-input"  placeholder="标题，全部">
+            <Option v-for="item in titleParamsList" :value="item.value" :key="item.id">{{ item.value }}</Option>
+        </Select>
+        <Input v-model="params.accountId" class="search-wrap-input" placeholder="账户Id"></Input>
+        <Select v-model="params.status" transfer class="search-wrap-input"  placeholder="状态，全部">
+            <Option v-for="item in statusParamsList" :value="item.id" :key="item.id">{{ item.value }}</Option>
+        </Select>
+        <Button @click="search" type="info"  >查询</Button>
+      </div>
     </div>
 	<!--新增 -->
      <Modal v-model="addNoticeModel"
@@ -91,6 +101,21 @@ export default {
             pageSize:10,//每页的个数
             total:0//总数
         },
+         //查询标题
+          titleParamsList:[
+          {id:'',value:'全部'},
+          {id:0,value:'系统通知'},
+          {id:1,value:'团购通知'},
+          {id:2,value:'提现到帐通知'},
+          {id:3,value:'团购卡余额不足'},
+          {id:4,value:'团购申请'}
+          ],
+        //查询状态
+        statusParamsList:[
+          {id:'',value:'全部'},
+          {id:0,value:'未读'},
+          {id:1,value:'已读'}
+        ],
       //状态
       statusList:[
         {id:0,value:'未读'},
@@ -251,6 +276,14 @@ export default {
     selectPage (currentPage) {
       this.params.currentPage=currentPage;
       this.params.pageNum = (this.params.currentPage-1)*this.params.pageSize+this.params.startNum;
+      this.getList()
+    },
+    //查询
+    search(){
+      if(this.params.title=='全部'){
+        delete this.params.title
+      }
+      console.warn(this.params)
       this.getList()
     },
     //增加上传图片

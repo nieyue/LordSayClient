@@ -3,6 +3,21 @@
     <div class="body-wrap">
     <div class="body-btn-wrap">
       <Button type='primary'  @click='add'>增加账户</Button>
+      	<div class="search-wrap">
+           <Select v-model="params.roleId"  transfer class="search-wrap-input" >
+              <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.name }}</Option>
+          </Select>
+					<Input v-model="params.accountId" class="search-wrap-input" placeholder="账户Id"></Input>
+					<Input v-model="params.phone" class="search-wrap-input" placeholder="手机号，模糊查询"></Input>
+					<Input v-model="params.realname" class="search-wrap-input" placeholder="真实姓名，模糊查询"></Input>
+					<Select v-model="params.auth" transfer class="search-wrap-input"  placeholder="认证，全部">
+              <Option v-for="item in authParamsList" :value="item.id" :key="item.id">{{ item.value }}</Option>
+          </Select>
+					<Select v-model="params.status" transfer class="search-wrap-input"  placeholder="状态，全部">
+              <Option v-for="item in statusParamsList" :value="item.id" :key="item.id">{{ item.value }}</Option>
+          </Select>
+          <Button @click="search" type="info"  >查询</Button>
+				</div>
     </div>
 		 <!--新增 -->
      <Modal v-model="addAccountModel"
@@ -263,6 +278,20 @@ export default {
             pageSize:10,//每页的个数
             total:0//总数
         },
+          //认证
+          authParamsList:[
+          {id:'',value:'全部'},
+          {id:0,value:'没认证'},
+          {id:1,value:'审核中'},
+          {id:2,value:'已认证'}
+          ],
+        //状态
+        statusParamsList:[
+          {id:'',value:'全部'},
+          {id:0,value:'正常'},
+          {id:1,value:'锁定'},
+          {id:2,value:'异常'}
+          ],
         //性别
         sexList:[
         {id:0,value:'未知'},
@@ -671,6 +700,10 @@ export default {
            }
        });
     },
+    //查询
+    search(){
+      this.getList()
+    },
     //分页点击
     selectPage (currentPage) {
       this.params.currentPage=currentPage;
@@ -721,7 +754,12 @@ export default {
             roleId:this.roleList[0].roleId,
             roleName:this.roleList[0].name
         };
-
+     this.roleList.forEach((e)=>{
+          if(e.name=='用户'){
+            this.params.roleId=e.roleId
+          }
+        })
+         this.getList();
        }
      },
      {  
@@ -832,7 +870,6 @@ export default {
   },
   created () {
     this.getRoleList();
-    this.getList();
     //增加中的上传图片预加载
     this.utils.getQiniuSimpleUploader(this,{
       browseButton:'addIcon',
