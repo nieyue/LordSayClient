@@ -103,7 +103,7 @@ export default {
         },
          //查询标题
           titleParamsList:[
-          {id:'',value:'全部'},
+          {id:'',value:'全部通知'},
           {id:0,value:'系统通知'},
           {id:1,value:'团购通知'},
           {id:2,value:'提现到帐通知'},
@@ -280,10 +280,9 @@ export default {
     },
     //查询
     search(){
-      if(this.params.title=='全部'){
+      if(this.params.title=='全部通知'||!this.params.title){
         delete this.params.title
       }
-      console.warn(this.params)
       this.getList()
     },
     //增加上传图片
