@@ -3,21 +3,21 @@
     <div class="body-wrap">
     <div class="body-btn-wrap">
       <Button type='primary'  @click='add'>增加账户</Button>
-      	<div class="search-wrap">
-           <Select v-model="params.roleId"  transfer class="search-wrap-input" >
-              <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.name }}</Option>
-          </Select>
-					<Input v-model="params.accountId" class="search-wrap-input" placeholder="账户Id"></Input>
-					<Input v-model="params.phone" class="search-wrap-input" placeholder="手机号，模糊查询"></Input>
-					<Input v-model="params.realname" class="search-wrap-input" placeholder="真实姓名，模糊查询"></Input>
-					<Select v-model="params.auth" transfer class="search-wrap-input"  placeholder="认证，全部">
-              <Option v-for="item in authParamsList" :value="item.id" :key="item.id">{{ item.value }}</Option>
-          </Select>
-					<Select v-model="params.status" transfer class="search-wrap-input"  placeholder="状态，全部">
-              <Option v-for="item in statusParamsList" :value="item.id" :key="item.id">{{ item.value }}</Option>
-          </Select>
-          <Button @click="search" type="info"  >查询</Button>
-				</div>
+      <div class="search-wrap">
+          <Select v-model="params.roleId"  transfer class="search-wrap-input" >
+            <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.name }}</Option>
+        </Select>
+        <Input v-model="params.accountId" class="search-wrap-input" placeholder="账户Id"></Input>
+        <Input v-model="params.phone" class="search-wrap-input" placeholder="手机号，模糊查询"></Input>
+        <Input v-model="params.realname" class="search-wrap-input" placeholder="真实姓名，模糊查询"></Input>
+        <Select v-model="params.auth" transfer class="search-wrap-input"  placeholder="认证，全部">
+            <Option v-for="item in authParamsList" :value="item.id" :key="item.id">{{ item.value }}</Option>
+        </Select>
+        <Select v-model="params.status" transfer class="search-wrap-input"  placeholder="状态，全部">
+            <Option v-for="item in statusParamsList" :value="item.id" :key="item.id">{{ item.value }}</Option>
+        </Select>
+        <Button @click="search" type="info"  >查询</Button>
+      </div>
     </div>
 		 <!--新增 -->
      <Modal v-model="addAccountModel"
@@ -620,6 +620,20 @@ export default {
                   }
                 }
               }, '积分详情');
+              var varhh30=  h('Button', {
+            props: {
+              type: 'success',
+              size: 'small'
+            },
+            style: {
+              margin: marginstyle
+            },
+            on: {
+              click: () => {
+                  this.$router.push('/main/teamPurchaseInfo/'+params.row.accountId);
+              }
+            }
+          }, '团购信息');
             var varhh20=  h('Button', {
                 props: {
                   type: 'primary',
@@ -663,6 +677,7 @@ export default {
           varhh01
         ]),
         h("div",[
+           varhh30,
            varhh20
            //,varhh21
         ])

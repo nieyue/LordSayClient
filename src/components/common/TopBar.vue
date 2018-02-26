@@ -7,7 +7,7 @@
         </div>
         <div class="topbar-right" v-if="islogin">
             <span  class="topbar-right-logintext" v-text="account.realname||account.nickname||account.phone" ></span>
-            <Button  class="topbar-right-loginout" @click="loginout">退出</Button>
+            <Button type="text"  class="topbar-right-loginout" @click="loginout">退出</Button>
         </div>
     </div>
 </template>

@@ -16,6 +16,8 @@ import Video from '@/components/main/video/Video'
 import AccountLevel from '@/components/main/account/AccountLevel'
 import AccountParent from '@/components/main/account/AccountParent'
 import Account from '@/components/main/account/Account'
+import Withdrawals from '@/components/main/account/Withdrawals'
+import VipNumber from '@/components/main/vip/VipNumber'
 import Finance from '@/components/main/finance/Finance'
 import FinanceRecord from '@/components/main/finance/FinanceRecord'
 import Integral from '@/components/main/integral/Integral'
@@ -23,10 +25,12 @@ import IntegralDetail from '@/components/main/integral/IntegralDetail'
 import IntegralBoard from '@/components/main/integral/IntegralBoard'
 import Vip from '@/components/main/vip/Vip'
 import VipGrowthRecord from '@/components/main/vip/VipGrowthRecord'
+import Order from '@/components/main/order/Order'
 import Config from '@/components/main/config/Config'
 import Feedback from '@/components/main/config/Feedback'
 import Notice from '@/components/main/config/Notice'
 import AppVersion from '@/components/main/config/AppVersion'
+import TeamPurchaseInfo from '@/components/main/teamPurchaseInfo/TeamPurchaseInfo'
 
 
 Vue.use(Router)
@@ -119,6 +123,16 @@ export default new Router({
           component: Account
         },
         {
+          path: 'withdrawals',
+          name: '提现',
+          component: Withdrawals
+        },
+        {
+          path: 'vipNumber',
+          name: 'vip购买次数',
+          component: VipNumber
+        },
+        {
           path: 'finance/:accountId',
           name: '财务',
           component: Finance
@@ -150,8 +164,18 @@ export default new Router({
         },
         {
           path: 'vipGrowthRecord/:accountId',
-          name: 'vip',
+          name: 'vip成长记录',
           component: VipGrowthRecord
+        },
+        {
+          path: 'teamPurchaseInfo/:accountId',
+          name: '团购信息',
+          component: TeamPurchaseInfo
+        },
+        {
+          path: 'order',
+          name: '订单',
+          component: Order
         },
         {
           path: 'config',
