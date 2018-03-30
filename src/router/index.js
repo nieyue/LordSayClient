@@ -31,6 +31,7 @@ import Feedback from '@/components/main/config/Feedback'
 import SysNotice from '@/components/main/config/SysNotice'
 import Notice from '@/components/main/config/Notice'
 import AppVersion from '@/components/main/config/AppVersion'
+import Banner from '@/components/main/config/Banner'
 import TeamPurchaseInfo from '@/components/main/teamPurchaseInfo/TeamPurchaseInfo'
 
 
@@ -218,7 +219,13 @@ export default new Router({
           path: 'appVersion',
           name: 'app版本',
           component: AppVersion
+        },
+        {
+          path: 'banner',
+          name: 'banner',
+          component: Banner
         }
+        
       ]
     }
   ]

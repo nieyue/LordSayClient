@@ -11,6 +11,7 @@
                     <MenuItem name="/main/feedback">意见反馈</MenuItem>
                     <MenuItem name="/main/notice">个人通知</MenuItem>
                     <MenuItem name="/main/appVersion">app版本</MenuItem>
+                    <MenuItem name="/main/banner">banner</MenuItem>
                 </Submenu>
                 <Submenu name="article">
                     <template slot="title">
