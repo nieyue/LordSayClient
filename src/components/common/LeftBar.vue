@@ -9,7 +9,7 @@
                     </template>
                     <MenuItem name="/main/config">公共配置</MenuItem>
                     <MenuItem name="/main/feedback">意见反馈</MenuItem>
-                    <MenuItem name="/main/notice">通知</MenuItem>
+                    <MenuItem name="/main/notice">个人通知</MenuItem>
                     <MenuItem name="/main/appVersion">app版本</MenuItem>
                 </Submenu>
                 <Submenu name="article">
@@ -28,7 +28,7 @@
                     <MenuItem name="/main/videoSetSearch">视频集搜索</MenuItem>
                     <MenuItem name="/main/videoSetCate">视频集类型</MenuItem>
                     <MenuItem name="/main/videoSet">视频集</MenuItem>
-                    <MenuItem name="/main/videoCache">视频缓存</MenuItem>
+                    <!-- <MenuItem name="/main/videoCache">视频缓存</MenuItem> -->
                     <MenuItem name="/main/videoPlayRecord">视频播发记录</MenuItem>
                     <MenuItem name="/main/videoSetCollect">视频集收藏</MenuItem>
                 </Submenu>
@@ -39,7 +39,9 @@
                     </template>
                     <MenuItem name="/main/accountLevel">账户等级</MenuItem>
                     <MenuItem name="/main/accountParent">账户上级</MenuItem>
-                    <MenuItem name="/main/account">账户</MenuItem>
+                    <!-- <MenuItem name="/main/account">账户</MenuItem> -->
+                    <!-- <MenuItem name="/main/account/managerAccount">管理员账户</MenuItem> -->
+                    <MenuItem name="/main/account/userAccount">用户账户</MenuItem>
                     <MenuItem name="/main/withdrawals">提现管理</MenuItem>
                     <MenuItem name="/main/vipNumber">vip购买次数管理</MenuItem>
                 </Submenu>
@@ -57,6 +59,9 @@
                     </template>
                     <MenuItem name="/main/integralBoard">积分排行榜</MenuItem>
                 </Submenu>
+                <MenuItem name="/main/account/managerAccount">管理员账户</MenuItem>
+                <MenuItem name="/main/sysNotice">系统通知</MenuItem>
+
                 <!-- <Submenu name="finance">
                     <template slot="title">
                         <Icon type="social-yen"></Icon>

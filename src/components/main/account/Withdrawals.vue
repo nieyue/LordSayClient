@@ -125,9 +125,51 @@ export default {
           align:'center'
         },
         {
-          title: '账户id',
-          key: 'accountId',
-          align:'center'
+          title: '账户',
+          align:'center',
+          render: (h, params) => {
+          let result;
+          let result1= h('div',
+             [
+                h('span',"账户id:"),
+                h('span', {
+                  style: {
+                  color:'blue'
+                }},params.row.accountId)
+             ]
+             );
+            let realname="";
+            let accountname="";
+          if(params.row.withdrawalsList&&params.row.withdrawalsList.length>0){
+            realname=params.row.withdrawalsList[0].realname;
+            accountname=params.row.withdrawalsList[0].accountname;
+          }
+          let result2= h('div',
+             [
+                h('span',"真实姓名:"),
+                h('span', {
+                  style: {
+                  color:'red'
+                }},realname)
+             ]
+             );
+          let result3= h('div',
+             [
+                h('span',"账号名称:"),
+                h('span', {
+                  style: {
+                  color:'red'
+                }},accountname)
+             ]
+             );
+             result=h('div',
+             [
+              result1,
+              result2,
+              result3
+             ])
+             return  result;
+          }
         },
         {
         	title:'支付方式',
@@ -226,6 +268,8 @@ export default {
       if(!this.params.transactionNumber){
       delete this.params.transactionNumber
       }
+      this.params.currentPage=1;
+      this.params.pageNum =1;
       this.getList()
     },
     //分页点击

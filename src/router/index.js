@@ -28,6 +28,7 @@ import VipGrowthRecord from '@/components/main/vip/VipGrowthRecord'
 import Order from '@/components/main/order/Order'
 import Config from '@/components/main/config/Config'
 import Feedback from '@/components/main/config/Feedback'
+import SysNotice from '@/components/main/config/SysNotice'
 import Notice from '@/components/main/config/Notice'
 import AppVersion from '@/components/main/config/AppVersion'
 import TeamPurchaseInfo from '@/components/main/teamPurchaseInfo/TeamPurchaseInfo'
@@ -120,7 +121,19 @@ export default new Router({
         {
           path: 'account',
           name: '账户',
-          component: Account
+          component: Account,
+          children:[
+            {
+              path: 'managerAccount',
+              name: '管理员账户',
+              component: Account
+            },
+            {
+              path: 'userAccount',
+              name: '用户账户',
+              component: Account
+            }
+          ]
         },
         {
           path: 'withdrawals',
@@ -190,8 +203,14 @@ export default new Router({
         }
         ,
         {
+          path: 'sysNotice',
+          name: '系统通知',
+          component: SysNotice
+        }
+        ,
+        {
           path: 'notice',
-          name: '通知',
+          name: '个人通知',
           component: Notice
         }
         ,

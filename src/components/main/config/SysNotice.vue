@@ -2,7 +2,7 @@
 <template>
     <div class="body-wrap">
     <div class="body-btn-wrap">
-      <!-- <Button type='error'  @click='add'>增加系统通知</Button> -->
+      <Button type='error'  @click='add'>增加系统通知</Button>
       <div class="search-wrap">
         <Select v-model="params.title" transfer class="search-wrap-input"  placeholder="标题，全部">
             <Option v-for="item in titleParamsList" :value="item.value" :key="item.id">{{ item.value }}</Option>
@@ -95,7 +95,8 @@ export default {
   data () {
     return {
         params:{
-            region:2,
+            region:1,//全局
+            title:'系统通知',
             startNum:1,//初始化个数
             currentPage:1,//当前页
             pageNum:1,//获取的第几个开始
@@ -104,12 +105,7 @@ export default {
         },
          //查询标题
           titleParamsList:[
-          {id:'',value:'全部通知'},
-          {id:0,value:'系统通知'},
-          {id:1,value:'团购通知'},
-          {id:2,value:'提现到帐通知'},
-          {id:3,value:'团购卡余额不足'},
-          {id:4,value:'团购申请'}
+          {id:0,value:'系统通知'}
           ],
         //查询状态
         statusParamsList:[
@@ -175,11 +171,6 @@ export default {
         {
           title: '通知id',
           key: 'noticeId',
-          align:'center'
-        },
-        {
-          title: '账户id',
-          key: 'accountId',
           align:'center'
         },
         {

@@ -162,6 +162,8 @@ export default {
       if(!this.params.transactionNumber){
       delete this.params.transactionNumber
       }
+      this.params.currentPage=1;
+      this.params.pageNum =1;
       this.getList()
     },
     //分页点击

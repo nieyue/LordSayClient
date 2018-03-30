@@ -223,6 +223,8 @@ export default {
   methods: {
     //查询
     search(){
+      this.params.currentPage=1;
+      this.params.pageNum =1;
       this.getList()
     },
     //分页点击

@@ -267,6 +267,7 @@ export default {
   name: 'Account',
   data () {
     return {
+        routerPath:this.$route.path,
         //二级联动数据
         twoCityData:twocitylist.getTwoCity(),
         //更新的接受省、市
@@ -717,6 +718,8 @@ export default {
     },
     //查询
     search(){
+      this.params.currentPage=1;
+      this.params.pageNum =1;
       this.getList()
     },
     //分页点击
@@ -770,10 +773,20 @@ export default {
             roleName:this.roleList[0].name
         };
      this.roleList.forEach((e)=>{
-          if(e.name=='用户'){
-            this.params.roleId=e.roleId
+        //路径为管理员账户
+        if(this.routerPath=="/main/account/managerAccount"){
+          if(e.name!='超级管理员'){
+            this.roleList.splice(this.roleList.indexOf(e),1);
+          }
+          //路径为用户账户
+       }else if(this.routerPath=="/main/account/userAccount")
+          if(e.name!='用户'){
+            this.roleList.splice(this.roleList.indexOf(e),1);
           }
         })
+        if(this.roleList[0] &&this.roleList[0].roleId){
+          this.params.roleId=this.roleList[0].roleId;
+        }
          this.getList();
        }
      },
@@ -883,6 +896,12 @@ export default {
     })
     }
   },
+watch: {
+    $route (to, from) {
+        this.routerPath=this.$route.path;
+        this.getRoleList();
+    }
+},
   created () {
     this.getRoleList();
     //增加中的上传图片预加载
@@ -920,6 +939,6 @@ export default {
   },
   mounted () {
 
-  }
+  } 
 }
 </script>
