@@ -772,21 +772,28 @@ export default {
             roleId:this.roleList[0].roleId,
             roleName:this.roleList[0].name
         };
-     this.roleList.forEach((e)=>{
-        //路径为管理员账户
+      
+        let roleListLength=this.roleList.length;
+        for(let i=0;i<roleListLength;i++){
+      //路径为管理员账户
         if(this.routerPath=="/main/account/managerAccount"){
-          if(e.name!='超级管理员'){
-            this.roleList.splice(this.roleList.indexOf(e),1);
+          if(this.roleList[i].name=='用户'){
+           this.roleList.splice(i,1);
+            roleListLength--;
+            i--;
           }
           //路径为用户账户
        }else if(this.routerPath=="/main/account/userAccount")
-          if(e.name!='用户'){
-            this.roleList.splice(this.roleList.indexOf(e),1);
+          if(this.roleList[i].name!='用户'){
+             this.roleList.splice(i,1);
+            roleListLength--;
+            i--;
           }
-        })
+        }
         if(this.roleList[0] &&this.roleList[0].roleId){
           this.params.roleId=this.roleList[0].roleId;
         }
+
          this.getList();
        }
      },
@@ -806,7 +813,9 @@ export default {
      this.axiosbusiness.getList(this,{
        countUrl:'/account/count',
        listUrl:'/account/list',
-       list:'accountList'
+       list:'accountList',
+       success:()=>{
+       }
      },this.params)
     },
   //增加

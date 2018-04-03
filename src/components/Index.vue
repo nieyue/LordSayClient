@@ -106,10 +106,10 @@ import TopBar from '@/components/common/TopBar'
                data: this.Qs.stringify(this.account)
             }).
             then(res => {
-              console.log(res)
               this.loading = false
               if (res.data.code === 200) {
                 this.$Message.success(res.data.msg)
+                sessionStorage.setItem("account",JSON.stringify(res.data.list[0]))
                 this.$router.push('/main/config')
               } else {
                 this.$Message.error(res.data.msg)

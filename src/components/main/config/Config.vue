@@ -269,6 +269,8 @@ export default {
     }
   },
   created () {
+   // this.$router.options.routes[2]=[];
+    //console.log(this.$router.options.routes[2].children)
     this.getList();
   },
   mounted () {

@@ -60,7 +60,7 @@
                     </template>
                     <MenuItem name="/main/integralBoard">积分排行榜</MenuItem>
                 </Submenu>
-                <MenuItem name="/main/account/managerAccount">管理员账户</MenuItem>
+                <MenuItem v-if="menu.show" name="/main/account/managerAccount">管理员账户</MenuItem>
                 <MenuItem name="/main/sysNotice">系统通知</MenuItem>
 
                 <!-- <Submenu name="finance">
@@ -79,6 +79,8 @@
     name: 'LeftBar',
     data () {
       return {
+          //默认显示
+          menu:{show:false},
           //活动的菜单，即显示菜单
           menuActiveName:'/main/articeCate'
        
@@ -90,13 +92,20 @@
      }
     },
     created(){
+        //判断是否超级管理员，是就显示账户管理
+        if(sessionStorage.getItem("account")){
+            let account=JSON.parse(sessionStorage.getItem("account"));
+            if(account.roleName=="超级管理员"){
+                this.menu.show=true;
+            }
+        }
     //监听点击返回
     this.Hub.$on('routerChange', (msg) => { //Hub接收事件
         //this.msg = 'hehe';
         console.log(msg)
         this.menuActiveName=msg;
     });
-    }
+        }
   }
 </script>
 <style lang="less">

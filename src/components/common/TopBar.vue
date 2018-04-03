@@ -53,6 +53,7 @@
                 if (res.data.code == 200) {
                   this.islogin=true;
                   this.$emit("islogin",this.islogin);
+                  sessionStorage.clear();
                   this.$Message.success('退出成功！');
                   this.$router.push('/')
                 } else {
