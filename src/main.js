@@ -26,6 +26,8 @@ Vue.use(VueAxios, axios)
 Vue.use(iView)
 //全局监听事件
 Vue.prototype.Hub = new Vue();
+//最大上传文件 ,默认1024MB 即1g
+//Vue.prototype.maxFile=1024*1024;
 new Vue({
   el: '#app',
   router,

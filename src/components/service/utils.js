@@ -83,7 +83,7 @@ export default {
       /* eslint-disable no-undef */
       container:p.container|| (p.browseButton + 'Box'), // 上传按钮的上级元素ID
       drop_element: p.dropElement,
-      max_file_size: p.maxFileSize||'100mb', // 最大文件限制
+      max_file_size: p.maxFileSize||'500Mb', // 最大文件限制
       dragdrop: true,
       chunk_size: p.chunkSize||'4mb', // 分块大小
       // Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
@@ -103,6 +103,7 @@ export default {
       unique_names: true,
       init: {
         'FilesAdded': function (up, files) {
+         
           if(typeof p.filesAdded=='function'){
             p.filesAdded(up,files);
           }
@@ -134,12 +135,14 @@ export default {
           } 
         },
         'Error': function (up, err, errTip) {
+          $this.$Message.error(errTip)
           $this.$Spin.hide();
           if(typeof p.error=='function'){
             p.error(up, err, errTip);
             } 
         },
         'Key': function (up, file) {
+          
           // 当save_key和unique_names设为false时，该方法将被调用
           return ''
         }

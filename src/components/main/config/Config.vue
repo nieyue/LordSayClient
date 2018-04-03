@@ -57,6 +57,7 @@ export default {
   name: 'Config',
   data () {
     return {
+      maxFile:"100",
         params:{
             startNum:1,//初始化个数
             currentPage:1,//当前页
