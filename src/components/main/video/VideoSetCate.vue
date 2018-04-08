@@ -119,7 +119,8 @@ export default {
                 },
 			addVideoSetCate:{
     		   name:"",
-    		   icon:""
+    		   icon:"",
+           imgAddress:''
 			},
 			//修改参数
 			updateVideoSetCateModel:false,

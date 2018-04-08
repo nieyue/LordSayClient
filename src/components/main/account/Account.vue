@@ -319,7 +319,11 @@ export default {
                     {required: true, message: '注册手机号为必填项', trigger: 'blur'}
                     ]
                 },
-			addAccount:{},
+			addAccount:{
+        icon:'',
+        identityCardsFrontImg:'',
+        identityCardsBackImg:''
+      },
 			//修改参数
 			updateAccountModel:false,
 			updateLoading:false,

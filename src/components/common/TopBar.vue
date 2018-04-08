@@ -81,7 +81,7 @@
                 this.islogin=true;
                 //设置本地account
                 this.account=res.data.list[0];
-                sessionStorage.setItem("account",JSON.stringify(this.account))
+                
                 this.$emit("islogin",this.islogin);
                 //this.$router.push('/main')
               } else {

@@ -143,6 +143,7 @@ export default {
                     ],
                 },
 			addAppVersion:{
+        link:''
 			},
 			//修改参数
 			updateAppVersionModel:false,
