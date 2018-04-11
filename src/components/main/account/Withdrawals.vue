@@ -125,51 +125,9 @@ export default {
           align:'center'
         },
         {
-          title: '账户',
-          align:'center',
-          render: (h, params) => {
-          let result;
-          let result1= h('div',
-             [
-                h('span',"账户id:"),
-                h('span', {
-                  style: {
-                  color:'blue'
-                }},params.row.accountId)
-             ]
-             );
-            let realname="";
-            let accountname="";
-          if(params.row.withdrawalsList&&params.row.withdrawalsList.length>0){
-            realname=params.row.withdrawalsList[0].realname;
-            accountname=params.row.withdrawalsList[0].accountname;
-          }
-          let result2= h('div',
-             [
-                h('span',"真实姓名:"),
-                h('span', {
-                  style: {
-                  color:'red'
-                }},realname)
-             ]
-             );
-          let result3= h('div',
-             [
-                h('span',"账号名称:"),
-                h('span', {
-                  style: {
-                  color:'red'
-                }},accountname)
-             ]
-             );
-             result=h('div',
-             [
-              result1,
-              result2,
-              result3
-             ])
-             return  result;
-          }
+          title: '账户id',
+          key: 'accountId',
+          align:'center'
         },
         {
         	title:'支付方式',
@@ -228,18 +186,30 @@ export default {
                statusvalue,
                 h('Button', {
                 props: {
-                  type: 'primary',
+                  type: 'error',
                   size: 'small'
-                },
-                style: {
-                  margin: '15px'
                 },
                 on: {
                   click: () => {
-                    this.update(params.row)
+                    //this.update(params.row)
+                    this.withdrawals(params.row)
                   }
                 }
-              }, '编辑')
+              }, '提现到账'),
+              //   h('Button', {
+              //   props: {
+              //     type: 'primary',
+              //     size: 'small'
+              //   },
+              //   style: {
+              //     margin: '15px'
+              //   },
+              //   on: {
+              //     click: () => {
+              //       this.update(params.row)
+              //     }
+              //   }
+              // }, '编辑')
              ]
              );
 
@@ -268,8 +238,6 @@ export default {
       if(!this.params.transactionNumber){
       delete this.params.transactionNumber
       }
-      this.params.currentPage=1;
-      this.params.pageNum =1;
       this.getList()
     },
     //分页点击
@@ -328,7 +296,22 @@ export default {
       showModel:'updateFinanceRecordModel'
     })
  
+    },
+    //提现到账
+    withdrawals(params){
+      this.axiosbusiness.get(this,{
+         url:'/financeRecord/withdrawals?financeRecordId='+params.financeRecordId,
+         list:'updateFinanceRecord',
+         success:()=>{
+           this.financeRecordList.forEach(e=>{
+             if(e.financeRecordId==this.updateFinanceRecord.financeRecordId){
+               this.financeRecordList.splice(this.financeRecordList.indexOf(e),1,this.updateFinanceRecord)
+             }
+           })
+         }
+       })
     }
+
   },
   created () {
     this.getList();
