@@ -52,11 +52,12 @@
                 console.log(res)
                 if (res.data.code == 200) {
                   this.islogin=true;
-                  this.$emit("islogin",this.islogin);
                   sessionStorage.clear();
+                  this.$emit("islogin",this.islogin);
                   this.$Message.success('退出成功！');
                   this.$router.push('/')
                 } else {
+                  this.$emit("islogin",this.islogin);
                   this.$Message.error('失败')
                 }
               }).catch(res => {
@@ -81,11 +82,11 @@
                 this.islogin=true;
                 //设置本地account
                 this.account=res.data.list[0];
-                
                 this.$emit("islogin",this.islogin);
                 //this.$router.push('/main')
               } else {
                 sessionStorage.clear()
+                this.$emit("islogin",this.islogin);
                 this.$router.push('/')
                 this.$Message.info('请登录')
               }

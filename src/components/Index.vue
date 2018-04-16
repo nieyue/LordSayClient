@@ -40,8 +40,6 @@ import TopBar from '@/components/common/TopBar'
       TopBar
     },
     created(){
-      //获取验证码
-     this.getValidCode();
     },
     data () {
       return {
@@ -129,6 +127,9 @@ import TopBar from '@/components/common/TopBar'
         this.islogin=islogin;
         if(islogin){
           this.$router.push("/main/config")
+        }else{
+          //获取验证码
+        this.getValidCode();
         }
       }
     }
