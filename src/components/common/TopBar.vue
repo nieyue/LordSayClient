@@ -45,7 +45,7 @@
               onOk: () => {
                 this.axios({
                 method:"post",
-                url:'/account/loginout',
+                url:'/account/loginout?accountId='+JSON.parse(sessionStorage.getItem("account")).accountId,
                 withCredentials: true
               }).
               then(res => {
