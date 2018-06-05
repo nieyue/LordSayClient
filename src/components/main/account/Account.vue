@@ -5,16 +5,24 @@
       <Button type='primary'  @click='add'>增加账户</Button>
       <div class="search-wrap">
           <Select v-model="params.roleId"  transfer class="search-wrap-input" >
-            <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.name }}</Option>
+            <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.name }}
+
+</Option>
         </Select>
         <Input v-model="params.accountId" class="search-wrap-input" placeholder="账户Id"></Input>
         <Input v-model="params.phone" class="search-wrap-input" placeholder="手机号，模糊查询"></Input>
-        <Input v-model="params.realname" class="search-wrap-input" placeholder="真实姓名，模糊查询"></Input>
+        <Input v-model="params.realname" class="search-wrap-input" placeholder="真实姓名，模糊查
+
+询"></Input>
         <Select v-model="params.auth" transfer class="search-wrap-input"  placeholder="认证，全部">
-            <Option v-for="item in authParamsList" :value="item.id" :key="item.id">{{ item.value }}</Option>
+            <Option v-for="item in authParamsList" :value="item.id" :key="item.id">{{ item.value }}
+
+</Option>
         </Select>
         <Select v-model="params.status" transfer class="search-wrap-input"  placeholder="状态，全部">
-            <Option v-for="item in statusParamsList" :value="item.id" :key="item.id">{{ item.value }}</Option>
+            <Option v-for="item in statusParamsList" :value="item.id" :key="item.id">{{ item.value }}
+
+</Option>
         </Select>
         <Button @click="search" type="info"  >查询</Button>
       </div>
@@ -26,7 +34,9 @@
            :mask-closable="false"
            width="1000px"
     >
-      <Form ref="addAccount" :model="addAccount" :label-width="100"  label-position="right"  :rules="addAccountRules">
+      <Form ref="addAccount" :model="addAccount" :label-width="100"  label-position="right"  
+
+:rules="addAccountRules">
         <FormItem prop="phone" label="注册手机号:">
           <Input type="text" v-model="addAccount.phone" placeholder="注册手机号">
           </Input>
@@ -76,30 +86,46 @@
           </Input>
         </FormItem>
         <FormItem prop="sign" label="签名:">
-           <Input type="textarea" v-model="addAccount.sign" :autosize="{minRows: 2,maxRows: 5}"  placeholder="签名">
+           <Input type="textarea" v-model="addAccount.sign" :autosize="{minRows: 2,maxRows: 5}"  
+
+placeholder="签名">
           </Input>
         </FormItem>
         <FormItem prop="auth" label="认证:">
           <Select v-model="addAccount.auth" transfer size="large" style="width:100px">
-              <Option v-for="item in authList" :value="item.id" :key="item.id">{{ item.value }}</Option>
+              <Option v-for="item in authList" :value="item.id" :key="item.id">{{ item.value }}
+
+</Option>
           </Select>
         </FormItem>
          <FormItem prop="identityCards" label="身份证:">
           <Input type="text" v-model="addAccount.identityCards" placeholder="身份证">
           </Input>
         </FormItem>
-        <FormItem prop="identityCardsFrontImg" label="身份证正面(上传或者填写):" id="addIdentityCardsFrontImgBox">
-          <Button type="primary" @click="addIdentityCardsFrontImgClick('addIdentityCardsFrontImg')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="addIdentityCardsFrontImg" ref="addIdentityCardsFrontImg">
+        <FormItem prop="identityCardsFrontImg" label="身份证正面(上传或者填写):" 
+
+id="addIdentityCardsFrontImgBox">
+          <Button type="primary" @click="addIdentityCardsFrontImgClick('addIdentityCardsFrontImg')" >上
+
+传</Button>
+          <input type="file" style="width:0px;height:0px;" id="addIdentityCardsFrontImg" 
+
+ref="addIdentityCardsFrontImg">
           <div>
             <Input type="text" v-model="addAccount.identityCardsFrontImg" placeholder="身份证正面">
           </Input>
              <img :src="addAccount.identityCardsFrontImg"  style='width:300px;'alt="">
           </div>
         </FormItem>
-        <FormItem prop="identityCardsBackImg" label="身份证反面(上传或者填写):" id="addIdentityCardsBackImgBox">
-          <Button type="primary" @click="addIdentityCardsBackImgClick('addIdentityCardsBackImg')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="addIdentityCardsBackImg" ref="addIdentityCardsBackImg">
+        <FormItem prop="identityCardsBackImg" label="身份证反面(上传或者填写):" 
+
+id="addIdentityCardsBackImgBox">
+          <Button type="primary" @click="addIdentityCardsBackImgClick('addIdentityCardsBackImg')" >上传
+
+</Button>
+          <input type="file" style="width:0px;height:0px;" id="addIdentityCardsBackImg" 
+
+ref="addIdentityCardsBackImg">
           <div>
             <Input type="text" v-model="addAccount.identityCardsBackImg" placeholder="身份证反面">
           </Input>
@@ -116,15 +142,21 @@
         </FormItem>
         <FormItem prop="status" label="状态:">
           <Select v-model="addAccount.status" transfer size="large" style="width:100px">
-              <Option v-for="item in statusList" :value="item.id" :key="item.id">{{ item.value }}</Option>
+              <Option v-for="item in statusList" :value="item.id" :key="item.id">{{ item.value }}
+
+</Option>
           </Select>
         </FormItem>
         <FormItem prop="masterId" label="直接上级ID:">
          <InputNumber  :min="1"  :precision='0' v-model="addAccount.masterId"></InputNumber>
         </FormItem>
         <FormItem prop="roleId" label="角色:">
-          <Select v-model="addAccount.roleId" @on-change="addRoleChange" transfer size="large" style="width:100px">
-              <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.name }}</Option>
+          <Select v-model="addAccount.roleId" @on-change="addRoleChange" transfer size="large" 
+
+style="width:100px">
+              <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.name }}
+
+</Option>
           </Select>
         </FormItem>
       </Form>
@@ -144,7 +176,9 @@
            :mask-closable="false"
            width="1000px"
     >
-      <Form ref="updateAccount" :model="updateAccount" :label-width="100" label-position="right"  :rules="updateAccountRules">
+      <Form ref="updateAccount" :model="updateAccount" :label-width="100" label-position="right"  
+
+:rules="updateAccountRules">
        <FormItem prop="phone" label="注册手机号:">
           <Input type="text" v-model="updateAccount.phone" placeholder="注册手机号">
           </Input>
@@ -183,7 +217,9 @@
           </Input>
         </FormItem>
         <FormItem prop="updateProvinceCity" label="省和市:">
-          <Cascader :data="twoCityData"  @on-change="updateProvinceAndCity" v-model="updateProvinceCity" trigger="hover"></Cascader>
+          <Cascader :data="twoCityData"  @on-change="updateProvinceAndCity" v-
+
+model="updateProvinceCity" trigger="hover"></Cascader>
         </FormItem>
         <FormItem prop="realname" label="真实姓名:">
           <Input type="text" v-model="updateAccount.realname" placeholder="真实姓名">
@@ -194,30 +230,46 @@
           </Input>
         </FormItem>
         <FormItem prop="sign" label="签名:">
-           <Input type="textarea" v-model="updateAccount.sign" :autosize="{minRows: 2,maxRows: 5}"  placeholder="签名">
+           <Input type="textarea" v-model="updateAccount.sign" :autosize="{minRows: 2,maxRows: 5}"  
+
+placeholder="签名">
           </Input>
         </FormItem>
         <FormItem prop="auth" label="认证:">
           <Select v-model="updateAccount.auth" transfer size="large" style="width:100px">
-              <Option v-for="item in authList" :value="item.id" :key="item.id">{{ item.value }}</Option>
+              <Option v-for="item in authList" :value="item.id" :key="item.id">{{ item.value }}
+
+</Option>
           </Select>
         </FormItem>
          <FormItem prop="identityCards" label="身份证:">
           <Input type="text" v-model="updateAccount.identityCards" placeholder="身份证">
           </Input>
         </FormItem>
-        <FormItem prop="identityCardsFrontImg" label="身份证正面(上传或者填写):" id="updateIdentityCardsFrontImgBox">
-          <Button type="primary" @click="updateIdentityCardsFrontImgClick('updateIdentityCardsFrontImg')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="updateIdentityCardsFrontImg" ref="updateIdentityCardsFrontImg">
+        <FormItem prop="identityCardsFrontImg" label="身份证正面(上传或者填写):" 
+
+id="updateIdentityCardsFrontImgBox">
+          <Button type="primary" @click="updateIdentityCardsFrontImgClick
+
+('updateIdentityCardsFrontImg')" >上传</Button>
+          <input type="file" style="width:0px;height:0px;" id="updateIdentityCardsFrontImg" 
+
+ref="updateIdentityCardsFrontImg">
           <div>
             <Input type="text" v-model="updateAccount.identityCardsFrontImg" placeholder="身份证正面">
           </Input>
              <img :src="updateAccount.identityCardsFrontImg"  style='width:300px;'alt="">
           </div>
         </FormItem>
-        <FormItem prop="identityCardsBackImg" label="身份证反面(上传或者填写):" id="updateIdentityCardsBackImgBox">
-          <Button type="primary" @click="updateIdentityCardsBackImgClick('updateIdentityCardsBackImg')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="updateIdentityCardsBackImg" ref="updateIdentityCardsBackImg">
+        <FormItem prop="identityCardsBackImg" label="身份证反面(上传或者填写):" 
+
+id="updateIdentityCardsBackImgBox">
+          <Button type="primary" @click="updateIdentityCardsBackImgClick('updateIdentityCardsBackImg')" 
+
+>上传</Button>
+          <input type="file" style="width:0px;height:0px;" id="updateIdentityCardsBackImg" 
+
+ref="updateIdentityCardsBackImg">
           <div>
             <Input type="text" v-model="updateAccount.identityCardsBackImg" placeholder="身份证反面">
           </Input>
@@ -234,15 +286,21 @@
         </FormItem>
         <FormItem prop="status" label="状态:">
           <Select v-model="updateAccount.status" transfer size="large" style="width:100px">
-              <Option v-for="item in statusList" :value="item.id" :key="item.id">{{ item.value }}</Option>
+              <Option v-for="item in statusList" :value="item.id" :key="item.id">{{ item.value }}
+
+</Option>
           </Select>
         </FormItem>
         <FormItem prop="masterId" label="直接上级ID:">
           <InputNumber  :min="1"  :precision='0' v-model="updateAccount.masterId"></InputNumber>
         </FormItem>
         <FormItem prop="roleId" label="角色:">
-          <Select v-model="updateAccount.roleId" @on-change="updateRoleChange" transfer size="large" style="width:100px">
-              <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.name }}</Option>
+          <Select v-model="updateAccount.roleId" @on-change="updateRoleChange" transfer size="large" 
+
+style="width:100px">
+              <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.name }}
+
+</Option>
           </Select>
         </FormItem>
       </Form>
@@ -257,7 +315,9 @@
     <!--修改end -->
       <Table border :columns='accountColumns' :data='accountList' ref='table' size="small"></Table>
         <div style='display: inline-block;float: right; margin-top:10px;'>
-        <Page style='margin-right:10px;' :total='params.total' :pageSize='params.pageSize' ref='page' :show-total='true'  @on-change='selectPage' show-elevator ></Page>
+        <Page style='margin-right:10px;' :total='params.total' :pageSize='params.pageSize' ref='page' 
+
+:show-total='true'  @on-change='selectPage' show-elevator ></Page>
       </div>
     </div>
 </template>
@@ -667,6 +727,20 @@ export default {
                   }
                 }
               }, '删除');
+            var varhhloginout=  h('Button', {
+                props: {
+                  type: 'error',
+                  size: 'small'
+                },
+                style: {
+                  margin: marginstyle
+                },
+                on: {
+                  click: () => {
+                    this.loginout(params.row)
+                  }
+                }
+              }, '登录退出');
             	var s=h("div","");
 			s=h("div",[
         h("div",[
@@ -683,8 +757,12 @@ export default {
         ]),
         h("div",[
            varhh30,
-           varhh20
+           varhh20,
            //,varhh21
+          
+        ]),
+         h("div",[
+            varhhloginout
         ])
             ]);
             return s;
@@ -861,7 +939,9 @@ export default {
           url:'/account/'+params.accountId,
          list:'updateAccount',
          success:()=>{
-            this.updateProvinceCity=twocitylist.getValueByLabel(this.updateAccount.province,this.updateAccount.city)
+            this.updateProvinceCity=twocitylist.getValueByLabel
+
+(this.updateAccount.province,this.updateAccount.city)
          }
        })
     },
@@ -907,7 +987,17 @@ export default {
       url:'/account/delete',
       requestObject:'deleteAccount'
     })
-    }
+    },
+  //登录退出
+  loginout(params){
+    this.loginoutAccount={
+      "accountId":params.accountId
+    };
+    this.axiosbusiness.loginout(this,{
+      url:'/account/loginout',
+      requestObject:'loginoutAccount'
+    })
+  }
   },
 watch: {
     $route (to, from) {
