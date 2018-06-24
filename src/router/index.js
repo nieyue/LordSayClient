@@ -16,6 +16,7 @@ import Video from '@/components/main/video/Video'
 import AccountLevel from '@/components/main/account/AccountLevel'
 import AccountParent from '@/components/main/account/AccountParent'
 import Account from '@/components/main/account/Account'
+import ManagerAccount from '@/components/main/account/ManagerAccount'
 import Withdrawals from '@/components/main/account/Withdrawals'
 import VipNumber from '@/components/main/vip/VipNumber'
 import Finance from '@/components/main/finance/Finance'
@@ -125,14 +126,21 @@ export default new Router({
           component: Account,
           children:[
             {
-              path: 'managerAccount',
-              name: '管理员账户',
-              component: Account
-            },
-            {
               path: 'userAccount',
               name: '用户账户',
               component: Account
+            }
+          ]
+        },
+        {
+          path: 'account',
+          name: '账户',
+          component: ManagerAccount,
+          children:[
+            {
+              path: 'managerAccount',
+              name: '管理员账户',
+              component: ManagerAccount
             }
           ]
         },

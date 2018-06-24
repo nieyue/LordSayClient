@@ -218,6 +218,37 @@ export default {
           }
         },
         {
+          title:'提现姓名、账户',
+          align:'center',
+          render:(h,params)=>
+          {
+            var hhh="";
+            if(params.row.withdrawalsList){
+             hhh=  h("div",[
+              h("div",[
+                h("span","姓名："),
+                h("span",
+                {
+                  style:{
+                    color:'red'
+                  }
+                },
+                params.row.withdrawalsList[0].realname)
+              ]),
+              h("div",[
+                h("span","账户:"),
+                h("span",{
+                  style:{
+                    color:'red'
+                  }
+                },params.row.withdrawalsList[0].accountname)
+              ])
+            ])
+            }
+            return hhh;
+          }
+        },
+        {
           title:'创建时间',
           key:'createDate',
           sortable: true,
