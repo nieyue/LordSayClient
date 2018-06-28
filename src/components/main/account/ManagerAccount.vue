@@ -499,13 +499,29 @@ export default {
     },
   //登录退出
   loginout(params){
-    this.loginoutAccount={
-      "accountId":params.accountId
-    };
-    this.axiosbusiness.loginout(this,{
-      url:'/account/loginout',
-      requestObject:'loginoutAccount'
-    })
+     this.$Modal.confirm({
+              title: '退出登陆？',
+              content: '<p>确定退出登陆吗？</p>',
+              onOk: () => {
+                this.axios({
+                method:"post",
+                url:'/account/loginout?accountId='+params.accountId,
+                withCredentials: true
+              }).
+              then(res => {
+                if (res.data.code == 200) {
+                  this.$Message.success('退出成功！');
+                } else {
+                  this.$Message.error('失败')
+                }
+              }).catch(res => {
+                this.$Message.error('系统异常')
+              })
+              },
+              onCancel: () => {
+                  this.$Message.success('取消成功！');
+              }
+          });
   },
   //启用禁用
   changeStatus(updateAccount){
