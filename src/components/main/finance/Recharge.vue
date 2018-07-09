@@ -1,4 +1,4 @@
-<!--提现管理 -->
+<!--账户充值管理 -->
 <template>
     <div class="body-wrap">
       <div class="body-btn-wrap">
@@ -14,30 +14,6 @@
           <Button @click="search" type="info"  >查询</Button>
         </div>
       </div>
-
-       <!--修改 -->
-     <Modal v-model="updateFinanceRecordModel"
-           title="修改状态"
-           :closable="false"
-           :mask-closable="false"
-    >
-      <Form ref="updateFinanceRecord" :model="updateFinanceRecord" :label-width="100" label-position="right"  :rules="updateFinanceRecordRules">
-        <FormItem prop="status" label="状态:">
-          <Select v-model="updateFinanceRecord.status" transfer class="search-wrap-input">
-              <Option v-for="item in statusList" :value="item.id" :key="item.id">{{ item.value }}</Option>
-          </Select>
-        </FormItem>
-      </Form>
-      <div slot='footer'>
-        <Button type='ghost' @click='updateCancel'>取消</Button>
-        <Button type='primary' :loading='updateLoading'>
-          <span v-if="!updateLoading" @click='updateSure'>确定</span>
-          <span v-else>Loading...</span>
-        </Button>
-      </div>
-    </Modal>
-    <!--修改end -->
-    
       <Table border  :columns='financeRecordColumns' :data='financeRecordList' ref='table' size="small"></Table>
         <div style='display: inline-block;float: right; margin-top:10px;'>
         <Page style='margin-right:10px;' :total='params.total' :pageSize='params.pageSize' ref='page' :show-total='true'   @on-change='selectPage' show-elevator ></Page>
@@ -47,9 +23,10 @@
 </template>
 <script>
 export default {
-  name: 'Withdrawals',
+  name: 'Recharge',
   data () {
     return {
+        routerPath:this.$route.path,
         params:{
             startNum:1,//初始化个数
             currentPage:1,//当前页
@@ -104,11 +81,6 @@ export default {
         {id:2,value:'成功'},
         {id:3,value:'已拒绝'}
       ],
-      	//修改参数
-			updateFinanceRecordModel:false,
-			updateLoading:false,
-      updateFinanceRecord:{},
-      updateFinanceRecordRules:{},
 	    financeRecordList: [],
 	    financeRecordColumns: [
         {
@@ -120,7 +92,7 @@ export default {
           }
         },
         {
-          title: '财务记录id',
+          title: '账户充值id',
           key: 'financeRecordId',
           align:'center'
         },
@@ -173,79 +145,12 @@ export default {
             align:'center',
           render: (h, params) => {
             let statusvalue="";
-            let resulth;
             this.statusList.forEach(element => {
               if(element.id==params.row.status){
                 statusvalue=element.value;
               }
             });
-            resulth=h('span', statusvalue);
-            if(statusvalue=='待处理'){
-            resulth=h('span',
-             [
-               statusvalue,
-                h('Button', {
-                props: {
-                  type: 'error',
-                  size: 'small'
-                },
-                on: {
-                  click: () => {
-                    //this.update(params.row)
-                    this.withdrawals(params.row)
-                  }
-                }
-              }, '提现到账'),
-              //   h('Button', {
-              //   props: {
-              //     type: 'primary',
-              //     size: 'small'
-              //   },
-              //   style: {
-              //     margin: '15px'
-              //   },
-              //   on: {
-              //     click: () => {
-              //       this.update(params.row)
-              //     }
-              //   }
-              // }, '编辑')
-             ]
-             );
-
-            }
-             return  resulth;
-          }
-        },
-        {
-          title:'提现姓名、账户',
-          align:'center',
-          render:(h,params)=>
-          {
-            var hhh="";
-            if(params.row.withdrawalsList){
-             hhh=  h("div",[
-              h("div",[
-                h("span","姓名："),
-                h("span",
-                {
-                  style:{
-                    color:'red'
-                  }
-                },
-                params.row.withdrawalsList[0].realname)
-              ]),
-              h("div",[
-                h("span","账户:"),
-                h("span",{
-                  style:{
-                    color:'red'
-                  }
-                },params.row.withdrawalsList[0].accountname)
-              ])
-            ])
-            }
-            return hhh;
+             return  h('span',statusvalue);
           }
         },
         {
@@ -264,7 +169,7 @@ export default {
     }
   },
   methods: {
-    //查询
+     //查询
     search(){
       if(!this.params.transactionNumber){
       delete this.params.transactionNumber
@@ -286,63 +191,13 @@ export default {
      * p.listUrl 列表url
      * p.list 返回列表
      */
-    this.params.type=2//提现的类型为2
+    this.params.type=1 
      this.axiosbusiness.getList(this,{
        countUrl:'/financeRecord/count',
        listUrl:'/financeRecord/list',
        list:'financeRecordList'
      },this.params)
-    },
-    update (params) {
-      this.updateFinanceRecordModel = true
-     //获取修改实体
-      this.axiosbusiness.get(this,{
-         url:'/financeRecord/'+params.financeRecordId,
-         list:'updateFinanceRecord',
-       })
-    },
-		//修改取消
-		 updateCancel () {
-      if (!this.updateLoading) {
-        this.updateFinanceRecordModel = false
-        this.$refs.updateFinanceRecord.resetFields()
-      }
-    },
-		//修改确定
-    updateSure () {
-      /**
-     * 修改
-     * $this  vue组件
-     * p.ref 验证
-     * p.url 修改url
-     * p.requestObject 请求参数对象
-     * p.loading loading
-     * p.showModel 界面模型显示隐藏
-     */
-    this.axiosbusiness.update(this,{
-      ref:'updateFinanceRecord',
-      url:'/financeRecord/update',
-      requestObject:'updateFinanceRecord',
-      loading:'updateLoading',
-      showModel:'updateFinanceRecordModel'
-    })
- 
-    },
-    //提现到账
-    withdrawals(params){
-      this.axiosbusiness.get(this,{
-         url:'/financeRecord/withdrawals?financeRecordId='+params.financeRecordId,
-         list:'updateFinanceRecord',
-         success:()=>{
-           this.financeRecordList.forEach(e=>{
-             if(e.financeRecordId==this.updateFinanceRecord.financeRecordId){
-               this.financeRecordList.splice(this.financeRecordList.indexOf(e),1,this.updateFinanceRecord)
-             }
-           })
-         }
-       })
     }
-
   },
   created () {
     this.getList();

@@ -26,11 +26,11 @@
                         <Icon type="social-youtube-outline"></Icon>
                         视频管理
                     </template>
-                    <MenuItem name="/main/videoSetSearch">视频集搜索</MenuItem>
                     <MenuItem name="/main/videoSetCate">视频集类型</MenuItem>
                     <MenuItem name="/main/videoSet">视频集</MenuItem>
+                    <MenuItem name="/main/videoSetSearch">视频集搜索</MenuItem>
                     <!-- <MenuItem name="/main/videoCache">视频缓存</MenuItem> -->
-                    <MenuItem name="/main/videoPlayRecord">视频播发记录</MenuItem>
+                    <MenuItem name="/main/videoPlayRecord">视频播放记录</MenuItem>
                     <MenuItem name="/main/videoSetCollect">视频集收藏</MenuItem>
                 </Submenu>
                 <Submenu name="account">
@@ -43,8 +43,15 @@
                     <!-- <MenuItem name="/main/account">账户</MenuItem> -->
                     <!-- <MenuItem name="/main/account/managerAccount">管理员账户</MenuItem> -->
                     <MenuItem name="/main/account/userAccount">用户账户</MenuItem>
-                    <MenuItem name="/main/withdrawals">提现管理</MenuItem>
                     <MenuItem name="/main/vipNumber">vip购买次数管理</MenuItem>
+                </Submenu>
+                <Submenu name="finance">
+                    <template slot="title">
+                        <Icon type="social-yen"></Icon>
+                        财务管理
+                    </template>
+                    <MenuItem name="/main/Withdrawals">提现管理</MenuItem>
+                    <MenuItem name="/main/recharge">账户充值</MenuItem>
                 </Submenu>
                 <Submenu name="order">
                     <template slot="title">
@@ -63,13 +70,6 @@
                 <MenuItem v-if="menu.show" name="/main/account/managerAccount">管理员账户</MenuItem>
                 <MenuItem name="/main/sysNotice">系统通知</MenuItem>
 
-                <!-- <Submenu name="finance">
-                    <template slot="title">
-                        <Icon type="social-yen"></Icon>
-                        财务管理
-                    </template>
-                    <MenuItem name="/main/Withdrawals">提现管理</MenuItem>
-                </Submenu> -->
                 
             </Menu>
         </Sider>

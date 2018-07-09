@@ -216,7 +216,14 @@ export default {
           }
         },
         {
-        	title:'跳转url',
+        	title:'banner跳转url（复制到banner链接中）',
+          align:'center',
+          render: (h, params) => {
+            return h("span","laoyeshuo://article?articleId="+params.row.articleId)
+          }
+        },
+        {
+        	title:'跳转url（外链，如：http://www.baidu.com）',
         	key:'redirectUrl',
           align:'center'
         },

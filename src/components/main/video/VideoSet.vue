@@ -295,6 +295,14 @@ export default {
           }
         },
         {
+          title:'banner跳转url（复制到banner链接中）',
+          width:100,
+          align:'center',
+          render: (h, params) => {
+            return h("span","laoyeshuo://videoSet?videoSetId="+params.row.videoSetId);
+          }
+        },
+        {
           title: '推荐',
           key: 'recommend',
            width:100,

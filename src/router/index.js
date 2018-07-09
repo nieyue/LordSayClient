@@ -17,10 +17,11 @@ import AccountLevel from '@/components/main/account/AccountLevel'
 import AccountParent from '@/components/main/account/AccountParent'
 import Account from '@/components/main/account/Account'
 import ManagerAccount from '@/components/main/account/ManagerAccount'
-import Withdrawals from '@/components/main/account/Withdrawals'
 import VipNumber from '@/components/main/vip/VipNumber'
 import Finance from '@/components/main/finance/Finance'
 import FinanceRecord from '@/components/main/finance/FinanceRecord'
+import Withdrawals from '@/components/main/finance/Withdrawals'
+import Recharge from '@/components/main/finance/Recharge'
 import Integral from '@/components/main/integral/Integral'
 import IntegralDetail from '@/components/main/integral/IntegralDetail'
 import IntegralBoard from '@/components/main/integral/IntegralBoard'
@@ -145,11 +146,6 @@ export default new Router({
           ]
         },
         {
-          path: 'withdrawals',
-          name: '提现',
-          component: Withdrawals
-        },
-        {
           path: 'vipNumber',
           name: 'vip购买次数',
           component: VipNumber
@@ -163,6 +159,16 @@ export default new Router({
           path: 'financeRecord/:accountId',
           name: '财务记录',
           component: FinanceRecord
+        },
+        {
+          path: 'withdrawals',
+          name: '提现',
+          component: Withdrawals
+        },
+        {
+          path: 'recharge',
+          name: '账户充值',
+          component: Recharge
         },
         {
           path: 'integral/:accountId',
