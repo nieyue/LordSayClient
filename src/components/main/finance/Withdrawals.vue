@@ -15,6 +15,26 @@
         </div>
       </div>
 
+  <!--新增 -->
+     <Modal v-model="addFinanceRecordModel"
+           title="提现失败"
+           :closable="false"
+           :mask-closable="false"
+    >
+      <Form  :label-width="100" label-position="right"  >
+        <FormItem prop="status" label="理由:">
+          <Input type="textarea" v-model="reason"></Input>
+        </FormItem>
+      </Form>
+      <div slot='footer'>
+        <Button type='ghost' @click='addCancel'>取消</Button>
+        <Button type='primary' :loading='addLoading'>
+          <span v-if="!addLoading" @click='addSure'>确定</span>
+          <span v-else>Loading...</span>
+        </Button>
+      </div>
+    </Modal>
+    <!--新增end -->
        <!--修改 -->
      <Modal v-model="updateFinanceRecordModel"
            title="修改状态"
@@ -50,6 +70,8 @@ export default {
   name: 'Withdrawals',
   data () {
     return {
+      //提现失败理由
+      reason:'',
         params:{
             startNum:1,//初始化个数
             currentPage:1,//当前页
@@ -104,6 +126,11 @@ export default {
         {id:2,value:'成功'},
         {id:3,value:'已拒绝'}
       ],
+      	//add参数
+			addFinanceRecordModel:false,
+			addLoading:false,
+      addFinanceRecord:{},
+      addFinanceRecordRules:{},
       	//修改参数
 			updateFinanceRecordModel:false,
 			updateLoading:false,
@@ -186,8 +213,13 @@ export default {
                statusvalue,
                 h('Button', {
                 props: {
-                  type: 'error',
+                  type: 'success',
                   size: 'small'
+                },
+                style:{
+                  margin:'5px auto',
+                  
+                  display:'block'
                 },
                 on: {
                   click: () => {
@@ -196,6 +228,21 @@ export default {
                   }
                 }
               }, '提现到账'),
+                h('Button', {
+                props: {
+                  type: 'error',
+                  size: 'small'
+                },
+                style:{
+                  margin:'5px auto',
+                  display:'block'
+                },
+                on: {
+                  click: () => {
+                   this.add(params.row)
+                  }
+                }
+              }, '提现失败'),
               //   h('Button', {
               //   props: {
               //     type: 'primary',
@@ -293,6 +340,43 @@ export default {
        list:'financeRecordList'
      },this.params)
     },
+    add (params) {
+      this.addFinanceRecordModel = true
+      this.addFinanceRecord.financeRecodId=params.financeRecordId
+    },
+		//增加取消
+		 addCancel () {
+      if (!this.addLoading) {
+        this.addFinanceRecordModel = false
+        this.$refs.addFinanceRecord.resetFields()
+      }
+    },
+		//增加确定
+    addSure () {
+        /**
+     * 增加
+     * $this  vue组件
+     * p.ref 验证
+     * p.url 增加url
+     * p.requestObject 请求参数对象
+     * p.loading loading
+     * p.showModel 界面模型显示隐藏
+     */
+     this.axiosbusiness.get(this,{
+        url:'/financeRecord/withdrawalsFail?financeRecordId='+this.addFinanceRecord.financeRecodId+'&reason='+this.reason,
+        list:'addFinanceRecord',
+        success:()=>{
+          this.$Message.success("拒绝成功")
+          this.addFinanceRecordModel= false
+          this.financeRecordList.forEach(e=>{
+            if(e.financeRecordId==this.addFinanceRecord.financeRecordId){
+              this.financeRecordList.splice(this.financeRecordList.indexOf(e),1,this.addFinanceRecord)
+            }
+          })
+        }
+      });
+ 
+    },
     update (params) {
       this.updateFinanceRecordModel = true
      //获取修改实体
@@ -338,6 +422,7 @@ export default {
                 url:'/financeRecord/withdrawals?financeRecordId='+params.financeRecordId,
                 list:'updateFinanceRecord',
                 success:()=>{
+
                   this.financeRecordList.forEach(e=>{
                     if(e.financeRecordId==this.updateFinanceRecord.financeRecordId){
                       this.financeRecordList.splice(this.financeRecordList.indexOf(e),1,this.updateFinanceRecord)
