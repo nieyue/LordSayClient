@@ -18,7 +18,7 @@
         </FormItem>
         <FormItem prop="imgAddress" label="封面(上传或者填写):" id="addImgAddressBox">
           <Button type="primary" @click="addImgAddressClick('addImgAddress')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="addImgAddress" ref="addImgAddress">
+          <input type="file" style="display:none;" id="addImgAddress" ref="addImgAddress">
           <div>
             <Input type="text" v-model="addVideo.imgAddress" placeholder="封面">
             </Input>
@@ -31,7 +31,7 @@
         </FormItem>
         <FormItem prop="url" label="视频链接(上传或者填写):" id="addUrlBox">
           <Button type="primary" @click="addUrlClick('addUrl')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="addUrl" ref="addUrl">
+          <input type="file" style="display:none;" id="addUrl" ref="addUrl">
           <div>
              <Input type="text" v-model="addVideo.url" placeholder="视频链接">
              </Input>
@@ -73,7 +73,7 @@
         </FormItem>
         <FormItem prop="imgAddress" label="封面(上传或者填写):" id="updateImgAddressBox">
           <Button type="primary" @click="updateImgAddressClick('updateImgAddress')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="updateImgAddress" ref="updateImgAddress">
+          <input type="file" style="display:none;" id="updateImgAddress" ref="updateImgAddress">
           <div>
             <Input type="text" v-model="updateVideo.imgAddress" placeholder="封面">
           </Input>
@@ -86,7 +86,7 @@
         </FormItem>
         <FormItem prop="url" label="视频链接(上传或者填写):" id="updateUrlBox">
           <Button type="primary" @click="updateUrlClick('updateUrl')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="updateUrl" ref="updateUrl">
+          <input type="file" style="display:none;" id="updateUrl" ref="updateUrl">
           <div>
             <Input type="text" v-model="updateVideo.url" placeholder="视频链接">
           </Input>

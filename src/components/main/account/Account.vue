@@ -45,7 +45,7 @@
         </FormItem>
           <FormItem prop="icon" label="图像(上传或者填写):" id="addIconBox">
           <Button type="primary" @click="addIconClick('addIcon')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="addIcon" ref="addIcon">
+          <input type="file" style="display:none;" id="addIcon" ref="addIcon">
           <div>
             <Input type="text" v-model="addAccount.icon" placeholder="图像">
           </Input>
@@ -90,7 +90,7 @@
         </FormItem>
         <FormItem prop="identityCardsFrontImg" label="身份证正面(上传或者填写):" id="addIdentityCardsFrontImgBox">
           <Button type="primary" @click="addIdentityCardsFrontImgClick('addIdentityCardsFrontImg')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="addIdentityCardsFrontImg" ref="addIdentityCardsFrontImg">
+          <input type="file" style="display:none;" id="addIdentityCardsFrontImg" ref="addIdentityCardsFrontImg">
           <div>
             <Input type="text" v-model="addAccount.identityCardsFrontImg" placeholder="身份证正面">
           </Input>
@@ -99,7 +99,7 @@
         </FormItem>
         <FormItem prop="identityCardsBackImg" label="身份证反面(上传或者填写):" id="addIdentityCardsBackImgBox">
           <Button type="primary" @click="addIdentityCardsBackImgClick('addIdentityCardsBackImg')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="addIdentityCardsBackImg" ref="addIdentityCardsBackImg">
+          <input type="file" style="display:none;" id="addIdentityCardsBackImg" ref="addIdentityCardsBackImg">
           <div>
             <Input type="text" v-model="addAccount.identityCardsBackImg" placeholder="身份证反面">
           </Input>
@@ -163,7 +163,7 @@
         </FormItem>
           <FormItem prop="icon" label="图像(上传或者填写):" id="updateIconBox">
           <Button type="primary" @click="updateIconClick('updateIcon')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="updateIcon" ref="updateIcon">
+          <input type="file" style="display:none;" id="updateIcon" ref="updateIcon">
           <div>
             <Input type="text" v-model="updateAccount.icon" placeholder="图像">
           </Input>
@@ -208,7 +208,7 @@
         </FormItem>
         <FormItem prop="identityCardsFrontImg" label="身份证正面(上传或者填写):" id="updateIdentityCardsFrontImgBox">
           <Button type="primary" @click="updateIdentityCardsFrontImgClick('updateIdentityCardsFrontImg')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="updateIdentityCardsFrontImg" ref="updateIdentityCardsFrontImg">
+          <input type="file" style="display:none;" id="updateIdentityCardsFrontImg" ref="updateIdentityCardsFrontImg">
           <div>
             <Input type="text" v-model="updateAccount.identityCardsFrontImg" placeholder="身份证正面">
           </Input>
@@ -217,7 +217,7 @@
         </FormItem>
         <FormItem prop="identityCardsBackImg" label="身份证反面(上传或者填写):" id="updateIdentityCardsBackImgBox">
           <Button type="primary" @click="updateIdentityCardsBackImgClick('updateIdentityCardsBackImg')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="updateIdentityCardsBackImg" ref="updateIdentityCardsBackImg">
+          <input type="file" style="display:none;" id="updateIdentityCardsBackImg" ref="updateIdentityCardsBackImg">
           <div>
             <Input type="text" v-model="updateAccount.identityCardsBackImg" placeholder="身份证反面">
           </Input>

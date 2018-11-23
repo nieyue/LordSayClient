@@ -27,7 +27,7 @@
         </FormItem>
         <FormItem prop="imgAddress" label="封面(上传或者填写):" id="addImgAddressBox">
           <Button type="primary" @click="addImgAddressClick('addImgAddress')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="addImgAddress" ref="addImgAddress">
+          <input type="file" style="display:none;" id="addImgAddress" ref="addImgAddress">
           <div>
             <Input type="text" v-model="addArticle.imgAddress" placeholder="封面">
           </Input>
@@ -79,7 +79,7 @@
         </FormItem>
         <FormItem prop="imgAddress" label="封面(上传或者填写):" id="updateImgAddressBox">
           <Button type="primary" @click="updateImgAddressClick('updateImgAddress')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="updateImgAddress" ref="updateImgAddress">
+          <input type="file" style="display:none;" id="updateImgAddress" ref="updateImgAddress">
           <div>
             <Input type="text" v-model="updateArticle.imgAddress" placeholder="封面">
           </Input>

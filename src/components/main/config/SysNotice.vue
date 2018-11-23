@@ -27,7 +27,7 @@
         </FormItem> -->
         <FormItem prop="imgAddress" label="封面(上传或者填写):" id="addImgAddressBox">
           <Button type="primary" @click="addImgAddressClick('addImgAddress')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="addImgAddress" ref="addImgAddress">
+          <input type="file" style="display:none;" id="addImgAddress" ref="addImgAddress">
           <div>
             <Input type="text" v-model="addNotice.imgAddress" placeholder="封面">
           </Input>
@@ -61,7 +61,7 @@
         </FormItem> -->
         <FormItem prop="imgAddress" label="封面(上传或者填写):" id="updateImgAddressBox">
           <Button type="primary" @click="updateImgAddressClick('updateImgAddress')" >上传</Button>
-          <input type="file" style="width:0px;height:0px;" id="updateImgAddress" ref="updateImgAddress">
+          <input type="file" style="display:none;" id="updateImgAddress" ref="updateImgAddress">
           <div>
             <Input type="text" v-model="updateNotice.imgAddress" placeholder="封面">
           </Input>
@@ -135,7 +135,7 @@ export default {
 			addNotice:{
                 region:1,//范围1全局，2个人
                 title:'系统通知',
-                imgAddress:'http://p2bhwwngu.bkt.clouddn.com/o_1c5gaqqst68db2j16nno61q3cp.jpg',//默认系统通知图片
+                imgAddress:'http://laoyeshuovideo.laoyeshuo.cn/o_1c5gaqqst68db2j16nno61q3cp.jpg',//默认系统通知图片
                 status:0//默认未读
 			},
 			//修改参数
